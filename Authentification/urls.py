@@ -1,8 +1,30 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
-    path("", views.role_choice, name="role_choice"),
-    path("login/", views.login_view, name="login"),
-    path("register/", views.register_view, name="register"),
+
+    path(
+        "role/",
+        views.role,
+        name="role"
+    ),
+
+    path(
+        "register/<str:role>/",
+        views.register,
+        name="register"
+    ),
+
+    path(
+        "login/<str:role>/",
+        views.login_view,
+        name="login"
+    ),
+
+    path(
+        "logout/",
+        views.logout_view,
+        name="logout"
+    ),
 ]

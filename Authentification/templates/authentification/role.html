@@ -4,42 +4,65 @@
 {% block title %}Choisir son profil | INNOVLINK{% endblock %}
 
 {% block content %}
-<div class="auth-container role-selection-container">
-    <div class="auth-page-title">
-        <h1>Bienvenue sur <span class="text-gradient">InnovLink</span></h1>
-        <p>Choisissez votre espace pour continuer</p>
-    </div>
 
-    <div class="roles-grid">
-        <!-- Carte 1 : Porteur de projet -->
-        <a href="{% url 'login' %}?role=porteur" class="role-card glass-card">
-            <div class="role-icon">
-                <i class="fa-solid fa-user"></i>
-            </div>
-            <h3>Porteur de projet</h3>
-            <p>Présentez vos idées innovantes et trouvez des opportunités.</p>
-            <span class="role-link-text">Accéder à l'espace <i class="fa-solid fa-arrow-right"></i></span>
-        </a>
+<div class="roles-grid">
 
-        <!-- Carte 2 : Startup -->
-        <a href="{% url 'login' %}?role=startup" class="role-card glass-card">
-            <div class="role-icon">
-                <i class="fa-solid fa-rocket"></i>
-            </div>
-            <h3>Startup</h3>
-            <p>Développez votre startup et trouvez des partenaires.</p>
-            <span class="role-link-text">Accéder à l'espace <i class="fa-solid fa-arrow-right"></i></span>
-        </a>
+    <!-- Porteur de projet -->
+    <a href="{% url 'login' role='porteur' %}" class="role-card glass-card">
+        <div class="role-icon">
+            <i class="fa-solid fa-user"></i>
+        </div>
 
-        <!-- Carte 3 : Structure de financement -->
-        <a href="{% url 'login' %}?role=financeur" class="role-card glass-card">
-            <div class="role-icon">
-                <i class="fa-solid fa-sack-dollar"></i>
-            </div>
-            <h3>Structure de financement</h3>
-            <p>Accompagnez et financez des projets innovants.</p>
-            <span class="role-link-text">Accéder à l'espace <i class="fa-solid fa-arrow-right"></i></span>
-        </a>
-    </div>
+        <h3>Porteur de projet</h3>
+
+        <p>
+            Présentez vos idées innovantes et trouvez des opportunités.
+        </p>
+
+        <span class="role-link-text">
+            Accéder à l'espace
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+    </a>
+
+
+    <!-- Startup -->
+    <a href="{% url 'login' role='startup' %}" class="role-card glass-card">
+        <div class="role-icon">
+            <i class="fa-solid fa-rocket"></i>
+        </div>
+
+        <h3>Startup</h3>
+
+        <p>
+            Développez votre startup et trouvez des partenaires.
+        </p>
+
+        <span class="role-link-text">
+            Accéder à l'espace
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+    </a>
+
+
+    <!-- Structure de financement -->
+    <a href="{% url 'login' role='structure' %}" class="role-card glass-card">
+        <div class="role-icon">
+            <i class="fa-solid fa-sack-dollar"></i>
+        </div>
+
+        <h3>Structure de financement</h3>
+
+        <p>
+            Accompagnez et financez des projets innovants.
+        </p>
+
+        <span class="role-link-text">
+            Accéder à l'espace
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+    </a>
+
 </div>
+
 {% endblock %}

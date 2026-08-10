@@ -1,47 +1,99 @@
+```django
 {% extends 'authentification/auth_base.html' %}
 {% load static %}
 
 {% block title %}Connexion | INNOVLINK{% endblock %}
 
 {% block content %}
-<div class="auth-container form-container">
-    <div class="auth-box glass-card">
-        <div class="auth-box-header">
-            <h2>Connexion 
-                {% if role == 'startup' %}Startup
-                {% elif role == 'financeur' %}Structure de financement
-                {% else %}Porteur de projet{% endif %}
-            </h2>
-            <p>Entrez vos identifiants pour accéder à votre tableau de bord.</p>
-        </div>
 
-        <form method="POST" class="auth-form">
-            {% csrf_token %}
-            <input type="hidden" name="role" value="{{ role }}">
-            
-            <div class="form-group">
-                <label for="email">Email</label>
-                <div class="input-with-icon">
-                    <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="email" name="email" placeholder="nom@exemple.com" required>
-                </div>
-            </div>
+<div class="auth-container">
 
-            <div class="form-group">
-                <label for="password">Mot de passe</label>
-                <div class="input-with-icon">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required>
-                </div>
-            </div>
+    <div class="auth-header-content">
+        <h2>Connexion</h2>
 
-            <button type="submit" class="btn btn-primary w-100">Se connecter</button>
-        </form>
+        {% if role == "porteur" %}
+            <p>Connectez-vous à votre espace porteur de projet.</p>
 
-        <div class="auth-box-footer">
-            <p>Vous n'avez pas encore de compte ? <a href="{% url 'register' %}?role={{ role }}">Créer un compte</a></p>
-            <p class="mt-2"><a href="{% url 'role_choice' %}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Changer de rôle</a></p>
-        </div>
+        {% elif role == "startup" %}
+            <p>Connectez-vous à votre espace startup.</p>
+
+        {% elif role == "structure" %}
+            <p>Connectez-vous à votre espace structure de financement.</p>
+        {% endif %}
     </div>
+
+    <form method="POST" class="auth-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="email">Email</label>
+
+            <div class="input-with-icon">
+                <i class="fa-solid fa-envelope"></i>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="nom@exemple.com"
+                    required
+                >
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="mot_de_passe">Mot de passe</label>
+
+            <div class="input-with-icon">
+                <i class="fa-solid fa-lock"></i>
+
+                <input
+                    type="password"
+                    id="mot_de_passe"
+                    name="mot_de_passe"
+                    placeholder="••••••••"
+                    required
+                >
+            </div>
+        </div>
+
+
+        <button
+            type="submit"
+            class="btn btn-primary w-100"
+        >
+            Se connecter
+        </button>
+
+    </form>
+
+
+    <div class="auth-box-footer">
+
+        <p>
+            Vous n'avez pas encore de compte ?
+
+            <a href="{% url 'register' role=role %}">
+                Créer un compte
+            </a>
+        </p>
+
+
+        <p class="mt-2">
+
+            <a
+                href="{% url 'role' %}"
+                class="back-link"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Changer de rôle
+            </a>
+
+        </p>
+
+    </div>
+
 </div>
+
 {% endblock %}
