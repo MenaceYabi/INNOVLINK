@@ -1,0 +1,335 @@
+/* DESIGN SYSTEM AUTHENTIFICATION INNOVLINK */
+:root {
+    --auth-bg-dark: #070B14;
+    --auth-bg-surface: #0F172A;
+    --auth-color-primary: #00E5FF;    /* Cyan lumineux */
+    --auth-color-secondary: #2563EB;  /* Bleu électrique */
+    --auth-text-main: #F8FAFC;
+    --auth-text-muted: #94A3B8;
+    --auth-glass-bg: rgba(15, 23, 42, 0.7);
+    --auth-glass-border: rgba(255, 255, 255, 0.08);
+    --auth-glow-shadow: 0 0 25px rgba(0, 229, 255, 0.25);
+    --auth-transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--auth-bg-dark);
+    color: var(--auth-text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--auth-transition);
+}
+
+/* UTILITIES */
+.text-gradient {
+    background: linear-gradient(90deg, var(--auth-color-primary), var(--auth-color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.glass-card {
+    background: var(--auth-glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--auth-glass-border);
+    border-radius: 20px;
+}
+
+.w-100 { width: 100%; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+
+/* HEADER */
+.auth-header {
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.auth-logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.auth-logo span { color: var(--auth-color-primary); }
+.auth-logo i { color: var(--auth-color-secondary); margin-right: 6px; }
+
+/* MAIN CONTAINER */
+.auth-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.auth-container.wide-form {
+    max-width: 700px;
+}
+
+.role-selection-container {
+    max-width: 1000px;
+    text-align: center;
+}
+
+/* BACKGROUND GLOW ORBS */
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 1;
+    opacity: 0.35;
+    pointer-events: none;
+}
+.orb-auth-1 {
+    width: 350px;
+    height: 350px;
+    background: var(--auth-color-secondary);
+    top: 5%;
+    left: 10%;
+}
+.orb-auth-2 {
+    width: 400px;
+    height: 400px;
+    background: var(--auth-color-primary);
+    bottom: 5%;
+    right: 10%;
+}
+
+/* ROLE SELECTION CARDS */
+.auth-page-title {
+    margin-bottom: 3rem;
+}
+
+.auth-page-title h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.auth-page-title p {
+    color: var(--auth-text-muted);
+    font-size: 1.1rem;
+}
+
+.roles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.role-card {
+    padding: 2.5rem 1.5rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: var(--auth-transition);
+}
+
+.role-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(0, 229, 255, 0.4);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.role-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 229, 255, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--auth-color-primary);
+    margin-bottom: 1.5rem;
+}
+
+.role-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.role-card p {
+    color: var(--auth-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    flex: 1;
+}
+
+.role-link-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--auth-color-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* AUTH BOX & FORMS */
+.auth-box {
+    padding: 2.5rem;
+}
+
+.auth-box-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.auth-box-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.auth-box-header p {
+    color: var(--auth-text-muted);
+    font-size: 0.95rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--auth-text-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--auth-text-muted);
+}
+
+.input-with-icon input {
+    padding-left: 2.75rem !important;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--auth-glass-border);
+    border-radius: 10px;
+    color: var(--auth-text-main);
+    font-size: 0.95rem;
+    transition: var(--auth-transition);
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--auth-color-primary);
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.15);
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* BUTTONS */
+.btn {
+    display: inline-block;
+    padding: 0.85rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--auth-transition);
+    border: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--auth-color-primary);
+    color: var(--auth-auth-dark, #070B14);
+    box-shadow: 0 4px 15px rgba(0, 229, 255, 0.2);
+}
+
+.btn-primary:hover {
+    box-shadow: var(--auth-glow-shadow);
+    transform: translateY(-2px);
+}
+
+.auth-box-footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--auth-text-muted);
+}
+
+.auth-box-footer a {
+    color: var(--auth-color-primary);
+    font-weight: 600;
+}
+
+.auth-box-footer a:hover {
+    text-decoration: underline;
+}
+
+.back-link {
+    color: var(--auth-text-muted) !important;
+    font-size: 0.85rem;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 900px) {
+    .roles-grid {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 650px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    .auth-box {
+        padding: 1.5rem;
+    }
+}

@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}INNOVLINK{% endblock %}</title>
+    <!-- Fonts : Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Fichiers Statiques Django -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+    <!-- NAVBAR COMMUNE -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">
+                <i class="fa-solid fa-network-wired"></i> INNOV<span>LINK</span>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Accueil</a>
+                <a href="{% url 'home' %}#missions">Missions</a>
+                <a href="{% url 'home' %}#about">À propos</a>
+                <a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="{% url 'role_choice' %}" class="btn btn-secondary btn-small">Se connecter</a>
+            </div>
+
+            <button class="mobile-menu-btn" id="mobile-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- CONTENU SPÉCIFIQUE DES PAGES -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- FOOTER COMMUN -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="{% url 'home' %}" class="logo"><i class="fa-solid fa-network-wired"></i> INNOV<span>LINK</span></a>
+                <p>Accélérateur digital d'idées et de talents.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Plateforme</h4>
+                <a href="#">Projets</a>
+                <a href="#">Incubateurs</a>
+                <a href="#">Tarifs</a>
+            </div>
+            <div class="footer-links">
+                <h4>Ressources</h4>
+                <a href="#">Blog</a>
+                <a href="#">Documentation API</a>
+                <a href="#">Support</a>
+            </div>
+            <div class="footer-social">
+                <h4>Suivez-nous</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 InnovLink. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Statique -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

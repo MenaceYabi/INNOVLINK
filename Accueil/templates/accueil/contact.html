@@ -1,0 +1,71 @@
+{% extends 'accueil/base.html' %}
+{% load static %}
+
+{% block title %}Contact | INNOVLINK{% endblock %}
+
+{% block body_class %}page-contact{% endblock %}
+
+{% block content %}
+    <!-- HEADER CONTACT -->
+    <section class="page-header">
+        <h1>Contactez l'équipe <span class="text-cyan">InnovLink</span></h1>
+        <p>Une question ? Un partenariat ? Nous sommes à votre écoute.</p>
+    </section>
+
+    <!-- SECTION CONTACT -->
+    <section class="contact-section section">
+        <div class="container contact-container">
+            
+            <!-- Informations -->
+            <div class="contact-info glass-card">
+                <h3>Nos Coordonnées</h3>
+                <div class="info-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>hello@innovlink.com</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <h4>Siège</h4>
+                        <p>Campus Technologique, Douala</p>
+                    </div>
+                </div>
+                
+                <div class="whatsapp-box">
+                    <h4>Besoin d'une réponse rapide ?</h4>
+                    <a href="https://wa.me/23768876489" target="_blank" class="btn btn-whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i> Discuter sur WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- Formulaire avec protection CSRF de Django -->
+            <div class="contact-form glass-card">
+                <h3>Envoyez-nous un message</h3>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Nom complet</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Adresse Email</label>
+                        <input type="email" id="email" name="email" placeholder="john@startup.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Sujet</label>
+                        <input type="text" id="subject" name="subject" placeholder="Proposition de partenariat" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Parlez-nous de votre projet..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Envoyer le message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

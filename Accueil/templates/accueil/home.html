@@ -1,0 +1,108 @@
+{% extends 'accueil/base.html' %}
+{% load static %}
+
+{% block title %}INNOVLINK | Connecter les idées et les opportunités{% endblock %}
+
+{% block content %}
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bienvenue sur <span class="text-gradient">INNOVLINK</span></h1>
+            
+            <div class="slogan-container">
+                <h2 id="animated-slogan"></h2>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="#missions" class="btn btn-primary">Découvrir InnovLink</a>
+                <a href="#" class="btn btn-outline">Créer un compte</a>
+            </div>
+        </div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </section>
+
+    <!-- SECTION MISSIONS -->
+    <section id="missions" class="missions section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Notre <span class="text-cyan">Mission</span></h2>
+                <p>Créer le pont technologique entre l'innovation brute et la réalisation concrète.</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="mission-card">
+                    <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                    <h3>Valoriser les idées</h3>
+                    <p>Donner de la visibilité aux projets innovants et aux esprits créatifs face aux décideurs du marché.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="card-icon"><i class="fa-solid fa-link"></i></div>
+                    <h3>Créer des connexions</h3>
+                    <p>Relier les porteurs de projets, les startups émergentes et les partenaires stratégiques et financiers.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="card-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <h3>Accélérer les projets</h3>
+                    <p>Transformer les idées prometteuses en solutions concrètes grâce à un écosystème d'accompagnement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION À PROPOS -->
+    <section id="about" class="about section">
+        <div class="container about-container">
+            <div class="about-text">
+                <h2>L'Écosystème de <br>la <span class="text-cyan">Croissance</span></h2>
+                <p>INNOVLINK est bien plus qu'une plateforme. C'est le carrefour digital qui facilite la rencontre entre l'innovation technologique, les talents de demain et les opportunités de financement.</p>
+                <p>Notre infrastructure SaaS est conçue pour les incubateurs, les investisseurs et les concepteurs qui veulent façonner l'avenir.</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card glass-card">
+                    <h4>+500</h4>
+                    <p>Projets Innovants</p>
+                </div>
+                <div class="stat-card glass-card">
+                    <h4>50</h4>
+                    <p>Incubateurs Partenaires</p>
+                </div>
+                <div class="stat-card glass-card">
+                    <h4>2M$</h4>
+                    <p>Fonds Levés</p>
+                </div>
+                <div class="stat-card glass-card">
+                    <h4>24/7</h4>
+                    <p>Mise en relation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION ORIGINE DE L'IDÉE -->
+    <section class="story section">
+        <div class="container story-container glass-card">
+            <div class="story-image">
+                <div class="founder-placeholder">
+                    
+                </div>
+            </div>
+            <div class="story-content">
+                <h3>L'Origine de la Vision</h3>
+                <p>L'idée d'INNOVLINK est née d'un constat simple : des milliers de projets brillants meurent chaque année par manque de visibilité et de connexion avec les bonnes structures d'accompagnement.</p>
+                <p>En tant qu'ingénieurs, nous avons voulu créer l'outil qui manque à notre génération. Une plateforme transparente, professionnelle et puissante pour que le talent rencontre enfin l'opportunité.</p>
+                <p class="signature">- Le Fondateur</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION CTA -->
+    <section class="cta section">
+        <div class="container cta-container">
+            <h2>Votre idée mérite d'être accompagnée.</h2>
+            <p>Rejoignez l'écosystème aujourd'hui et donnez vie à vos ambitions.</p>
+            <a href="#" class="btn btn-primary btn-large">Rejoindre InnovLink</a>
+        </div>
+    </section>
+{% endblock %}

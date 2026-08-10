@@ -1,0 +1,188 @@
+{% extends 'authentification/auth_base.html' %}
+{% load static %}
+
+{% block title %}Inscription | INNOVLINK{% endblock %}
+
+{% block content %}
+<div class="auth-container form-container wide-form">
+    <div class="auth-box glass-card">
+        <div class="auth-box-header">
+            <h2>Inscription 
+                {% if role == 'startup' %}Startup
+                {% elif role == 'financeur' %}Structure de financement
+                {% else %}Porteur de projet{% endif %}
+            </h2>
+            <p>Remplissez les informations ci-dessous pour rejoindre l'écosystème.</p>
+        </div>
+
+        <form method="POST" class="auth-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="role-input" name="role" value="{{ role }}">
+
+            <!-- Champs Communs de Base -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="nom@exemple.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="ville">Ville</label>
+                    <input type="text" id="ville" name="ville" placeholder="Ex: Douala" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirmation mot de passe</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <!-- CHAMPS SPECIFIQUES : PORTEUR DE PROJET -->
+            <div class="role-fields-group" id="fields-porteur" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nom">Nom</label>
+                        <input type="text" id="nom" name="nom" placeholder="Votre nom">
+                    </div>
+                    <div class="form-group">
+                        <label for="prenom">Prénom</label>
+                        <input type="text" id="prenom" name="prenom" placeholder="Votre prénom">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="diplome">Diplôme récent obtenu</label>
+                        <input type="text" id="diplome" name="diplome" placeholder="Ex: Master en Informatique">
+                    </div>
+                    <div class="form-group">
+                        <label for="ecole">École / Institution</label>
+                        <input type="text" id="ecole" name="ecole" placeholder="Ex: IAI">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="langages">Langages maîtrisés</label>
+                    <input type="text" id="langages" name="langages" placeholder="Ex: Python, JavaScript, PHP">
+                </div>
+                <div class="form-group">
+                    <label for="competences">Compétences</label>
+                    <input type="text" id="competences" name="competences" placeholder="Ex: Django, Flutter, UI/UX">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="linkedin">LinkedIn</label>
+                        <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/...">
+                    </div>
+                    <div class="form-group">
+                        <label for="github">GitHub</label>
+                        <input type="url" id="github" name="github" placeholder="https://github.com/...">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="biographie">Biographie</label>
+                    <textarea id="biographie" name="biographie" rows="3" placeholder="Parlez de vous..."></textarea>
+                </div>
+            </div>
+
+            <!-- CHAMPS SPECIFIQUES : STARTUP -->
+            <div class="role-fields-group" id="fields-startup" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nom_startup">Nom startup</label>
+                        <input type="text" id="nom_startup" name="nom_startup" placeholder="Nom de votre entreprise">
+                    </div>
+                    <div class="form-group">
+                        <label for="secteur">Secteur d'activité</label>
+                        <input type="text" id="secteur" name="secteur" placeholder="Ex: Fintech, Edtech">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="annee_creation">Année de création</label>
+                        <input type="number" id="annee_creation" name="annee_creation" placeholder="2025">
+                    </div>
+                    <div class="form-group">
+                        <label for="employes">Nombre d'employés</label>
+                        <input type="number" id="employes" name="employes" placeholder="Ex: 5">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="site_web">Site web</label>
+                    <input type="url" id="site_web" name="site_web" placeholder="https://...ance.com">
+                </div>
+                <div class="form-group">
+                    <label for="description_startup">Description</label>
+                    <textarea id="description_startup" name="description_startup" rows="3" placeholder="Activité de la startup..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="logo_startup">Logo</label>
+                    <input type="file" id="logo_startup" name="logo_startup">
+                </div>
+            </div>
+
+            <!-- CHAMPS SPECIFIQUES : STRUCTURE DE FINANCEMENT -->
+            <div class="role-fields-group" id="fields-financeur" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nom_structure">Nom structure</label>
+                        <input type="text" id="nom_structure" name="nom_structure" placeholder="Nom de l'organisme">
+                    </div>
+                    <div class="form-group">
+                        <label for="type_structure">Type de structure</label>
+                        <input type="text" id="type_structure" name="type_structure" placeholder="Ex: Incubateur, Fonds d'investissement">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pays">Pays</label>
+                        <input type="text" id="pays" name="pays" placeholder="Ex: Cameroun">
+                    </div>
+                    <div class="form-group">
+                        <label for="budget">Budget d'investissement</label>
+                        <input type="text" id="budget" name="budget" placeholder="Ex: 50K$ - 200K$">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="secteurs_finances">Secteurs financés</label>
+                    <input type="text" id="secteurs_finances" name="secteurs_finances" placeholder="Ex: Tech, Agri-tech, Santé">
+                </div>
+                <div class="form-group">
+                    <label for="site_web_fin">Site web</label>
+                    <input type="url" id="site_web_fin" name="site_web_fin" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label for="description_fin">Description</label>
+                    <textarea id="description_fin" name="description_fin" rows="3" placeholder="Critères d'accompagnement..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="logo_fin">Logo</label>
+                    <input type="file" id="logo_fin" name="logo_fin">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3">Créer mon compte</button>
+        </form>
+
+        <div class="auth-box-footer">
+            <p>Déjà un compte ? <a href="{% url 'login' %}?role={{ role }}">Se connecter</a></p>
+            <p class="mt-2"><a href="{% url 'role_choice' %}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Changer de rôle</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Injection dynamique du rôle géré par le script principal
+    document.addEventListener("DOMContentLoaded", () => {
+        const currentRole = "{{ role }}";
+        if (typeof initDynamicRegister === "function") {
+            initDynamicRegister(currentRole);
+        }
+    });
+</script>
+{% endblock %}

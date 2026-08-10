@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}INNOVLINK | Authentification{% endblock %}</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Dédié Authentication -->
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Header minimaliste -->
+    <header class="auth-header">
+        <div class="auth-logo-container">
+            <a href="{% url 'role_choice' %}" class="auth-logo">
+                <i class="fa-solid fa-network-wired"></i> INNOV<span>LINK</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Contenu dynamique -->
+    <main class="auth-main">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Orbes lumineux d'arrière-plan -->
+    <div class="glow-orb orb-auth-1"></div>
+    <div class="glow-orb orb-auth-2"></div>
+
+    <!-- Script JavaScript Dédié -->
+    <script src="{% static 'authentication/js/auth.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
