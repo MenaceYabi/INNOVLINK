@@ -18,7 +18,7 @@
     <!-- Header minimaliste -->
     <header class="auth-header">
         <div class="auth-logo-container">
-            <a href="{% url 'role_choice' %}" class="auth-logo">
+            <a href="{% url 'role' %}" class="auth-logo">
                 <i class="fa-solid fa-network-wired"></i> INNOV<span>LINK</span>
             </a>
         </div>
@@ -35,7 +35,7 @@
     <div class="glow-orb orb-auth-2"></div>
 
     <!-- Script JavaScript Dédié -->
-    <script src="{% static 'authentication/js/auth.js' %}"></script>
+    <script src="{% static 'js/auth.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

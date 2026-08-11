@@ -1,4 +1,3 @@
-```django
 {% extends 'authentification/auth_base.html' %}
 {% load static %}
 
@@ -14,651 +13,227 @@
     <!-- ===================================================== -->
     <!-- CHAMPS PORTEUR DE PROJET -->
     <!-- ===================================================== -->
-
+    {% if role == "porteur" %}
     <div class="role-fields-group" id="fields-porteur">
 
         <div class="form-row">
-
             <div class="form-group">
                 <label for="email">Email</label>
-
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="nom@exemple.com"
-                    required
-                >
+                <input type="email" id="email" name="email" placeholder="nom@exemple.com" required>
             </div>
-
             <div class="form-group">
                 <label for="telephone">Téléphone</label>
-
-                <input
-                    type="text"
-                    id="telephone"
-                    name="telephone"
-                    placeholder="+237 6XX XXX XXX"
-                >
+                <input type="text" id="telephone" name="telephone" placeholder="+237 6XX XXX XXX">
             </div>
-
         </div>
 
-
         <div class="form-row">
-
             <div class="form-group">
                 <label for="mot_de_passe">Mot de passe</label>
-
-                <input
-                    type="password"
-                    id="mot_de_passe"
-                    name="mot_de_passe"
-                    placeholder="••••••••"
-                    required
-                >
+                <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="••••••••" required>
             </div>
-
             <div class="form-group">
-                <label for="confirm_password">
-                    Confirmation du mot de passe
-                </label>
-
-                <input
-                    type="password"
-                    id="confirm_password"
-                    name="confirm_password"
-                    placeholder="••••••••"
-                    required
-                >
+                <label for="confirm_password">Confirmation du mot de passe</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required>
             </div>
-
         </div>
 
-
         <div class="form-row">
-
             <div class="form-group">
                 <label for="nom">Nom</label>
-
-                <input
-                    type="text"
-                    id="nom"
-                    name="nom"
-                    placeholder="Votre nom"
-                    required
-                >
+                <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
             </div>
-
             <div class="form-group">
                 <label for="prenom">Prénom</label>
-
-                <input
-                    type="text"
-                    id="prenom"
-                    name="prenom"
-                    placeholder="Votre prénom"
-                    required
-                >
+                <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
             </div>
-
         </div>
-
 
         <div class="form-row">
-
             <div class="form-group">
-                <label for="ville">Ville</label>
-
-                <input
-                    type="text"
-                    id="ville"
-                    name="ville"
-                    placeholder="Ex : Douala"
-                    required
-                >
+                <label for="diplome">Diplôme obtenu</label>
+                <input type="text" id="diplome" name="diplome" placeholder="Ex : Licence en Génie Logiciel" required>
             </div>
-
             <div class="form-group">
-                <label for="pays">Pays</label>
-
-                <input
-                    type="text"
-                    id="pays"
-                    name="pays"
-                    placeholder="Ex : Cameroun"
-                    required
-                >
+                <label for="annee_obtention">Année d'obtention</label>
+                <input type="number" id="annee_obtention" name="annee_obtention" placeholder="2026" required>
             </div>
-
         </div>
-
-
-        <div class="form-row">
-
-            <div class="form-group">
-                <label for="diplome">
-                    Diplôme obtenu
-                </label>
-
-                <input
-                    type="text"
-                    id="diplome"
-                    name="diplome"
-                    placeholder="Ex : Licence en Génie Logiciel"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="annee_obtention">
-                    Année d'obtention
-                </label>
-
-                <input
-                    type="number"
-                    id="annee_obtention"
-                    name="annee_obtention"
-                    placeholder="2026"
-                    required
-                >
-            </div>
-
-        </div>
-
 
         <div class="form-group">
-
-            <label for="etablissement">
-                École / Université
-            </label>
-
-            <input
-                type="text"
-                id="etablissement"
-                name="etablissement"
-                placeholder="Nom de votre école ou université"
-                required
-            >
-
+            <label for="etablissement">École / Université</label>
+            <input type="text" id="etablissement" name="etablissement" placeholder="Nom de votre école ou université" required>
         </div>
-
 
         <div class="form-group">
-
-            <label for="langues">
-                Langues maîtrisées
-            </label>
-
-            <input
-                type="text"
-                id="langues"
-                name="langues"
-                placeholder="Ex : Français, Anglais"
-                required
-            >
-
+            <label for="langues">Langues maîtrisées</label>
+            <input type="text" id="langues" name="langues" placeholder="Ex : Français, Anglais" required>
         </div>
 
-
         <div class="form-row">
-
             <div class="form-group">
-
-                <label for="github">
-                    GitHub <span>(optionnel)</span>
-                </label>
-
-                <input
-                    type="url"
-                    id="github"
-                    name="github"
-                    placeholder="https://github.com/..."
-                >
-
+                <label for="github">GitHub <span>(optionnel)</span></label>
+                <input type="url" id="github" name="github" placeholder="https://github.com/...">
             </div>
-
             <div class="form-group">
-
-                <label for="linkedin">
-                    LinkedIn <span>(optionnel)</span>
-                </label>
-
-                <input
-                    type="url"
-                    id="linkedin"
-                    name="linkedin"
-                    placeholder="https://linkedin.com/in/..."
-                >
-
+                <label for="linkedin">LinkedIn <span>(optionnel)</span></label>
+                <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/...">
             </div>
-
         </div>
 
     </div>
+    {% endif %}
 
 
     <!-- ===================================================== -->
     <!-- CHAMPS STARTUP -->
     <!-- ===================================================== -->
-
-    <div
-        class="role-fields-group"
-        id="fields-startup"
-        style="display: none;"
-    >
+    {% if role == "startup" %}
+    <div class="role-fields-group" id="fields-startup">
 
         <div class="form-row">
-
             <div class="form-group">
-
-                <label for="startup_email">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="startup_email"
-                    name="email"
-                    placeholder="contact@startup.com"
-                >
-
+                <label for="startup_email">Email</label>
+                <input type="email" id="startup_email" name="email" placeholder="contact@startup.com" required>
             </div>
-
             <div class="form-group">
-
-                <label for="startup_password">
-                    Mot de passe
-                </label>
-
-                <input
-                    type="password"
-                    id="startup_password"
-                    name="mot_de_passe"
-                    placeholder="••••••••"
-                >
-
+                <label for="startup_password">Mot de passe</label>
+                <input type="password" id="startup_password" name="mot_de_passe" placeholder="••••••••" required>
             </div>
-
         </div>
-
 
         <div class="form-group">
-
-            <label for="nom_startup">
-                Nom de la startup
-            </label>
-
-            <input
-                type="text"
-                id="nom_startup"
-                name="nom_startup"
-                placeholder="Nom de votre startup"
-            >
-
+            <label for="nom_startup">Nom de la startup</label>
+            <input type="text" id="nom_startup" name="nom_startup" placeholder="Nom de votre startup" required>
         </div>
-
 
         <div class="form-row">
-
             <div class="form-group">
-
-                <label for="secteur">
-                    Secteur d'activité
-                </label>
-
-                <input
-                    type="text"
-                    id="secteur"
-                    name="secteur"
-                    placeholder="Ex : Fintech, EdTech, HealthTech"
-                >
-
+                <label for="secteur">Secteur d'activité</label>
+                <input type="text" id="secteur" name="secteur" placeholder="Ex : Fintech, EdTech, HealthTech" required>
             </div>
-
             <div class="form-group">
-
-                <label for="annee_creation">
-                    Année de création
-                </label>
-
-                <input
-                    type="number"
-                    id="annee_creation"
-                    name="annee_creation"
-                    placeholder="2025"
-                >
-
+                <label for="annee_creation">Année de création</label>
+                <input type="number" id="annee_creation" name="annee_creation" placeholder="2025" required>
             </div>
-
         </div>
 
-
         <div class="form-group">
-
-            <label for="numero_nu">
-                Numéro NU / Numéro d'organisation
-            </label>
-
-            <input
-                type="text"
-                id="numero_nu"
-                name="numero_nu"
-                placeholder="Numéro officiel de l'organisation"
-            >
-
+            <label for="numero_nu">Numéro NU / Numéro d'organisation</label>
+            <input type="text" id="numero_nu" name="numero_nu" placeholder="Numéro officiel de l'organisation" required>
         </div>
 
-
         <div class="form-group">
-
-            <label for="type_startup">
-                Type de startup
-            </label>
-
-            <input
-                type="text"
-                id="type_startup"
-                name="type_startup"
-                placeholder="Ex : Startup technologique"
-            >
-
+            <label for="type_startup">Type de startup</label>
+            <input type="text" id="type_startup" name="type_startup" placeholder="Ex : Startup technologique" required>
         </div>
-       
 
         <div class="form-group">
-
-            <label for="type_collaboration_startup">
-                Type de collaboration recherché
-            </label>
-
-            <select
-                id="type_collaboration_startup"
-                name="type_collaboration"
-            >
-
-                <option value="">
-                    Choisir une collaboration
-                </option>
-
-                <option value="INVESTISSEMENT">
-                    Investissement
-                </option>
-
-                <option value="PARTENARIAT_STRATEGIQUE">
-                    Partenariat stratégique
-                </option>
-
-                <option value="ACQUISITION_SOLUTION">
-                    Acquisition de solution
-                </option>
-
-                <option value="LICENCE_UTILISATION">
-                    Licence d'utilisation
-                </option>
-
-                <option value="INCUBATION">
-                    Incubation
-                </option>
-
+            <label for="type_collaboration_startup">Type de collaboration recherché</label>
+            <select id="type_collaboration_startup" name="type_collaboration" required>
+                <option value="">Choisir une collaboration</option>
+                <option value="INVESTISSEMENT">Investissement</option>
+                <option value="PARTENARIAT_STRATEGIQUE">Partenariat stratégique</option>
+                <option value="ACQUISITION_SOLUTION">Acquisition de solution</option>
+                <option value="LICENCE_UTILISATION">Licence d'utilisation</option>
+                <option value="INCUBATION">Incubation</option>
             </select>
-
         </div>
 
     </div>
+    {% endif %}
 
 
     <!-- ===================================================== -->
     <!-- CHAMPS STRUCTURE DE FINANCEMENT -->
     <!-- ===================================================== -->
-
-    <div
-        class="role-fields-group"
-        id="fields-financeur"
-        style="display: none;"
-    >
+    {% if role == "structure" %}
+    <div class="role-fields-group" id="fields-financeur">
 
         <div class="form-row">
-
             <div class="form-group">
-
-                <label for="structure_email">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="structure_email"
-                    name="email"
-                    placeholder="contact@structure.com"
-                >
-
+                <label for="structure_email">Email</label>
+                <input type="email" id="structure_email" name="email" placeholder="contact@structure.com" required>
             </div>
-
             <div class="form-group">
-
-                <label for="structure_password">
-                    Mot de passe
-                </label>
-
-                <input
-                    type="password"
-                    id="structure_password"
-                    name="mot_de_passe"
-                    placeholder="••••••••"
-                >
-
+                <label for="structure_password">Mot de passe</label>
+                <input type="password" id="structure_password" name="mot_de_passe" placeholder="••••••••" required>
             </div>
-
         </div>
-
 
         <div class="form-group">
-
-            <label for="nom_structure">
-                Nom de la structure
-            </label>
-
-            <input
-                type="text"
-                id="nom_structure"
-                name="nom_structure"
-                placeholder="Nom de l'organisme"
-            >
-
+            <label for="nom_structure">Nom de la structure</label>
+            <input type="text" id="nom_structure" name="nom_structure" placeholder="Nom de l'organisme" required>
         </div>
-
 
         <div class="form-group">
-
-            <label for="description">
-                Description
-            </label>
-
-            <textarea
-                id="description"
-                name="description"
-                rows="4"
-                placeholder="Présentez votre structure..."
-            ></textarea>
-
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4" placeholder="Présentez votre structure..." required></textarea>
         </div>
-
 
         <div class="form-row">
-
             <div class="form-group">
-
-                <label for="structure_pays">
-                    Pays
-                </label>
-
-                <input
-                    type="text"
-                    id="structure_pays"
-                    name="pays"
-                    placeholder="Ex : Cameroun"
-                >
-
+                <label for="structure_pays">Pays</label>
+                <input type="text" id="structure_pays" name="pays" placeholder="Ex : Cameroun" required>
             </div>
-
             <div class="form-group">
-
-                <label for="structure_ville">
-                    Ville
-                </label>
-
-                <input
-                    type="text"
-                    id="structure_ville"
-                    name="ville"
-                    placeholder="Ex : Douala"
-                >
-
+                <label for="structure_ville">Ville</label>
+                <input type="text" id="structure_ville" name="ville" placeholder="Ex : Douala" required>
             </div>
-
         </div>
 
-
         <div class="form-group">
-
-            <label for="structure_numero_nu">
-                Numéro NU / Numéro d'organisation
-            </label>
-
-            <input
-                type="text"
-                id="structure_numero_nu"
-                name="numero_nu"
-                placeholder="Numéro officiel de l'organisation"
-            >
-
+            <label for="structure_numero_nu">Numéro NU / Numéro d'organisation</label>
+            <input type="text" id="structure_numero_nu" name="numero_nu" placeholder="Numéro officiel de l'organisation" required>
         </div>
 
-
         <div class="form-group">
-
-            <label for="type_structure">
-                Type de structure
-            </label>
-
-            <select
-                id="type_structure"
-                name="type_structure"
-            >
-
-                <option value="">
-                    Choisir le type de structure
-                </option>
-
-                <option value="INCUBATEUR">
-                    Incubateur
-                </option>
-
-                <option value="BANQUE">
-                    Banque
-                </option>
-
-                <option value="FONDS_INVESTISSEMENT">
-                    Fonds d'investissement
-                </option>
-
-                <option value="ACCELERATEUR">
-                    Accélérateur
-                </option>
-
-                <option value="ONG">
-                    ONG
-                </option>
-
-                <option value="INSTITUTION_PUBLIQUE">
-                    Institution publique
-                </option>
-
-                <option value="AUTRE">
-                    Autre
-                </option>
-
+            <label for="type_structure">Type de structure</label>
+            <select id="type_structure" name="type_structure" required>
+                <option value="">Choisir le type de structure</option>
+                <option value="INCUBATEUR">Incubateur</option>
+                <option value="BANQUE">Banque</option>
+                <option value="FONDS_INVESTISSEMENT">Fonds d'investissement</option>
+                <option value="ACCELERATEUR">Accélérateur</option>
+                <option value="ONG">ONG</option>
+                <option value="INSTITUTION_PUBLIQUE">Institution publique</option>
+                <option value="AUTRE">Autre</option>
             </select>
-
         </div>
 
-
         <div class="form-group">
-
-            <label for="type_collaboration_structure">
-                Type de collaboration recherché
-            </label>
-
-            <select
-                id="type_collaboration_structure"
-                name="type_collaboration"
-            >
-
-                <option value="">
-                    Choisir une collaboration
-                </option>
-
-                <option value="INVESTISSEMENT">
-                    Investissement
-                </option>
-
-                <option value="PARTENARIAT_STRATEGIQUE">
-                    Partenariat stratégique
-                </option>
-
-                <option value="ACQUISITION_SOLUTION">
-                    Acquisition de solution
-                </option>
-
-                <option value="LICENCE_UTILISATION">
-                    Licence d'utilisation
-                </option>
-
-                <option value="INCUBATION">
-                    Incubation
-                </option>
-
+            <label for="type_collaboration_structure">Type de collaboration recherché</label>
+            <select id="type_collaboration_structure" name="type_collaboration" required>
+                <option value="">Choisir une collaboration</option>
+                <option value="INVESTISSEMENT">Investissement</option>
+                <option value="PARTENARIAT_STRATEGIQUE">Partenariat stratégique</option>
+                <option value="ACQUISITION_SOLUTION">Acquisition de solution</option>
+                <option value="LICENCE_UTILISATION">Licence d'utilisation</option>
+                <option value="INCUBATION">Incubation</option>
             </select>
-
         </div>
 
     </div>
+    {% endif %}
 
 
-    <button
-        type="submit"
-        class="btn btn-primary w-100 mt-3"
-    >
+    <button type="submit" class="btn btn-primary w-100 mt-3">
         Créer mon compte
     </button>
 
 </form>
 
-
-<div class="auth-box-footer">
-
+<div class="auth-box-footer" style="clear: both; width: 100%; display: block; margin-top: 20px; text-align: center;">
     <p>
         Déjà un compte ?
-
-        <a href="{% url 'login' role=role %}">
-            Se connecter
-        </a>
+        <a href="{% url 'login' %}?role=role">Se connecter</a>
     </p>
 
     <p class="mt-2">
-
-        <a
-            href="{% url 'role' %}"
-            class="back-link"
-        >
-            <i class="fa-solid fa-arrow-left"></i>
-            Changer de rôle
+        <a href="{% url 'role' %}" class="back-link">
+            ← Changer de rôle
         </a>
-
     </p>
-
 </div>
 
 {% endblock %}
-```

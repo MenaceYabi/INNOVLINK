@@ -3,25 +3,28 @@ from . import views
 
 
 urlpatterns = [
-
+    # Choix du rôle
     path(
         "role/",
-        views.role,
+        views.role_choice,
         name="role"
     ),
 
+    # Inscription selon le rôle
     path(
-        "register/<str:role>/",
-        views.register,
+        "register/",
+        views.register_view,
         name="register"
     ),
 
+    # Connexion selon le rôle
     path(
-        "login/<str:role>/",
+        "login/",
         views.login_view,
         name="login"
     ),
 
+    # Déconnexion
     path(
         "logout/",
         views.logout_view,

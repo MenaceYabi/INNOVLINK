@@ -15,24 +15,24 @@ from .models import (
 )
 
 
-def role(request):
-    """
-    Page de choix du rôle.
-    """
+def role_choice(request):
     return render(
         request,
-        "Authentification/role.html"
+        "authentification/role.html"
     )
 
 
-def register(request, role):
+def register_view(request):
     """
     Inscription selon le rôle choisi.
     """
 
+    role = request.GET.get("role", "porteur")
+
     if role == "porteur":
 
         if request.method == "POST":
+
             form = PorteurProjetForm(request.POST)
 
             if form.is_valid():
@@ -44,8 +44,7 @@ def register(request, role):
                 )
 
                 return redirect(
-                    "login",
-                    role="porteur"
+                    f"/auth/login/?role={role}"
                 )
 
         else:
@@ -54,6 +53,7 @@ def register(request, role):
     elif role == "startup":
 
         if request.method == "POST":
+
             form = StartupForm(request.POST)
 
             if form.is_valid():
@@ -62,12 +62,11 @@ def register(request, role):
                 messages.success(
                     request,
                     "Votre compte startup a été créé. "
-                    "Il doit maintenant être validé."
+                    "Il est maintenant en attente de validation."
                 )
 
                 return redirect(
-                    "login",
-                    role="startup"
+                    f"/auth/login/?role={role}"
                 )
 
         else:
@@ -76,6 +75,7 @@ def register(request, role):
     elif role == "structure":
 
         if request.method == "POST":
+
             form = StructureFinancementForm(request.POST)
 
             if form.is_valid():
@@ -84,28 +84,28 @@ def register(request, role):
                 messages.success(
                     request,
                     "Votre compte a été créé. "
-                    "Il doit maintenant être validé."
+                    "Il est maintenant en attente de validation."
                 )
 
                 return redirect(
-                    "login",
-                    role="structure"
+                    f"/auth/login/?role={role}"
                 )
 
         else:
             form = StructureFinancementForm()
 
     else:
+
         messages.error(
             request,
             "Rôle invalide."
         )
 
-        return redirect("profil")
+        return redirect("role_choice")
 
     return render(
         request,
-        "Authentification/register.html",
+        "authentification/register.html",
         {
             "form": form,
             "role": role
@@ -113,14 +113,17 @@ def register(request, role):
     )
 
 
-def login_view(request, role):
-    """
-    Connexion selon le rôle choisi.
-    """
+def login_view(request):
+
+    role = request.GET.get("role", "porteur")
 
     if request.method == "POST":
 
-        email = request.POST.get("email", "").strip().lower()
+        email = request.POST.get(
+            "email",
+            ""
+        ).strip().lower()
+
         mot_de_passe = request.POST.get(
             "mot_de_passe",
             ""
@@ -128,7 +131,6 @@ def login_view(request, role):
 
         utilisateur = None
 
-        # Porteur de projet
         if role == "porteur":
 
             utilisateur = PorteurProjet.objects.filter(
@@ -137,7 +139,6 @@ def login_view(request, role):
 
             dashboard = "dashboard_porteur"
 
-        # Startup
         elif role == "startup":
 
             utilisateur = Startup.objects.filter(
@@ -146,7 +147,6 @@ def login_view(request, role):
 
             dashboard = "dashboard_startup"
 
-        # Structure de financement
         elif role == "structure":
 
             utilisateur = StructureFinancement.objects.filter(
@@ -156,14 +156,14 @@ def login_view(request, role):
             dashboard = "dashboard_structure"
 
         else:
+
             messages.error(
                 request,
                 "Rôle invalide."
             )
 
-            return redirect("profil")
+            return redirect("role_choice")
 
-        # Vérification du compte
         if utilisateur is None:
 
             messages.error(
@@ -173,13 +173,10 @@ def login_view(request, role):
 
             return render(
                 request,
-                "Authentification/login.html",
-                {
-                    "role": role
-                }
+                "authentification/login.html",
+                {"role": role}
             )
 
-        # Vérification du mot de passe
         if not check_password(
             mot_de_passe,
             utilisateur.mot_de_passe
@@ -192,13 +189,10 @@ def login_view(request, role):
 
             return render(
                 request,
-                "Authentification/login.html",
-                {
-                    "role": role
-                }
+                "authentification/login.html",
+                {"role": role}
             )
 
-        # Vérification du statut
         if utilisateur.statut_compte != "ACTIF":
 
             messages.error(
@@ -208,14 +202,10 @@ def login_view(request, role):
 
             return render(
                 request,
-                "Authentification/login.html",
-                {
-                    "role": role
-                }
+                "authentification/login.html",
+                {"role": role}
             )
 
-        # Pour startup et structure :
-        # le compte doit être validé par l'administration.
         if role in ["startup", "structure"]:
 
             if utilisateur.statut_validation != "VALIDE":
@@ -228,13 +218,10 @@ def login_view(request, role):
 
                 return render(
                     request,
-                    "Authentification/login.html",
-                    {
-                        "role": role
-                    }
+                    "authentification/login.html",
+                    {"role": role}
                 )
 
-        # Création de la session Django
         request.session["user_id"] = str(
             utilisateur.id
         )
@@ -245,7 +232,7 @@ def login_view(request, role):
 
     return render(
         request,
-        "Authentification/login.html",
+        "authentification/login.html",
         {
             "role": role
         }
@@ -253,10 +240,7 @@ def login_view(request, role):
 
 
 def logout_view(request):
-    """
-    Déconnexion.
-    """
 
     request.session.flush()
 
-    return redirect("role")
+    return redirect("role_choice")

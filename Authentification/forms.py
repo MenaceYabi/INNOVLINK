@@ -1,6 +1,11 @@
+
 from django import forms
 from .models import PorteurProjet, Startup, StructureFinancement
 
+
+# ============================================================
+# PORTEUR DE PROJET
+# ============================================================
 
 class PorteurProjetForm(forms.ModelForm):
 
@@ -84,11 +89,16 @@ class PorteurProjetForm(forms.ModelForm):
             )
 
         return email
-    
-    class StartupForm(forms.ModelForm):
 
-        class Meta:
-            model = Startup
+
+# ============================================================
+# STARTUP
+# ============================================================
+
+class StartupForm(forms.ModelForm):
+
+    class Meta:
+        model = Startup
 
         fields = [
             "email",
@@ -127,6 +137,8 @@ class PorteurProjetForm(forms.ModelForm):
             "type_startup": forms.TextInput(attrs={
                 "placeholder": "Type de startup"
             }),
+
+            "type_collaboration": forms.Select(),
         }
 
     def clean_email(self):
@@ -138,12 +150,16 @@ class PorteurProjetForm(forms.ModelForm):
             )
 
         return email
-    
-    
-    class StructureFinancementForm(forms.ModelForm):
 
-        class Meta:
-            model = StructureFinancement
+
+# ============================================================
+# STRUCTURE DE FINANCEMENT
+# ============================================================
+
+class StructureFinancementForm(forms.ModelForm):
+
+    class Meta:
+        model = StructureFinancement
 
         fields = [
             "email",
@@ -187,6 +203,7 @@ class PorteurProjetForm(forms.ModelForm):
 
             "type_structure": forms.Select(),
 
+            "type_collaboration": forms.Select(),
         }
 
     def clean_email(self):
