@@ -5,6 +5,12 @@
 
 {% block content %}
 
+{% if form.errors %}
+    <div class="form-errors">
+        {{ form.errors }}
+    </div>
+{% endif %}
+
 <form method="POST" class="auth-form">
     {% csrf_token %}
 
@@ -32,12 +38,31 @@
                 <label for="mot_de_passe">Mot de passe</label>
                 <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="••••••••" required>
             </div>
-            <div class="form-group">
-                <label for="confirm_password">Confirmation du mot de passe</label>
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required>
-            </div>
         </div>
+<div class="form-row">
+    <div class="form-group">
+        <label for="ville">Ville</label>
+        <input
+            type="text"
+            id="ville"
+            name="ville"
+            placeholder="Ex : Douala"
+            required
+        >
+    </div>
 
+    <div class="form-group">
+        <label for="pays">Pays</label>
+        <input
+            type="text"
+            id="pays"
+            name="pays"
+            value="Cameroun"
+            placeholder="Ex : Cameroun"
+            required
+        >
+    </div>
+</div>
         <div class="form-row">
             <div class="form-group">
                 <label for="nom">Nom</label>
@@ -223,7 +248,7 @@
 
 </form>
 
-<div class="auth-box-footer" style="clear: both; width: 100%; display: block; margin-top: 20px; text-align: center;">
+<div class="auth-box-footer"  style="clear: both;  grid-column:  1  / -1; width: 100%; display: block; margin-top: 20px; text-align: center;">
     <p>
         Déjà un compte ?
         <a href="{% url 'login' %}?role=role">Se connecter</a>
@@ -235,5 +260,5 @@
         </a>
     </p>
 </div>
-
 {% endblock %}
+

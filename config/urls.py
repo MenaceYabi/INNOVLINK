@@ -20,6 +20,8 @@ from django.urls import path  , include # type: ignore
 urlpatterns =[
         path('', include('Accueil.urls')),
         path('auth/', include('Authentification.urls')),
+    path(  "porteur/",  include("Porteur.urls")),
+    path("startup/",  include("Startup.urls")),
+    path(  "structure/",include("StructureFinancement.urls")),
     path('admin/', admin.site.urls),
-
 ]

@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Accueil',
     'Authentification',
+    'Porteur',
+    'Startup',
+    'StructureFinancement',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +63,7 @@ TEMPLATES = [
         'DIRS': [
             BASE_DIR / 'templates' ,
             BASE_DIR /    'templates'  / 'authentification',
+            BASE_DIR / 'templatese' / 'poteur',
                  ],
         'APP_DIRS': True,
         'OPTIONS': {
