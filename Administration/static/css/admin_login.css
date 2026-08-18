@@ -1,0 +1,130 @@
+/* Minimalist Dark Theme Styling */
+:root {
+    --bg-color: #000000;
+    --card-bg: #111111;
+    --border-color: #222222;
+    --text-main: #ffffff;
+    --text-muted: #888888;
+    --accent: #ffffff;
+    --accent-hover: #ececec;
+    --error-bg: rgba(239, 68, 68, 0.1);
+    --error-text: #f87171;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Inter', -apple-system, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-card {
+    background: var(--card-bg);
+    padding: 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.logo-area {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.logo-symbol {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: var(--text-main);
+}
+
+.logo-area h1 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+}
+
+.logo-area p {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    background: #000;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: var(--text-main);
+    font-size: 14px;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+input:focus {
+    border-color: #444;
+}
+
+button {
+    width: 100%;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: var(--accent-hover);
+}
+
+/* Django Messages */
+.messages-container {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    background: var(--error-bg);
+    color: var(--error-text);
+    text-align: center;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

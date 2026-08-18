@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Porteur',
     'Startup',
     'StructureFinancement',
+    'Administration',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,8 @@ TEMPLATES = [
         'DIRS': [
             BASE_DIR / 'templates' ,
             BASE_DIR /    'templates'  / 'authentification',
-            BASE_DIR / 'templatese' / 'poteur',
+            BASE_DIR / 'templates' / 'poteur',
+            BASE_DIR /  'templates' /'Administration',
                  ],
         'APP_DIRS': True,
         'OPTIONS': {

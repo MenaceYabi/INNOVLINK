@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration INNOVLINK</title>
+    <link rel="stylesheet" href="{% static 'css/admin_login.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <main class="login-wrapper">
+        <div class="login-card">
+            <div class="logo-area">
+                <div class="logo-symbol">▲</div>
+                <h1>Administration INNOVLINK</h1>
+                <p>Connectez-vous à votre espace administrateur.</p>
+            </div>
+
+            {% if messages %}
+                <div class="messages-container">
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" id="loginForm">
+                {% csrf_token %}
+                
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" required autocomplete="email">
+                </div>
+
+                <div class="input-group">
+                    <label for="mot_de_passe">Mot de passe</label>
+                    <input type="password" name="mot_de_passe" id="mot_de_passe" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" id="submitBtn">
+                    <span class="btn-text">Se connecter</span>
+                    <span class="spinner" style="display:none;"></span>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script src="{% static 'css/admin_login.js'  %}"></script>
+</body>
+</html>
