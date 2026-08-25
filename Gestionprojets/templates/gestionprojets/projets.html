@@ -1,0 +1,156 @@
+{%  load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INNOVLINK - Mes Projets</title>
+    <link rel="stylesheet" href="{% static 'css/projets.css'}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">INNOVLINK</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item">📊 Tableau de bord</a>
+                <a href="#" class="nav-item">💬 Messagerie</a>
+                <a href="#" class="nav-item active">📁 Mes projets</a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item text-danger">🚪 Déconnexion</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-title">Mes projets</div>
+                <div class="header-profile">
+                    <span class="notification-icon">🔔</span>
+                    <div class="profile-info">
+                        <span class="profile-name">Porteur de Projet</span>
+                        <span class="profile-role">Groupe 8 - IAI</span>
+                    </div>
+                    <div class="profile-avatar">P</div>
+                </div>
+            </header>
+
+            <!-- VUE : LISTE DES PROJETS -->
+            <div id="view-projects-list" class="view-section active">
+                <div class="page-header">
+                    <div>
+                        <h1>Mes projets</h1>
+                        <p class="subtitle">Retrouvez, consultez et gérez l'ensemble de vos projets sur INNOVLINK.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="goToCreateProject()">+ Créer un projet</button>
+                </div>
+
+                <!-- Statistiques rapides -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-total">0</div>
+                        <div class="stat-label">Total des projets</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-actifs">0</div>
+                        <div class="stat-label">Projets actifs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-collab">0</div>
+                        <div class="stat-label">Projets en collaboration</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-analyse">0</div>
+                        <div class="stat-label">Projets en analyse</div>
+                    </div>
+                </div>
+
+                <!-- Filtres et Recherche -->
+                <div class="controls-bar">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" id="search-input" placeholder="Rechercher un projet...">
+                    </div>
+                    <div class="filters-box" id="filters-container">
+                        <button class="filter-btn active" data-filter="all">Tous</button>
+                        <button class="filter-btn" data-filter="active">Actifs</button>
+                        <button class="filter-btn" data-filter="analysis">En analyse</button>
+                        <button class="filter-btn" data-filter="collab">En collaboration</button>
+                        <button class="filter-btn" data-filter="draft">Brouillons</button>
+                    </div>
+                </div>
+
+                <!-- Grille des projets -->
+                <div id="projects-grid" class="projects-grid">
+                    <!-- Les cartes projets seront injectées ici par JS -->
+                </div>
+            </div>
+
+            <!-- VUE : DÉTAILS DU PROJET -->
+            <div id="view-project-detail" class="view-section hidden">
+                <div class="detail-header">
+                    <button class="btn btn-secondary" onclick="showListView()">← Retour à mes projets</button>
+                    <div class="detail-actions">
+                        <button class="btn btn-secondary">Modifier</button>
+                    </div>
+                </div>
+                
+                <h1 id="detail-title" class="project-title-large">Titre du projet</h1>
+                
+                <div class="detail-grid">
+                    <!-- Colonne Principale -->
+                    <div class="main-column">
+                        <div class="card section-card">
+                            <h3>Informations générales</h3>
+                            <div id="detail-info" class="info-list"></div>
+                        </div>
+
+                        <!-- Analyse IA Idée (Obligatoire) -->
+                        <div class="card section-card ai-idea-card">
+                            <div class="ai-header">
+                                <h3>🔵 Analyse IA du projet</h3>
+                                <span class="badge badge-readonly">🔒 Lecture seule</span>
+                            </div>
+                            <div id="detail-ai-idea"></div>
+                        </div>
+
+                        <!-- Analyse IA Code (Facultative) -->
+                        <div class="card section-card ai-code-card" id="detail-ai-code-container">
+                            <!-- Injecté par JS -->
+                        </div>
+                    </div>
+
+                    <!-- Colonne Latérale -->
+                    <div class="side-column">
+                        <div class="card section-card">
+                            <h3>Statistiques</h3>
+                            <div id="detail-stats" class="stats-list"></div>
+                        </div>
+
+                        <div class="card section-card">
+                            <h3>Collaboration</h3>
+                            <div id="detail-collab"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modale de suppression -->
+    <div id="delete-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Supprimer le projet</h3>
+            <p>Êtes-vous sûr de vouloir supprimer ce projet ? Cette action est irréversible.</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeDeleteModal()">Annuler</button>
+                <button class="btn btn-danger" onclick="executeDelete()">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/projets.js' %}"></script>
+</body>
+</html>

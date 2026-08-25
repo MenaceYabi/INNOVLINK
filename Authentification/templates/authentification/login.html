@@ -7,16 +7,7 @@
 
 <div class="auth-header-content">
     <h2>Connexion</h2>
-{% if role == "porteur" %}
     <p>Connectez-vous à votre espace porteur de projet.</p>
-
-{% elif role == "startup" %}
-    <p>Connectez-vous à votre espace startup.</p>
-
-{% elif role == "structure" %}
-    <p>Connectez-vous à votre espace structure de financement.</p>
-{% endif %}
-
 </div>
 
 <form method="POST" class="auth-form">
@@ -76,22 +67,9 @@
 <p>
     Vous n'avez pas encore de compte ?
 
-    <a href="{% url 'register' %}?role={{ role }}">
+    <a href="{% url 'role' %}">
         Créer un compte
     </a>
-</p>
-
-
-<p class="mt-2">
-
-    <a
-        href="{% url 'role' %}"
-        class="back-link"
-    >
-        <i class="fa-solid fa-arrow-left"></i>
-        Changer de rôle
-    </a>
-
 </p>
 </div>
 

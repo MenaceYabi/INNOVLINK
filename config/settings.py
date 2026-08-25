@@ -24,7 +24,7 @@ load_dotenv()
 SECRET_KEY = 'django-insecure-h!=)ytz5^w5t(c8o(3-pck5gn9ljsm54i)7d-sa@4tq-5-addo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True 
 
 ALLOWED_HOSTS = []
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'Startup',
     'StructureFinancement',
     'Administration',
+    'Gestionprojets',
 ]
 
 MIDDLEWARE = [
