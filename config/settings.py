@@ -39,6 +39,9 @@ ALLOWED_HOSTS = os.getenv(
     "127.0.0.1,localhost"
 ).split(",")
 
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 # Application definition
 
 INSTALLED_APPS = [
