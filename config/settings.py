@@ -66,6 +66,7 @@ TEMPLATES = [
             BASE_DIR / 'templates' ,
             BASE_DIR /    'templates'  / 'authentification',
             BASE_DIR / 'templates' / 'poteur',
+            BASE_DIR / 'templates' / 'gestionprojets',
             BASE_DIR /  'templates' /'Administration',
                  ],
         'APP_DIRS': True,

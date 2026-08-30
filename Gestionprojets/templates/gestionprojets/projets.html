@@ -1,156 +1,542 @@
-{%  load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INNOVLINK - Mes Projets</title>
-    <link rel="stylesheet" href="{% static 'css/projets.css'}">
+    <title>Créer un projet - INNOVLINK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+       
+       :root {
+    /* ===============================
+       COULEURS PRINCIPALES INNOVLINK
+       =============================== */
+
+    --primary: #0F766E;
+    --primary-hover: #0D635C;
+
+    /* Bleu profond INNOVLINK */
+    --sidebar-bg: #0B1F33;
+    --sidebar-hover: #16324F;
+
+    /* ===============================
+       ARRIÈRE-PLAN
+       =============================== */
+
+    --bg-light: #F3F4F6;
+    --white: #FFFFFF;
+
+    /* ===============================
+       TEXTES
+       =============================== */
+
+    --text-dark: #1F2937;
+    --text-gray: #6B7280;
+
+    /* ===============================
+       BORDURES
+       =============================== */
+
+    --border-color: #E5E7EB;
+
+    /* ===============================
+       FOCUS DES CHAMPS
+       =============================== */
+
+    --focus-ring: rgba(15, 118, 110, 0.20);
+
+    /* ===============================
+       ÉTATS
+       =============================== */
+
+    --success: #0F766E;
+    --success-light: rgba(15, 118, 110, 0.10);
+
+    --error: #DC2626;
+    --error-light: rgba(220, 38, 38, 0.10);
+
+    --info: #0284C7;
+    --info-light: #E0F2FE;
+}
+ 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        a {
+            text-decoration: none;
+        }
+        
+        .form-container {
+            background-color: var(--white);
+            width: 100%;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid var(--primary);
+            overflow: hidden;
+        }
+
+        .form-header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #FAFAFA;
+        }
+
+        .form-header h1 {
+            color: var(--bleu);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .form-body {
+            padding: 2rem;
+        }
+      
+        .error-messages {
+            background-color: rgba(230, 57, 70, 0.1);
+            border-left: 4px solid var(--rouge);
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .error-messages h4 {
+            color: var(--rouge);
+            margin-bottom: 0.5rem;
+        }
+
+        .error-messages ul {
+            list-style-type: none;
+            color: var(--rouge);
+            font-size: 0.9rem;
+        }
+    
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--bleu);
+        }
+
+      
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            background-color: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--focus-ring);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .upload-section {
+            display: none; /* Géré par JS */
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .upload-section h3 {
+            color: var(--bleu);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .upload-section p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .dropzone {
+            border: 2px dashed var(--primary);
+            background-color: rgba(15, 118, 110, 0.03);
+            border-radius: 8px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .dropzone:hover, .dropzone.dragover {
+            background-color: rgba(15, 118, 110, 0.1);
+            border-color: var(--primary-hover);
+        }
+
+        .dropzone i {
+            font-size: 2.5rem;
+            color: var(--orange);
+            margin-bottom: 1rem;
+        }
+
+        .dropzone .dropzone-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--bleu);
+            margin-bottom: 0.5rem;
+        }
+
+        .dropzone .dropzone-subtext {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        /* Cache le vrai input file de Django pour le remplacer par la zone cliquable */
+        .dropzone input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-info {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #E0F2FE;
+            border-left: 4px solid #0284C7;
+            border-radius: 4px;
+            color: #0369A1;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .file-error {
+            display: none;
+            margin-top: 1rem;
+            color: var(--rouge);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* ================= BOUTONS ================= */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-back {
+            color: var(--text-gray);
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-back:hover {
+            background-color: var(--border-color);
+            color: var(--bleu);
+        }
+
+        .btn-submit {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2);
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .form-actions {
+                flex-direction: column-reverse;
+                gap: 1rem;
+            }
+            .btn-submit, .btn-back {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-brand">INNOVLINK</div>
-            <nav class="sidebar-nav">
-                <a href="#" class="nav-item">📊 Tableau de bord</a>
-                <a href="#" class="nav-item">💬 Messagerie</a>
-                <a href="#" class="nav-item active">📁 Mes projets</a>
-            </nav>
-            <div class="sidebar-footer">
-                <a href="#" class="nav-item text-danger">🚪 Déconnexion</a>
-            </div>
-        </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="top-header">
-                <div class="header-title">Mes projets</div>
-                <div class="header-profile">
-                    <span class="notification-icon">🔔</span>
-                    <div class="profile-info">
-                        <span class="profile-name">Porteur de Projet</span>
-                        <span class="profile-role">Groupe 8 - IAI</span>
-                    </div>
-                    <div class="profile-avatar">P</div>
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Créer un nouveau projet</h1>
+            <p>Décrivez votre projet. L'analyse IA interviendra dans un second temps.</p>
+        </div>
+
+        <div class="form-body">
+            <!-- multipart/form-data OBLIGATOIRE pour l'upload de fichiers -->
+            <form id="projetForm" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- AFFICHAGE DES ERREURS DJANGO -->
+                {% if form.errors %}
+                <div class="error-messages">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Veuillez corriger les erreurs ci-dessous :</h4>
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li><strong>{{ field.label }} :</strong> {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
-            </header>
+                {% endif %}
 
-            <!-- VUE : LISTE DES PROJETS -->
-            <div id="view-projects-list" class="view-section active">
-                <div class="page-header">
-                    <div>
-                        <h1>Mes projets</h1>
-                        <p class="subtitle">Retrouvez, consultez et gérez l'ensemble de vos projets sur INNOVLINK.</p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.nom.id_for_label }}">Nom du projet <span style="color:var(--rouge)"></span></label>
+                        {{ form.nom }}
                     </div>
-                    <button class="btn btn-primary" onclick="goToCreateProject()">+ Créer un projet</button>
-                </div>
-
-                <!-- Statistiques rapides -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="stat-total">0</div>
-                        <div class="stat-label">Total des projets</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="stat-actifs">0</div>
-                        <div class="stat-label">Projets actifs</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="stat-collab">0</div>
-                        <div class="stat-label">Projets en collaboration</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="stat-analyse">0</div>
-                        <div class="stat-label">Projets en analyse</div>
+                    <div class="form-group">
+                        <label for="{{ form.phase.id_for_label }}">Phase actuelle <span style="color:var(--rouge)"></span></label>
+                        {{ form.phase }}
                     </div>
                 </div>
 
-                <!-- Filtres et Recherche -->
-                <div class="controls-bar">
-                    <div class="search-box">
-                        <span>🔍</span>
-                        <input type="text" id="search-input" placeholder="Rechercher un projet...">
-                    </div>
-                    <div class="filters-box" id="filters-container">
-                        <button class="filter-btn active" data-filter="all">Tous</button>
-                        <button class="filter-btn" data-filter="active">Actifs</button>
-                        <button class="filter-btn" data-filter="analysis">En analyse</button>
-                        <button class="filter-btn" data-filter="collab">En collaboration</button>
-                        <button class="filter-btn" data-filter="draft">Brouillons</button>
-                    </div>
+                <div class="form-group">
+                    <label for="{{ form.description.id_for_label }}">Description complète <span style="color:var(--rouge)">*</span></label>
+                    {{ form.description }}
                 </div>
 
-                <!-- Grille des projets -->
-                <div id="projects-grid" class="projects-grid">
-                    <!-- Les cartes projets seront injectées ici par JS -->
-                </div>
-            </div>
-
-            <!-- VUE : DÉTAILS DU PROJET -->
-            <div id="view-project-detail" class="view-section hidden">
-                <div class="detail-header">
-                    <button class="btn btn-secondary" onclick="showListView()">← Retour à mes projets</button>
-                    <div class="detail-actions">
-                        <button class="btn btn-secondary">Modifier</button>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.technologies.id_for_label }}">Technologies utilisées <span style="color:var(--rouge)">*</span></label>
+                        {{ form.technologies }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.domaines_d_etude.id_for_label }}">Domaines d'étude <span style="color:var(--rouge)">*</span></label>
+                        {{ form.domaines_d_etude }}
                     </div>
                 </div>
-                
-                <h1 id="detail-title" class="project-title-large">Titre du projet</h1>
-                
-                <div class="detail-grid">
-                    <!-- Colonne Principale -->
-                    <div class="main-column">
-                        <div class="card section-card">
-                            <h3>Informations générales</h3>
-                            <div id="detail-info" class="info-list"></div>
-                        </div>
 
-                        <!-- Analyse IA Idée (Obligatoire) -->
-                        <div class="card section-card ai-idea-card">
-                            <div class="ai-header">
-                                <h3>🔵 Analyse IA du projet</h3>
-                                <span class="badge badge-readonly">🔒 Lecture seule</span>
-                            </div>
-                            <div id="detail-ai-idea"></div>
-                        </div>
+                <div class="form-group">
+                    <label for="{{ form.type_collaboration.id_for_label }}">Type de collaboration souhaité <span style="color:var(--rouge)">*</span></label>
+                    {{ form.type_collaboration }}
+                </div>
 
-                        <!-- Analyse IA Code (Facultative) -->
-                        <div class="card section-card ai-code-card" id="detail-ai-code-container">
-                            <!-- Injecté par JS -->
+                <!-- ZONE D'ANALYSE (CACHÉE POUR "IDÉE") -->
+                <div class="upload-section" id="uploadSection">
+                    <h3>Fichiers sources (ZIP)</h3>
+                    <p>Votre projet nécessite une analyse approfondie. Veuillez fournir votre code source compressé.</p>
+                    
+                    <div class="dropzone" id="dropzone">
+                        <!-- Le champ Django est inséré ici et rendu invisible pour être recouvert par la UI dropzone -->
+                        {{ form.fichier_analyse }}
+                        
+                        <i class="fas fa-file-archive"></i>
+                        <div class="dropzone-text">Déposez votre projet ici</div>
+                        <div class="dropzone-subtext">ou cliquez pour parcourir</div>
+                        <div class="dropzone-subtext" style="margin-top: 10px; font-weight: bold; color: var(--orange);">
+                            Format accepté : ZIP — Taille maximale : 50 Mo
                         </div>
                     </div>
 
-                    <!-- Colonne Latérale -->
-                    <div class="side-column">
-                        <div class="card section-card">
-                            <h3>Statistiques</h3>
-                            <div id="detail-stats" class="stats-list"></div>
+                    <div class="file-info" id="fileInfo">
+                        <div>
+                            <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                            <span id="fileName">nom_du_fichier.zip</span>
                         </div>
-
-                        <div class="card section-card">
-                            <h3>Collaboration</h3>
-                            <div id="detail-collab"></div>
-                        </div>
+                        <i class="fas fa-times" id="removeFile" style="cursor:pointer; color:var(--rouge);" title="Retirer le fichier"></i>
                     </div>
-                </div>
-            </div>
-        </main>
-    </div>
 
-    <!-- Modale de suppression -->
-    <div id="delete-modal" class="modal hidden">
-        <div class="modal-content">
-            <h3>Supprimer le projet</h3>
-            <p>Êtes-vous sûr de vouloir supprimer ce projet ? Cette action est irréversible.</p>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeDeleteModal()">Annuler</button>
-                <button class="btn btn-danger" onclick="executeDelete()">Supprimer</button>
-            </div>
+                    <div class="file-error" id="fileError"></div>
+                </div>
+
+                <!-- BOUTONS D'ACTION -->
+                <div class="form-actions">
+                    <!-- Redirection vers l'URL nommée de ton dashboard Porteur -->
+                    <a href="{% url 'dashboard_porteur' %}" class="btn-back">
+                        <i class="fas fa-arrow-left"></i> Retour au dashboard
+                    </a>
+                    
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-robot"></i> Analyser mon projet
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <script src="{% static 'js/projets.js' %}"></script>
+    <!-- SCRIPT DE GESTION UI (Aperçu Phase & Fichier ZIP) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ================= 1. GESTION DE LA PHASE =================
+            // Le sélecteur cible le select généré par Django (généralement name="phase" ou id="id_phase")
+            const phaseSelect = document.querySelector('select[name="phase"]') || document.getElementById('id_phase');
+            const uploadSection = document.getElementById('uploadSection');
+            
+            function toggleUploadSection() {
+                if (phaseSelect) {
+                    const selectedValue = phaseSelect.value;
+                    // On cache si phase est vide ou 'IDEE'
+                    if (!selectedValue || selectedValue === 'IDEE') {
+                        uploadSection.style.display = 'none';
+                    } else {
+                        // Prototype, MVP, Croissance -> on affiche
+                        uploadSection.style.display = 'block';
+                    }
+                }
+            }
+
+            // Exécution au chargement (pour gérer les retours d'erreurs Django)
+            toggleUploadSection();
+
+            // Écoute des changements
+            if (phaseSelect) {
+                phaseSelect.addEventListener('change', toggleUploadSection);
+            }
+
+            // ================= 2. GESTION DE LA ZONE ZIP =================
+            const fileInput = document.querySelector('.dropzone input[type="file"]');
+            const dropzone = document.getElementById('dropzone');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileNameDisplay = document.getElementById('fileName');
+            const removeFileBtn = document.getElementById('removeFile');
+            const fileError = document.getElementById('fileError');
+            const MAX_SIZE = 50 * 1024 * 1024; // 50 Mo
+
+            if (fileInput && dropzone) {
+                // Style au drag & drop
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, preventDefaults, false);
+                });
+
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, () => dropzone.classList.add('dragover'), false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, () => dropzone.classList.remove('dragover'), false);
+                });
+
+                // Validation au choix du fichier
+                fileInput.addEventListener('change', handleFile);
+
+                function handleFile() {
+                    const file = fileInput.files[0];
+                    fileError.style.display = 'none';
+                    
+                    if (file) {
+                        // Vérification de l'extension
+                        const fileExtension = file.name.split('.').pop().toLowerCase();
+                        if (fileExtension !== 'zip') {
+                            showError("Veuillez sélectionner un fichier au format .zip uniquement.");
+                            resetFile();
+                            return;
+                        }
+
+                        // Vérification de la taille
+                        if (file.size > MAX_SIZE) {
+                            showError("Le fichier dépasse la taille maximale autorisée de 50 Mo.");
+                            resetFile();
+                            return;
+                        }
+
+                        // Succès : affichage du fichier
+                        fileNameDisplay.textContent = file.name;
+                        dropzone.style.display = 'none';
+                        fileInfo.style.display = 'flex';
+                    }
+                }
+
+                function showError(msg) {
+                    fileError.textContent = msg;
+                    fileError.style.display = 'block';
+                }
+
+                function resetFile() {
+                    fileInput.value = '';
+                    dropzone.style.display = 'block';
+                    fileInfo.style.display = 'none';
+                }
+
+                // Bouton pour retirer le fichier
+                removeFileBtn.addEventListener('click', resetFile);
+            }
+        });
+    </script>
 </body>
 </html>

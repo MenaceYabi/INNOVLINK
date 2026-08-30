@@ -22,8 +22,8 @@ urlpatterns =[
         path("administration/",  include("Administration.urls") ), 
         path('auth/', include('Authentification.urls')),
     path(  "porteur/",  include("Porteur.urls")),
-    path("Gestion/" , include("Gestionprojets.urls")),
     path("startup/",  include("Startup.urls")),
     path(  "structure/",include("StructureFinancement.urls")),
+    path("Gestion/" , include("Gestionprojets.urls")),
     path('admin/', admin.site.urls),
 ]

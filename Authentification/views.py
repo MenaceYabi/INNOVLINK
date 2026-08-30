@@ -15,6 +15,10 @@ from .models import (
 )
 
 
+# ============================================================
+# CHOIX DU ROLE
+# ============================================================
+
 def role_choice(request):
     return render(
         request,
@@ -22,16 +26,32 @@ def role_choice(request):
     )
 
 
+# ============================================================
+# INSCRIPTION
+# ============================================================
+
 def register_view(request):
     """
     Inscription selon le rôle choisi.
+
+    Porteur :
+        - compte créé
+        - connexion automatique
+        - accès au dashboard
+
+    Startup / Structure :
+        - compte créé
+        - statut_validation = EN_ATTENTE
+        - aucune session créée
+        - redirection vers la page d'attente
     """
 
     role = request.GET.get("role", "porteur")
 
-    # ==========================================
+    # ========================================================
     # PORTEUR DE PROJET
-    # ==========================================
+    # ========================================================
+
     if role == "porteur":
 
         if request.method == "POST":
@@ -42,6 +62,7 @@ def register_view(request):
 
                 utilisateur = form.save()
 
+                # Création de la session
                 request.session["user_id"] = str(
                     utilisateur.pk
                 )
@@ -56,9 +77,10 @@ def register_view(request):
             form = PorteurProjetForm()
 
 
-    # ==========================================
+    # ========================================================
     # STARTUP
-    # ==========================================
+    # ========================================================
+
     elif role == "startup":
 
         if request.method == "POST":
@@ -68,24 +90,26 @@ def register_view(request):
             if form.is_valid():
 
                 utilisateur = form.save()
-
-                request.session["user_id"] = str(
-                    utilisateur.id
-                )
-
+                request.session["user_id"] = str(utilisateur.id)
                 request.session["role"] = "startup"
 
+                messages.success(
+                    request,
+                    "Votre inscription a été enregistrée avec succès."
+                                )
+
                 return redirect(
-                    "dashboard_startup"
+                    "inscriptionattente"
                 )
 
         else:
             form = StartupForm()
 
 
-    # ==========================================
+    # ========================================================
     # STRUCTURE DE FINANCEMENT
-    # ==========================================
+    # ========================================================
+
     elif role == "structure":
 
         if request.method == "POST":
@@ -94,25 +118,26 @@ def register_view(request):
 
             if form.is_valid():
 
-                utilisateur = form.save()
-
-                request.session["user_id"] = str(
-                    utilisateur.id
+                utilisateur = form.save()                                
+                request.session["user_id"] = str(utilisateur.id)
+                request.session["role"] = "structure"
+                messages.success(
+                    request,
+                    "Votre inscription a été enregistrée avec succès."
                 )
 
-                request.session["role"] = "structure"
-
                 return redirect(
-                    "dashboard_structure"
+                    "inscriptionattente"
                 )
 
         else:
             form = StructureFinancementForm()
 
 
-    # ==========================================
+    # ========================================================
     # ROLE INVALIDE
-    # ==========================================
+    # ========================================================
+
     else:
 
         messages.error(
@@ -125,9 +150,10 @@ def register_view(request):
         )
 
 
-    # ==========================================
+    # ========================================================
     # AFFICHAGE DU FORMULAIRE
-    # ==========================================
+    # ========================================================
+
     return render(
         request,
         "authentification/register.html",
@@ -138,8 +164,78 @@ def register_view(request):
     )
 
 
+# ============================================================
+# PAGE D'ATTENTE DE VALIDATION
+# ============================================================
+
+def inscription_attente(request):
+
+    role = request.session.get("role")
+    user_id = request.session.get("user_id")
+
+    if not role or not user_id:
+        return redirect("login")
+
+    compte = None
+    type_compte = ""
+
+    if role == "startup":
+
+        compte = Startup.objects.filter(
+            id=user_id
+        ).first()
+
+        type_compte = "Startup"
+
+    elif role == "structure":
+
+        compte = StructureFinancement.objects.filter(
+            id=user_id
+        ).first()
+
+        type_compte = "Structure de financement"
+
+    else:
+        return redirect("login")
+
+    if not compte:
+        return redirect("login")
+
+    # Si l'administration a validé le compte
+    if (
+        compte.statut_validation == "VALIDE"
+        and compte.statut_compte == "ACTIF"
+    ):
+
+        if role == "startup":
+            return redirect("dashboard_startup")
+
+        if role == "structure":
+            return redirect("dashboard_structure")
+
+    return render(
+        request,
+        "authentification/inscriptionattente.html",
+        {
+            "type_compte": type_compte,
+            "email": compte.email,
+            "statut": compte.statut_validation,
+            "motif_rejet": compte.motif_rejet,
+        }
+    )
+
+
+# ============================================================
+# CONNEXION
+# ============================================================
+
 def login_view(request):
+
     if request.method == "POST":
+
+        # ----------------------------------------------------
+        # Récupération des données
+        # ----------------------------------------------------
 
         email = request.POST.get(
             "email",
@@ -155,36 +251,59 @@ def login_view(request):
         role = None
         dashboard = None
 
-        # Recherche dans PorteurProjet
+        # ====================================================
+        # RECHERCHE PORTEUR DE PROJET
+        # ====================================================
+
         utilisateur = PorteurProjet.objects.filter(
             email=email
         ).first()
 
         if utilisateur:
+
             role = "porteur"
+
             dashboard = "dashboard_porteur"
 
+
+        # ====================================================
+        # RECHERCHE STARTUP
+        # ====================================================
+
         else:
-            # Recherche dans Startup
+
             utilisateur = Startup.objects.filter(
                 email=email
             ).first()
 
             if utilisateur:
+
                 role = "startup"
+
                 dashboard = "dashboard_startup"
 
+
+        # ====================================================
+        # RECHERCHE STRUCTURE DE FINANCEMENT
+        # ====================================================
+
             else:
-                # Recherche dans StructureFinancement
+
                 utilisateur = StructureFinancement.objects.filter(
                     email=email
                 ).first()
 
                 if utilisateur:
+
                     role = "structure"
+
                     dashboard = "dashboard_structure"
 
-        # Aucun utilisateur trouvé
+
+        # ====================================================
+        # AUCUN COMPTE TROUVÉ
+        # ====================================================
+
         if utilisateur is None:
 
             messages.error(
@@ -197,7 +316,11 @@ def login_view(request):
                 "authentification/login.html"
             )
 
-        # Vérification du mot de passe
+
+        # ====================================================
+        # VERIFICATION DU MOT DE PASSE
+        # ====================================================
+
         if not check_password(
             mot_de_passe,
             utilisateur.mot_de_passe
@@ -213,12 +336,16 @@ def login_view(request):
                 "authentification/login.html"
             )
 
-        # Vérification du statut du compte
+
+        # ====================================================
+        # VERIFICATION DU STATUT DU COMPTE
+        # ====================================================
+
         if utilisateur.statut_compte != "ACTIF":
 
             messages.error(
                 request,
-                "Votre compte n'est pas actif."
+                "Votre compte est désactivé."
             )
 
             return render(
@@ -226,10 +353,19 @@ def login_view(request):
                 "authentification/login.html"
             )
 
-        # Startup et Structure doivent être validées
+
+        # ====================================================
+        # VERIFICATION DE LA VALIDATION
+        # STARTUP + STRUCTURE
+        # ====================================================
+
         if role in ["startup", "structure"]:
 
-            if utilisateur.statut_validation != "VALIDE":
+            # ------------------------------------------------
+            # COMPTE EN ATTENTE
+            # ------------------------------------------------
+
+            if utilisateur.statut_validation == "EN_ATTENTE":
 
                 messages.warning(
                     request,
@@ -242,23 +378,93 @@ def login_view(request):
                     "authentification/login.html"
                 )
 
-        # Création de la session
+
+            # ------------------------------------------------
+            # COMPTE REFUSÉ
+            # ------------------------------------------------
+
+            if utilisateur.statut_validation == "REJETE":
+
+                motif = utilisateur.motif_rejet
+
+                if motif:
+
+                    messages.error(
+                        request,
+                        f"Votre inscription a été refusée. "
+                        f"Motif : {motif}"
+                    )
+
+                else:
+
+                    messages.error(
+                        request,
+                        "Votre inscription a été refusée "
+                        "par l'administration."
+                    )
+
+                return render(
+                    request,
+                    "authentification/login.html"
+                )
+
+
+            # ------------------------------------------------
+            # COMPTE NON VALIDE
+            # ------------------------------------------------
+
+            if utilisateur.statut_validation != "VALIDE":
+
+                messages.error(
+                    request,
+                    "Votre compte n'est pas encore autorisé "
+                    "à accéder à la plateforme."
+                )
+
+                return render(
+                    request,
+                    "authentification/login.html"
+                )
+
+
+        # ====================================================
+        # CREATION DE LA SESSION
+        # ====================================================
+
         request.session["user_id"] = str(
             utilisateur.id
         )
 
         request.session["role"] = role
 
-        # Redirection selon le rôle détecté
-        return redirect(dashboard)
+
+        # ====================================================
+        # REDIRECTION SELON LE ROLE
+        # ====================================================
+
+        return redirect(
+            dashboard
+        )
+
+
+    # ========================================================
+    # AFFICHAGE DE LA PAGE DE CONNEXION
+    # ========================================================
 
     return render(
         request,
         "authentification/login.html"
     )
 
+
+# ============================================================
+# DECONNEXION
+# ============================================================
+
 def logout_view(request):
 
     request.session.flush()
 
-    return redirect("home")
+    return redirect(
+        "home"
+    )

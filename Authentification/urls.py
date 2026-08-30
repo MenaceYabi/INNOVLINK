@@ -30,4 +30,10 @@ urlpatterns = [
         views.logout_view,
         name="logout"
     ),
+    
+    path(
+    "inscription-attente/",
+    views.inscription_attente,
+    name="inscriptionattente"
+),
 ]
