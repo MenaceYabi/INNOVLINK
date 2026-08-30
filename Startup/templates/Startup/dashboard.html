@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>
+        Espace Startup | INNOVLINK
+    </title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+    <style>
+
+        :root {
+
+            --bg-dark: #0A0F1A;
+
+            --bg-surface: #131B2F;
+
+            --color-primary: #00E5FF;
+
+            --color-secondary: #2563EB;
+
+            --text-main: #F8FAFC;
+
+            --text-muted: #94A3B8;
+
+            --glass-bg: rgba(19, 27, 47, 0.6);
+
+            --glass-border: rgba(255,255,255,0.08);
+
+            --glow-shadow:
+                0 0 20px rgba(0,229,255,0.3);
+
+            --transition: all 0.3s ease;
+        }
+
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+            font-family:
+                'Segoe UI',
+                system-ui,
+                sans-serif;
+        }
+
+
+        body {
+
+            background: var(--bg-dark);
+
+            color: var(--text-main);
+
+            display: flex;
+
+            height: 100vh;
+
+            overflow: hidden;
+        }
+
+
+        a {
+
+            text-decoration: none;
+
+            color: inherit;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+
+            width: 250px;
+
+            background:
+                var(--bg-surface);
+
+            border-right:
+                1px solid var(--glass-border);
+
+            display: flex;
+
+            flex-direction: column;
+
+            padding: 20px 0;
+
+            z-index: 10;
+        }
+
+
+        .brand {
+
+            padding:
+                0 20px 20px;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            color:
+                var(--color-primary);
+
+            border-bottom:
+                1px solid var(--glass-border);
+
+            margin-bottom: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            text-shadow:
+                var(--glow-shadow);
+        }
+
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 15px 20px;
+
+            color:
+                var(--text-muted);
+
+            transition:
+                var(--transition);
+
+            cursor: pointer;
+
+            border-left:
+                4px solid transparent;
+        }
+
+
+        .nav-link:hover,
+        .nav-link.active {
+
+            background:
+                rgba(0,229,255,0.05);
+
+            color:
+                var(--color-primary);
+
+            border-left-color:
+                var(--color-primary);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main-wrapper {
+
+            flex: 1;
+
+            display: flex;
+
+            flex-direction: column;
+
+            height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+
+            height: 70px;
+
+            background:
+                var(--glass-bg);
+
+            border-bottom:
+                1px solid var(--glass-border);
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            padding:
+                0 30px;
+
+            backdrop-filter:
+                blur(10px);
+        }
+
+
+        .search-container {
+
+            display: flex;
+
+            align-items: center;
+
+            background:
+                rgba(255,255,255,0.03);
+
+            border:
+                1px solid var(--glass-border);
+
+            padding:
+                8px 15px;
+
+            border-radius: 4px;
+
+            width: 300px;
+
+            transition:
+                var(--transition);
+        }
+
+
+        .search-container:focus-within {
+
+            border-color:
+                var(--color-primary);
+
+            box-shadow:
+                var(--glow-shadow);
+        }
+
+
+        .search-container input {
+
+            background: transparent;
+
+            border: none;
+
+            color:
+                var(--text-main);
+
+            outline: none;
+
+            width: 100%;
+
+            margin-left: 10px;
+        }
+
+
+        .topbar-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        .btn-icon {
+
+            background: transparent;
+
+            border: none;
+
+            color:
+                var(--text-main);
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            position: relative;
+        }
+
+
+        .badge {
+
+            position: absolute;
+
+            top: -5px;
+
+            right: -8px;
+
+            background:
+                var(--color-primary);
+
+            color:
+                var(--bg-dark);
+
+            font-size: 11px;
+
+            padding:
+                2px 6px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+        }
+
+
+        .profile-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color:
+                var(--text-main);
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content-container {
+
+            flex: 1;
+
+            padding: 30px;
+
+            overflow-y: auto;
+
+            position: relative;
+        }
+
+
+        .tab-section {
+
+            display: none;
+
+            animation:
+                fadeIn 0.4s ease;
+        }
+
+
+        .tab-section.active {
+
+            display: block;
+        }
+
+
+        @keyframes fadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(10px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        .page-title {
+
+            color:
+                var(--color-primary);
+
+            margin-bottom: 25px;
+
+            font-size: 24px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           CARDS
+        ===================================================== */
+
+        .projects-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(300px,1fr)
+                );
+
+            gap: 20px;
+        }
+
+
+        .project-card {
+
+            background:
+                var(--bg-surface);
+
+            border:
+                1px solid var(--glass-border);
+
+            border-top:
+                3px solid var(--color-secondary);
+
+            border-radius: 8px;
+
+            padding: 20px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+            transition:
+                var(--transition);
+        }
+
+
+        .project-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            border-color:
+                var(--color-primary);
+
+            box-shadow:
+                var(--glow-shadow);
+        }
+
+
+        .project-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+        }
+
+
+        .phase {
+
+            color:
+                var(--color-primary);
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+        }
+
+
+        .btn-fav {
+
+            color:
+                var(--text-muted);
+
+            background: none;
+
+            border: none;
+
+            font-size: 18px;
+
+            cursor: pointer;
+        }
+
+
+        .btn-fav.active {
+
+            color:
+                var(--color-primary);
+        }
+
+
+        .project-title {
+
+            font-size: 18px;
+
+            color:
+                var(--text-main);
+
+            font-weight: 600;
+        }
+
+
+        .project-desc {
+
+            font-size: 13px;
+
+            color:
+                var(--text-muted);
+
+            line-height: 1.6;
+
+            flex-grow: 1;
+        }
+
+
+        .tags {
+
+            display: flex;
+
+            gap: 10px;
+
+            font-size: 12px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .tag-tech {
+
+            color:
+                var(--color-secondary);
+
+            background:
+                rgba(37,99,235,0.1);
+
+            padding:
+                4px 8px;
+
+            border-radius: 4px;
+
+            border:
+                1px solid rgba(37,99,235,0.3);
+        }
+
+
+        .tag-domaine {
+
+            color:
+                var(--text-main);
+
+            background:
+                rgba(255,255,255,0.05);
+
+            padding:
+                4px 8px;
+
+            border-radius: 4px;
+
+            border:
+                1px solid var(--glass-border);
+        }
+
+
+        .btn-action {
+
+            display: block;
+
+            text-align: center;
+
+            background:
+                var(--color-secondary);
+
+            color:
+                var(--text-main);
+
+            padding: 10px;
+
+            border-radius: 4px;
+
+            font-weight: bold;
+
+            border: none;
+
+            cursor: pointer;
+
+            width: 100%;
+        }
+
+
+        /* =====================================================
+           SCORE IA
+        ===================================================== */
+
+        .score-box {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content:
+                space-between;
+
+            padding:
+                10px;
+
+            background:
+                rgba(0,229,255,0.05);
+
+            border:
+                1px solid rgba(0,229,255,0.15);
+
+            border-radius: 6px;
+        }
+
+
+        .score-number {
+
+            color:
+                var(--color-primary);
+
+            font-size: 22px;
+
+            font-weight: bold;
+        }
+
+
+        .score-excellent {
+
+            color:
+                var(--color-primary);
+        }
+
+
+        .score-normal {
+
+            color:
+                var(--text-muted);
+        }
+
+
+        /* =====================================================
+           STATS
+        ===================================================== */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(200px,1fr)
+                );
+
+            gap: 20px;
+
+            margin-bottom: 40px;
+        }
+
+
+        .stat-card {
+
+            background:
+                var(--bg-surface);
+
+            border:
+                1px solid var(--glass-border);
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .stat-icon {
+
+            font-size: 30px;
+
+            color:
+                var(--color-primary);
+        }
+
+
+        .stat-value {
+
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+        .stat-label {
+
+            font-size: 13px;
+
+            color:
+                var(--text-muted);
+
+            text-transform: uppercase;
+        }
+
+
+        /* =====================================================
+           FILTRES
+        ===================================================== */
+
+        .filters-bar {
+
+            display: flex;
+
+            gap: 15px;
+
+            background:
+                var(--bg-surface);
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            margin-bottom: 25px;
+
+            flex-wrap: wrap;
+
+            border:
+                1px solid var(--glass-border);
+        }
+
+
+        .filter-select {
+
+            background:
+                var(--bg-dark);
+
+            border:
+                1px solid var(--glass-border);
+
+            color:
+                var(--text-main);
+
+            padding:
+                8px 15px;
+
+            border-radius: 4px;
+
+            outline: none;
+        }
+
+
+        .btn-filter {
+
+            background:
+                var(--color-secondary);
+
+            color:
+                var(--text-main);
+
+            border: none;
+
+            padding:
+                8px 20px;
+
+            border-radius: 4px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           DETAILS IA
+        ===================================================== */
+
+        .ia-result {
+
+            background:
+                rgba(0,0,0,0.2);
+
+            border:
+                1px solid var(--glass-border);
+
+            border-radius: 6px;
+
+            padding: 12px;
+
+            color:
+                var(--text-muted);
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            max-height: 150px;
+
+            overflow-y: auto;
+
+            white-space: pre-line;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media(max-width:800px) {
+
+            .sidebar {
+
+                width: 70px;
+            }
+
+            .brand span {
+
+                display: none;
+            }
+
+            .nav-link {
+
+                justify-content: center;
+            }
+
+            .nav-link {
+
+                font-size: 0;
+            }
+
+            .nav-link i {
+
+                font-size: 18px;
+            }
+
+            .topbar {
+
+                padding:
+                    0 15px;
+            }
+
+            .search-container {
+
+                width: 180px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <i class="fa-solid fa-rocket"></i>
+
+        <span>INNOVLINK</span>
+
+    </div>
+
+
+    <nav id="mainNav">
+
+        <a
+            class="nav-link active"
+            data-target="dashboard"
+        >
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a
+            class="nav-link"
+            data-target="projets"
+        >
+
+            <i class="fa-solid fa-folder-open"></i>
+
+            <span>Projets</span>
+
+        </a>
+
+
+        <a
+            class="nav-link"
+            data-target="favoris"
+        >
+
+            <i class="fa-solid fa-heart"></i>
+
+            <span>Favoris</span>
+
+        </a>
+
+
+        <a
+            class="nav-link"
+            data-target="collaborations"
+        >
+
+            <i class="fa-solid fa-handshake"></i>
+
+            <span>Collaborations</span>
+
+        </a>
+
+
+        <a
+            class="nav-link"
+            data-target="messages"
+        >
+
+            <i class="fa-solid fa-envelope"></i>
+
+            <span>Messages</span>
+
+        </a>
+
+    </nav>
+
+         <div class="sidebar-footer">
+            <!-- Redirige vers ton URL de déconnexion Django exacte -->
+            <a href="{% url 'logout' %}" class="menu-item logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
+        </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main-wrapper">
+
+
+<header class="topbar">
+
+
+    <div class="search-container">
+
+        <i
+            class="fa-solid fa-search"
+            style="color:var(--text-muted)"
+        ></i>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Rechercher..."
+        >
+
+    </div>
+
+
+    <div class="topbar-right">
+
+        <button class="btn-icon">
+
+            <i class="fa-solid fa-bell"></i>
+
+            <span class="badge">
+                0
+            </span>
+
+        </button>
+
+
+        <div class="profile-info">
+
+            <i
+                class="fa-solid fa-circle-user"
+                style="
+                    font-size:24px;
+                    color:var(--color-primary);
+                "
+            ></i>
+
+            <span>
+                {{ startup.nom_startup }}
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="content-container">
+
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
+<div
+    id="dashboard"
+    class="tab-section active"
+>
+
+
+<h1 class="page-title">
+
+    Tableau de bord
+
+</h1>
+
+
+<p style="
+    color:var(--text-muted);
+    margin-bottom:25px;
+">
+
+    Bienvenue,
+    <strong style="color:var(--text-main);">
+        {{ startup.nom_startup }}
+    </strong>.
+
+    Votre type de collaboration :
+    <strong style="color:var(--color-primary);">
+        {{ type_collaboration }}
+    </strong>
+
+</p>
+
+
+<div class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <i
+            class="fa-solid fa-diagram-project stat-icon"
+        ></i>
+
+        <div>
+
+            <div class="stat-value">
+
+                {{ nombre_projets }}
+
+            </div>
+
+            <div class="stat-label">
+
+                Projets disponibles
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <i
+            class="fa-solid fa-heart stat-icon"
+        ></i>
+
+        <div>
+
+            <div class="stat-value">
+
+                0
+
+            </div>
+
+            <div class="stat-label">
+
+                Projets favoris
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <i
+            class="fa-solid fa-handshake stat-icon"
+        ></i>
+
+        <div>
+
+            <div class="stat-value">
+
+                0
+
+            </div>
+
+            <div class="stat-label">
+
+                Collaborations
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     RECOMMANDATIONS IA
+===================================================== -->
+
+<h2 style="
+    color:var(--text-main);
+    margin-bottom:10px;
+">
+
+    <i
+        class="fa-solid fa-brain"
+        style="color:var(--color-primary);"
+    ></i>
+
+    Recommandations IA
+
+</h2>
+
+
+<p style="
+    color:var(--text-muted);
+    margin-bottom:20px;
+">
+
+    Les 3 meilleurs projets de la plateforme
+    selon leur score d'analyse IA.
+
+</p>
+
+
+<div class="projects-grid">
+
+
+{% for projet in recommandations %}
+
+
+<div class="project-card">
+
+
+    <div class="project-header">
+
+        <span class="phase">
+
+            <i class="fa-solid fa-ranking-star"></i>
+
+            Recommandé #{{ forloop.counter }}
+
+        </span>
+
+
+        <button class="btn-fav">
+
+            <i class="fa-solid fa-heart"></i>
+
+        </button>
+
+    </div>
+
+
+    <h3 class="project-title">
+
+        {{ projet.nom }}
+
+    </h3>
+
+
+    <p class="project-desc">
+
+        {{ projet.description }}
+
+    </p>
+
+
+    <div class="tags">
+
+        <span class="tag-tech">
+
+            <i class="fa-solid fa-code"></i>
+
+            {{ projet.technologies }}
+
+        </span>
+
+
+        <span class="tag-domaine">
+
+            <i class="fa-solid fa-layer-group"></i>
+
+            {{ projet.domaines_d_etude }}
+
+        </span>
+
+    </div>
+
+
+    <div>
+
+        <span style="
+            font-size:12px;
+            color:var(--text-muted);
+        ">
+
+            <i class="fa-solid fa-user"></i>
+
+            Porteur :
+
+            {{ projet.porteur.prenom }}
+            {{ projet.porteur.nom }}
+
+        </span>
+
+    </div>
+
+
+    <div class="score-box">
+
+        <span>
+
+            <i class="fa-solid fa-brain"></i>
+
+            Score IA
+
+        </span>
+
+
+        <span class="score-number">
+
+            {{ projet.score_ia|floatformat:0 }}/100
+
+        </span>
+
+    </div>
+
+
+    <details>
+
+        <summary style="
+            cursor:pointer;
+            color:var(--color-primary);
+            font-size:13px;
+        ">
+
+            Voir l'analyse IA
+
+        </summary>
+
+
+        <div class="ia-result">
+
+            {{ projet.resultat }}
+
+        </div>
+
+    </details>
+
+
+    <button class="btn-action">
+
+        <i class="fa-solid fa-eye"></i>
+
+        Consulter le projet
+
+    </button>
+
+
+</div>
+
+
+{% empty %}
+
+
+<div style="
+    padding:40px;
+    color:var(--text-muted);
+    text-align:center;
+    grid-column:1/-1;
+">
+
+    <i
+        class="fa-solid fa-robot"
+        style="
+            font-size:40px;
+            margin-bottom:15px;
+        "
+    ></i>
+
+    <p>
+
+        Aucun projet avec un score IA
+        supérieur ou égal à 90.
+
+    </p>
+
+</div>
+
+
+{% endfor %}
+
+
+</div>
+
+
+</div>
+
+
+<!-- =========================================================
+     PROJETS
+========================================================= -->
+
+<div
+    id="projets"
+    class="tab-section"
+>
+
+
+<h1 class="page-title">
+
+    Explorer les projets
+
+</h1>
+
+
+<form
+    method="GET"
+    action="{% url 'dashboard_startup' %}"
+    class="filters-bar"
+>
+
+
+    <div
+        class="search-container"
+        style="width:250px;"
+    >
+
+        <i
+            class="fa-solid fa-search"
+            style="color:var(--text-muted)"
+        ></i>
+
+        <input
+            type="text"
+            name="q"
+            value="{{ recherche }}"
+            placeholder="Rechercher un projet..."
+        >
+
+    </div>
+
+
+    <select
+        name="phase"
+        class="filter-select"
+    >
+
+        <option value="">
+
+            Toutes les phases
+
+        </option>
+
+
+        {% for value, label in phases %}
+
+        <option
+            value="{{ value }}"
+            {% if phase_selectionnee == value %}
+                selected
+            {% endif %}
+        >
+
+            {{ label }}
+
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+
+    <select
+        name="tri"
+        class="filter-select"
+    >
+
+        <option
+            value="recent"
+            {% if tri == "recent" %}
+                selected
+            {% endif %}
+        >
+
+            Plus récents
+
+        </option>
+
+
+        <option
+            value="ancien"
+            {% if tri == "ancien" %}
+                selected
+            {% endif %}
+        >
+
+            Plus anciens
+
+        </option>
+
+    </select>
+
+
+    <button
+        type="submit"
+        class="btn-filter"
+    >
+
+        <i class="fa-solid fa-filter"></i>
+
+        Filtrer
+
+    </button>
+
+
+</form>
+
+
+<div class="projects-grid">
+
+
+{% for projet in projets %}
+
+
+<div class="project-card">
+
+
+    <div class="project-header">
+
+        <span class="phase">
+
+            {% if projet.phase == "IDEE" %}
+
+                <i class="fa-solid fa-lightbulb"></i>
+
+            {% elif projet.phase == "PROTOTYPE" %}
+
+                <i class="fa-solid fa-flask"></i>
+
+            {% elif projet.phase == "MVP" %}
+
+                <i class="fa-solid fa-rocket"></i>
+
+            {% else %}
+
+                <i class="fa-solid fa-chart-line"></i>
+
+            {% endif %}
+
+
+            {{ projet.get_phase_display }}
+
+        </span>
+
+
+        <button class="btn-fav">
+
+            <i class="fa-solid fa-heart"></i>
+
+        </button>
+
+    </div>
+
+
+    <h3 class="project-title">
+
+        {{ projet.nom }}
+
+    </h3>
+
+
+    <p class="project-desc">
+
+        {{ projet.description }}
+
+    </p>
+
+
+    <div class="tags">
+
+        <span class="tag-tech">
+
+            <i class="fa-solid fa-code"></i>
+
+            {{ projet.technologies }}
+
+        </span>
+
+
+        <span class="tag-domaine">
+
+            <i class="fa-solid fa-layer-group"></i>
+
+            {{ projet.domaines_d_etude }}
+
+        </span>
+
+    </div>
+
+
+    <div style="
+        color:var(--text-muted);
+        font-size:13px;
+    ">
+
+        <i class="fa-solid fa-user"></i>
+
+        Porteur :
+
+        {{ projet.porteur.prenom }}
+        {{ projet.porteur.nom }}
+
+    </div>
+
+
+    <div style="
+        color:var(--text-muted);
+        font-size:13px;
+    ">
+
+        <i class="fa-solid fa-handshake"></i>
+
+        {{ projet.get_type_collaboration_display }}
+
+    </div>
+
+
+    <!-- SCORE -->
+
+    <div class="score-box">
+
+        <span>
+
+            <i class="fa-solid fa-brain"></i>
+
+            Score IA
+
+        </span>
+
+
+        {% if projet.score_ia is not None %}
+
+        <span class="score-number">
+
+            {{ projet.score_ia|floatformat:0 }}/100
+
+        </span>
+
+        {% else %}
+
+        <span class="score-normal">
+
+            Non analysé
+
+        </span>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- RESULTAT COMPLET IA -->
+
+    {% if projet.resultat %}
+
+    <details>
+
+        <summary style="
+            cursor:pointer;
+            color:var(--color-primary);
+            font-size:13px;
+        ">
+
+            <i class="fa-solid fa-brain"></i>
+
+            Voir les détails de l'analyse IA
+
+        </summary>
+
+
+        <div class="ia-result">
+
+            {{ projet.resultat }}
+
+        </div>
+
+    </details>
+
+    {% endif %}
+
+
+    <button class="btn-action">
+
+        <i class="fa-solid fa-eye"></i>
+
+        Consulter le projet
+
+    </button>
+
+
+</div>
+
+
+{% empty %}
+
+
+<div style="
+    padding:40px;
+    text-align:center;
+    color:var(--text-muted);
+    grid-column:1/-1;
+">
+
+    <i
+        class="fa-solid fa-folder-open"
+        style="
+            font-size:40px;
+            margin-bottom:15px;
+        "
+    ></i>
+
+    <p>
+
+        Aucun projet ne correspond
+        à votre recherche.
+
+    </p>
+
+</div>
+
+
+{% endfor %}
+
+
+</div>
+
+
+</div>
+
+
+<!-- =========================================================
+     FAVORIS
+========================================================= -->
+
+<div
+    id="favoris"
+    class="tab-section"
+>
+
+
+<h1 class="page-title">
+
+    Vos projets favoris
+
+</h1>
+
+
+<div style="
+    text-align:center;
+    padding:60px;
+    color:var(--text-muted);
+">
+
+    <i
+        class="fa-solid fa-heart"
+        style="
+            font-size:45px;
+            margin-bottom:20px;
+        "
+    ></i>
+
+
+    <p>
+
+        Vous n'avez encore aucun projet favori.
+
+    </p>
+
+</div>
+
+
+</div>
+
+
+<!-- =========================================================
+     COLLABORATIONS
+========================================================= -->
+
+<div
+    id="collaborations"
+    class="tab-section"
+>
+
+
+<h1 class="page-title">
+
+    Collaborations
+
+</h1>
+
+
+<div style="
+    text-align:center;
+    padding:60px;
+    color:var(--text-muted);
+">
+
+
+    <i
+        class="fa-solid fa-handshake"
+        style="
+            font-size:45px;
+            margin-bottom:20px;
+        "
+    ></i>
+
+
+    <p>
+
+        Aucune collaboration pour le moment.
+
+    </p>
+
+
+</div>
+
+
+</div>
+
+
+<!-- =========================================================
+     MESSAGES
+========================================================= -->
+
+<div
+    id="messages"
+    class="tab-section"
+>
+
+
+<h1 class="page-title">
+
+    Messagerie
+
+</h1>
+
+
+<div style="
+    text-align:center;
+    padding:60px;
+    color:var(--text-muted);
+">
+
+
+    <i
+        class="fa-solid fa-envelope"
+        style="
+            font-size:45px;
+            margin-bottom:20px;
+        "
+    ></i>
+
+
+    <p>
+
+        Votre messagerie sera disponible
+        ici.
+
+    </p>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</main>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+
+document.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+
+        /* ==================================================
+           NAVIGATION SPA
+        ================================================== */
+
+        const navLinks =
+            document.querySelectorAll(
+                '#mainNav .nav-link'
+            );
+
+
+        const sections =
+            document.querySelectorAll(
+                '.tab-section'
+            );
+
+
+        navLinks.forEach(
+            link => {
+
+                link.addEventListener(
+                    'click',
+                    function(e) {
+
+                        e.preventDefault();
+
+
+                        navLinks.forEach(
+                            item =>
+                            item.classList.remove(
+                                'active'
+                            )
+                        );
+
+
+                        sections.forEach(
+                            section =>
+                            section.classList.remove(
+                                'active'
+                            )
+                        );
+
+
+                        this.classList.add(
+                            'active'
+                        );
+
+
+                        const target =
+                            this.dataset.target;
+
+
+                        const section =
+                            document.getElementById(
+                                target
+                            );
+
+
+                        if(section) {
+
+                            section.classList.add(
+                                'active'
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* ==================================================
+           FAVORIS VISUELS
+        ================================================== */
+
+        document
+            .querySelectorAll('.btn-fav')
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        'click',
+                        function() {
+
+                            this.classList.toggle(
+                                'active'
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* ==================================================
+           CTRL + K
+        ================================================== */
+
+        const searchInput =
+            document.getElementById(
+                'searchInput'
+            );
+
+
+        document.addEventListener(
+            'keydown',
+            function(e) {
+
+                if(
+                    (e.ctrlKey || e.metaKey)
+                    &&
+                    e.key.toLowerCase() === 'k'
+                ) {
+
+                    e.preventDefault();
+
+                    searchInput.focus();
+
+                }
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

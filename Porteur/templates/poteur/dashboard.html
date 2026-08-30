@@ -1,56 +1,58 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INNOVLINK - Dashboard Porteur</title>
     <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         /* ================= VARIABLES ================= */
-     :root {
-    /* ===============================
+        :root {
+            /* ===============================
        COULEUR PRINCIPALE INNOVLINK
        =============================== */
-    --primary: #0F766E;
-    --primary-hover: #0D635C;
+            --primary: #0F766E;
+            --primary-hover: #0D635C;
 
-    /* ===============================
+            /* ===============================
        BLEU PROFOND INNOVLINK
        =============================== */
-    --sidebar-bg: #0B1F33;
-    --sidebar-hover: #16324F;
+            --sidebar-bg: #0B1F33;
+            --sidebar-hover: #16324F;
 
-    /* ===============================
+            /* ===============================
        ARRIÈRE-PLAN
        =============================== */
-    --bg-light: #F3F4F6;
-    --white: #FFFFFF;
+            --bg-light: #F3F4F6;
+            --white: #FFFFFF;
 
-    /* ===============================
+            /* ===============================
        TEXTES
        =============================== */
-    --text-dark: #1F2937;
-    --text-gray: #6B7280;
+            --text-dark: #1F2937;
+            --text-gray: #6B7280;
 
-    /* ===============================
+            /* ===============================
        BORDURES
        =============================== */
-    --border-color: #E5E7EB;
+            --border-color: #E5E7EB;
 
-    /* ===============================
+            /* ===============================
        FOCUS DES CHAMPS
        =============================== */
-    --focus-ring: rgba(15, 118, 110, 0.20);
+            --focus-ring: rgba(15, 118, 110, 0.20);
 
-    /* ===============================
+            /* ===============================
        ÉTATS
        =============================== */
-    --success: #0F766E;
-    --error: #DC2626;
-    --info: #0284C7;
-}
+            --success: #0F766E;
+            --error: #DC2626;
+            --info: #0284C7;
+        }
+
         /* ================= RESET & BASE ================= */
         * {
             margin: 0;
@@ -158,7 +160,7 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .user-profile {
@@ -183,7 +185,8 @@
         /* Sections (Onglets) */
         .content-section {
             padding: 32px;
-            display: none; /* Masqué par défaut via JS */
+            display: none;
+            /* Masqué par défaut via JS */
             animation: fadeIn 0.3s ease-in-out;
         }
 
@@ -192,8 +195,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .section-title {
@@ -209,7 +219,7 @@
         }
 
         /* ================= COMPOSANTS SPÉCIFIQUES ================= */
-        
+
         /* Bouton Créer Projet */
         .btn-primary {
             background-color: var(--primary);
@@ -248,14 +258,14 @@
             background: var(--white);
             border-radius: 10px;
             padding: 24px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
             border: 1px solid var(--border-color);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .project-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
         }
 
         .project-title {
@@ -282,7 +292,7 @@
             margin-bottom: 20px;
             line-height: 1.5;
             display: -webkit-box;
-          
+
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -324,6 +334,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- ================= SIDEBAR ================= -->
@@ -345,7 +356,7 @@
                 </button>
             </nav>
         </div>
-        
+
         <div class="sidebar-footer">
             <!-- Redirige vers ton URL de déconnexion Django exacte -->
             <a href="{% url 'logout' %}" class="menu-item logout-btn">
@@ -356,7 +367,7 @@
 
     <!-- ================= CONTENU PRINCIPAL ================= -->
     <main class="main-content">
-        
+
         <!-- TOPBAR : Identité visuelle du porteur -->
         <header class="topbar">
             <div class="user-profile">
@@ -373,10 +384,11 @@
         <section id="dashboard-tab" class="content-section active">
             <h1 class="section-title">Tableau de bord</h1>
             <p class="section-subtitle">Bonjour {{ porteur.prenom }}, bienvenue sur votre espace INNOVLINK.</p>
-            
+
             <div class="project-card">
                 <h3 style="color: var(--sidebar-bg); margin-bottom: 10px;">Récapitulatif de votre activité</h3>
-                <p style="color: var(--text-gray);">Vous avez actuellement <strong>{{ projets.count }}</strong> projet(s) enregistré(s) sur la plateforme.</p>
+                <p style="color: var(--text-gray);">Vous avez actuellement <strong>{{ projets.count }}</strong>
+                    projet(s) enregistré(s) sur la plateforme.</p>
             </div>
         </section>
 
@@ -391,28 +403,40 @@
                 <a href="{% url 'Gestion' %}" class="btn-primary">
                     <i class="fas fa-plus"></i> Créer projet
                 </a>
-            </div>          
+            </div>
 
             <div class="projects-grid">
                 <!-- Boucle Django sur les vrais projets de la BDD -->
                 {% for projet in projets %}
-                    <div class="project-card">
-                        <h3 class="project-title">{{ projet.nom }}</h3>
-                        <span class="project-phase">{{ projet.get_phase_display }}</span>
-                        <p class="project-desc">{{ projet.description }}</p>
-                        <div class="project-meta">
-                            <p><strong>Collaboration :</strong> {{ projet.get_type_collaboration_display }}</p>
-                            <p style="margin-top: 5px;"><strong>Technologies :</strong> {{ projet.technologies }}</p>
+                <div class="project-card">
+                    <h3 class="project-title">{{ projet.nom }}</h3>
+                    <span class="project-phase">{{ projet.get_phase_display }}</span>
+                    <p class="project-desc">{{ projet.description }}</p>
+                    <div class="project-meta">
+                        <p><strong>Collaboration :</strong> {{ projet.get_type_collaboration_display }}</p>
+                        <p style="margin-top: 5px;"><strong>Technologies :</strong> {{ projet.technologies }}</p>
+                        {% if projet.score_ia is not None %}
+                        <div class="project-score">
+                            <i class="fas fa-robot"></i>
+                            Score IA :
+                            <strong>{{ projet.score_ia|floatformat:0 }}/100</strong>
                         </div>
+                        {% else %}
+                        <div class="project-score">
+                            <i class="fas fa-robot"></i>
+                            Score IA : Non disponible
+                        </div>
+                        {% endif %}
                     </div>
+                </div>
                 {% empty %}
-                    <!-- S'il n'y a aucun projet en base -->
-                    <div class="empty-state">
-                        <p>Aucun projet créé pour le moment.</p>
-                        <a href="{% url 'Gestion' %}" class="btn-primary">
-                            <i class="fas fa-plus"></i> Créer projet
-                        </a>
-                    </div>
+                <!-- S'il n'y a aucun projet en base -->
+                <div class="empty-state">
+                    <p>Aucun projet créé pour le moment.</p>
+                    <a href="{% url 'Gestion' %}" class="btn-primary">
+                        <i class="fas fa-plus"></i> Créer projet
+                    </a>
+                </div>
                 {% endfor %}
             </div>
         </section>
@@ -421,7 +445,7 @@
         <section id="messagerie-tab" class="content-section">
             <h1 class="section-title">Messageries</h1>
             <p class="section-subtitle">Vos échanges avec les acteurs de la plateforme</p>
-            
+
             <div class="info-box">
                 <i class="fas fa-info-circle" style="font-size: 1.5rem;"></i>
                 <div>
@@ -443,13 +467,13 @@
                 item.addEventListener('click', () => {
                     // 1. Retirer la classe 'active' de tous les boutons
                     menuItems.forEach(btn => btn.classList.remove('active'));
-                    
+
                     // 2. Masquer toutes les sections
                     sections.forEach(section => section.classList.remove('active'));
-                    
+
                     // 3. Ajouter 'active' au bouton cliqué
                     item.classList.add('active');
-                    
+
                     // 4. Afficher la section correspondante à l'attribut data-target
                     const targetId = item.getAttribute('data-target');
                     document.getElementById(targetId).classList.add('active');
@@ -458,4 +482,5 @@
         });
     </script>
 </body>
+
 </html>
