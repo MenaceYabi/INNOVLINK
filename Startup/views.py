@@ -368,6 +368,6 @@ def dashboard(request):
 
     return render(
         request,
-        "startup/dashboard.html",
+        "Startup/dashboard.html",
         context
     )
