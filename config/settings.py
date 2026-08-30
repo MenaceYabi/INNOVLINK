@@ -37,7 +37,13 @@ ALLOWED_HOSTS = [
     "innovlink-production.up.railway.app",
     "localhost",
     "127.0.0.1",
+
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://innovlink-production.up.railway.app",
+]
+
 
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
