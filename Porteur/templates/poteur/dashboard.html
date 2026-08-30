@@ -11,43 +11,16 @@
     <style>
         /* ================= VARIABLES ================= */
         :root {
-            /* ===============================
-       COULEUR PRINCIPALE INNOVLINK
-       =============================== */
             --primary: #0F766E;
             --primary-hover: #0D635C;
-
-            /* ===============================
-       BLEU PROFOND INNOVLINK
-       =============================== */
             --sidebar-bg: #0B1F33;
             --sidebar-hover: #16324F;
-
-            /* ===============================
-       ARRIÈRE-PLAN
-       =============================== */
             --bg-light: #F3F4F6;
             --white: #FFFFFF;
-
-            /* ===============================
-       TEXTES
-       =============================== */
             --text-dark: #1F2937;
             --text-gray: #6B7280;
-
-            /* ===============================
-       BORDURES
-       =============================== */
             --border-color: #E5E7EB;
-
-            /* ===============================
-       FOCUS DES CHAMPS
-       =============================== */
             --focus-ring: rgba(15, 118, 110, 0.20);
-
-            /* ===============================
-       ÉTATS
-       =============================== */
             --success: #0F766E;
             --error: #DC2626;
             --info: #0284C7;
@@ -67,6 +40,26 @@
             display: flex;
             height: 100vh;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* ================= OVERLAY MOBILE ================= */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
         }
 
         /* ================= SIDEBAR ================= */
@@ -77,7 +70,9 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: 0.3s;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            flex-shrink: 0;
         }
 
         .sidebar-header {
@@ -151,16 +146,27 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
+            width: 100%;
         }
 
-        /* Topbar avec le nom du porteur */
+        /* Topbar */
         .topbar {
             background-color: var(--white);
             padding: 16px 32px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--sidebar-bg);
+            cursor: pointer;
+            padding: 4px;
         }
 
         .user-profile {
@@ -168,6 +174,7 @@
             align-items: center;
             gap: 12px;
             font-weight: 500;
+            margin-left: auto;
         }
 
         .user-avatar {
@@ -182,11 +189,10 @@
             font-weight: bold;
         }
 
-        /* Sections (Onglets) */
+        /* Sections */
         .content-section {
             padding: 32px;
             display: none;
-            /* Masqué par défaut via JS */
             animation: fadeIn 0.3s ease-in-out;
         }
 
@@ -199,7 +205,6 @@
                 opacity: 0;
                 transform: translateY(10px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -219,8 +224,6 @@
         }
 
         /* ================= COMPOSANTS SPÉCIFIQUES ================= */
-
-        /* Bouton Créer Projet */
         .btn-primary {
             background-color: var(--primary);
             color: var(--white);
@@ -292,7 +295,6 @@
             margin-bottom: 20px;
             line-height: 1.5;
             display: -webkit-box;
-
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -304,11 +306,16 @@
             padding-top: 16px;
         }
 
+        .project-score {
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
         /* Empty State */
         .empty-state {
             background: var(--white);
             border-radius: 10px;
-            padding: 48px;
+            padding: 48px 24px;
             text-align: center;
             border: 1px dashed #D1D5DB;
             grid-column: 1 / -1;
@@ -332,19 +339,92 @@
             gap: 12px;
             font-size: 1.05rem;
         }
+
+        /* ================= RESPONSIVE DESIGN ================= */
+        @media screen and (max-width: 1024px) {
+            .projects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            }
+
+            .content-section {
+                padding: 24px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                transform: translateX(-100%);
+                box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .topbar {
+                padding: 12px 16px;
+            }
+
+            .content-section {
+                padding: 20px 16px;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+
+            .btn-primary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .section-subtitle {
+                margin-bottom: 20px;
+            }
+
+            .empty-state {
+                padding: 32px 16px;
+            }
+
+            .info-box {
+                font-size: 0.95rem;
+                padding: 16px;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 
 <body>
 
+    <!-- Overlay pour flouter/assombrir le fond sur mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <!-- ================= SIDEBAR ================= -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div>
             <div class="sidebar-header">
                 INNOVLINK
             </div>
             <nav class="sidebar-menu">
-                <!-- Les boutons utilisent data-target pour cibler l'ID de la section à afficher -->
                 <button class="menu-item active" data-target="dashboard-tab">
                     <i class="fas fa-chart-line"></i> Tableau de bord
                 </button>
@@ -358,7 +438,6 @@
         </div>
 
         <div class="sidebar-footer">
-            <!-- Redirige vers ton URL de déconnexion Django exacte -->
             <a href="{% url 'logout' %}" class="menu-item logout-btn">
                 <i class="fas fa-sign-out-alt"></i> Déconnexion
             </a>
@@ -368,27 +447,27 @@
     <!-- ================= CONTENU PRINCIPAL ================= -->
     <main class="main-content">
 
-        <!-- TOPBAR : Identité visuelle du porteur -->
+        <!-- TOPBAR -->
         <header class="topbar">
+            <button class="menu-toggle" id="menuBtn" aria-label="Ouvrir le menu">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="user-profile">
-                <!-- Affiche les initiales dynamiquement -->
                 <div class="user-avatar">
                     {{ porteur.prenom|make_list|first|upper }}{{ porteur.nom|make_list|first|upper }}
                 </div>
-                <!-- Affiche le nom réel -->
                 <span>{{ porteur.prenom }} {{ porteur.nom }}</span>
             </div>
         </header>
 
-        <!-- ONGLET 1 : TABLEAU DE BORD (Défaut) -->
+        <!-- ONGLET 1 : TABLEAU DE BORD -->
         <section id="dashboard-tab" class="content-section active">
             <h1 class="section-title">Tableau de bord</h1>
             <p class="section-subtitle">Bonjour {{ porteur.prenom }}, bienvenue sur votre espace INNOVLINK.</p>
 
             <div class="project-card">
                 <h3 style="color: var(--sidebar-bg); margin-bottom: 10px;">Récapitulatif de votre activité</h3>
-                <p style="color: var(--text-gray);">Vous avez actuellement <strong>{{ projets.count }}</strong>
-                    projet(s) enregistré(s) sur la plateforme.</p>
+                <p style="color: var(--text-gray);">Vous avez actuellement <strong>{{ projets.count }}</strong> projet(s) enregistré(s) sur la plateforme.</p>
             </div>
         </section>
 
@@ -399,14 +478,12 @@
                     <h1 class="section-title">Mes projets</h1>
                     <p class="section-subtitle" style="margin-bottom: 0;">Consultez vos projets</p>
                 </div>
-                <!-- Redirige STRICTEMENT vers la vue qui affiche ton formulaire -->
                 <a href="{% url 'Gestion' %}" class="btn-primary">
                     <i class="fas fa-plus"></i> Créer projet
                 </a>
             </div>
 
             <div class="projects-grid">
-                <!-- Boucle Django sur les vrais projets de la BDD -->
                 {% for projet in projets %}
                 <div class="project-card">
                     <h3 class="project-title">{{ projet.nom }}</h3>
@@ -418,8 +495,7 @@
                         {% if projet.score_ia is not None %}
                         <div class="project-score">
                             <i class="fas fa-robot"></i>
-                            Score IA :
-                            <strong>{{ projet.score_ia|floatformat:0 }}/100</strong>
+                            Score IA : <strong>{{ projet.score_ia|floatformat:0 }}/100</strong>
                         </div>
                         {% else %}
                         <div class="project-score">
@@ -430,7 +506,6 @@
                     </div>
                 </div>
                 {% empty %}
-                <!-- S'il n'y a aucun projet en base -->
                 <div class="empty-state">
                     <p>Aucun projet créé pour le moment.</p>
                     <a href="{% url 'Gestion' %}" class="btn-primary">
@@ -457,28 +532,51 @@
 
     </main>
 
-    <!-- ================= JAVASCRIPT (Navigation Interne) ================= -->
+    <!-- ================= JAVASCRIPT ================= -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const menuItems = document.querySelectorAll('.sidebar-menu .menu-item[data-target]');
             const sections = document.querySelectorAll('.content-section');
+            const menuBtn = document.getElementById('menuBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
 
+            // Navigation Onglets
             menuItems.forEach(item => {
                 item.addEventListener('click', () => {
-                    // 1. Retirer la classe 'active' de tous les boutons
                     menuItems.forEach(btn => btn.classList.remove('active'));
-
-                    // 2. Masquer toutes les sections
                     sections.forEach(section => section.classList.remove('active'));
 
-                    // 3. Ajouter 'active' au bouton cliqué
                     item.classList.add('active');
-
-                    // 4. Afficher la section correspondante à l'attribut data-target
                     const targetId = item.getAttribute('data-target');
                     document.getElementById(targetId).classList.add('active');
+
+                    // Fermer le menu sur mobile après la sélection d'un onglet
+                    closeSidebar();
                 });
             });
+
+            // Fonctions Menu Mobile
+            function openSidebar() {
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
+
+            menuBtn.addEventListener('click', () => {
+                if (sidebar.classList.contains('open')) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
+            });
+
+            // Fermer si clic sur l'overlay
+            overlay.addEventListener('click', closeSidebar);
         });
     </script>
 </body>

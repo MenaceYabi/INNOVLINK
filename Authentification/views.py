@@ -9,6 +9,7 @@ from .forms import (
 )
 
 from .models import (
+    Admin,
     PorteurProjet,
     Startup,
     StructureFinancement
@@ -16,10 +17,11 @@ from .models import (
 
 
 # ============================================================
-# CHOIX DU ROLE
+# CHOIX DU ROLE POUR L'INSCRIPTION
 # ============================================================
 
 def role_choice(request):
+
     return render(
         request,
         "authentification/role.html"
@@ -42,7 +44,6 @@ def register_view(request):
     Startup / Structure :
         - compte créé
         - statut_validation = EN_ATTENTE
-        - aucune session créée
         - redirection vers la page d'attente
     """
 
@@ -62,7 +63,6 @@ def register_view(request):
 
                 utilisateur = form.save()
 
-                # Création de la session
                 request.session["user_id"] = str(
                     utilisateur.pk
                 )
@@ -90,13 +90,18 @@ def register_view(request):
             if form.is_valid():
 
                 utilisateur = form.save()
-                request.session["user_id"] = str(utilisateur.id)
+
+                # Session temporaire pour la page d'attente
+                request.session["user_id"] = str(
+                    utilisateur.id
+                )
+
                 request.session["role"] = "startup"
 
                 messages.success(
                     request,
                     "Votre inscription a été enregistrée avec succès."
-                                )
+                )
 
                 return redirect(
                     "inscriptionattente"
@@ -118,9 +123,15 @@ def register_view(request):
 
             if form.is_valid():
 
-                utilisateur = form.save()                                
-                request.session["user_id"] = str(utilisateur.id)
+                utilisateur = form.save()
+
+                # Session temporaire pour la page d'attente
+                request.session["user_id"] = str(
+                    utilisateur.id
+                )
+
                 request.session["role"] = "structure"
+
                 messages.success(
                     request,
                     "Votre inscription a été enregistrée avec succès."
@@ -196,12 +207,16 @@ def inscription_attente(request):
         type_compte = "Structure de financement"
 
     else:
+
         return redirect("login")
 
     if not compte:
         return redirect("login")
 
-    # Si l'administration a validé le compte
+    # ========================================================
+    # COMPTE VALIDÉ PAR L'ADMINISTRATION
+    # ========================================================
+
     if (
         compte.statut_validation == "VALIDE"
         and compte.statut_compte == "ACTIF"
@@ -212,6 +227,11 @@ def inscription_attente(request):
 
         if role == "structure":
             return redirect("dashboard_structure")
+
+
+    # ========================================================
+    # AFFICHAGE DE LA PAGE D'ATTENTE
+    # ========================================================
 
     return render(
         request,
@@ -226,16 +246,16 @@ def inscription_attente(request):
 
 
 # ============================================================
-# CONNEXION
+# CONNEXION UNIQUE POUR TOUS LES UTILISATEURS
 # ============================================================
 
 def login_view(request):
 
     if request.method == "POST":
 
-        # ----------------------------------------------------
-        # Récupération des données
-        # ----------------------------------------------------
+        # ====================================================
+        # RECUPERATION DES DONNEES
+        # ====================================================
 
         email = request.POST.get(
             "email",
@@ -251,8 +271,60 @@ def login_view(request):
         role = None
         dashboard = None
 
+
         # ====================================================
-        # RECHERCHE PORTEUR DE PROJET
+        # 1. RECHERCHE ADMINISTRATEUR
+        # ====================================================
+
+        admin = Admin.objects.filter(
+            email=email
+        ).first()
+
+        if admin:
+
+            if not check_password(
+                mot_de_passe,
+                admin.mot_de_passe
+            ):
+
+                messages.error(
+                    request,
+                    "Email ou mot de passe incorrect."
+                )
+
+                return render(
+                    request,
+                    "authentification/login.html"
+                )
+
+
+            if admin.statut_compte != "ACTIF":
+
+                messages.error(
+                    request,
+                    "Ce compte administrateur est désactivé."
+                )
+
+                return render(
+                    request,
+                    "authentification/login.html"
+                )
+
+
+            # Session administrateur
+            request.session["user_id"] = str(
+                admin.id
+            )
+
+            request.session["role"] = "admin"
+
+            return redirect(
+                "admin_dashboard"
+            )
+
+
+        # ====================================================
+        # 2. RECHERCHE PORTEUR DE PROJET
         # ====================================================
 
         utilisateur = PorteurProjet.objects.filter(
@@ -262,12 +334,11 @@ def login_view(request):
         if utilisateur:
 
             role = "porteur"
-
             dashboard = "dashboard_porteur"
 
 
         # ====================================================
-        # RECHERCHE STARTUP
+        # 3. RECHERCHE STARTUP
         # ====================================================
 
         else:
@@ -279,36 +350,34 @@ def login_view(request):
             if utilisateur:
 
                 role = "startup"
-
                 dashboard = "dashboard_startup"
 
 
         # ====================================================
-        # RECHERCHE STRUCTURE DE FINANCEMENT
+        # 4. RECHERCHE STRUCTURE DE FINANCEMENT
         # ====================================================
 
-            else:
+        if utilisateur is None:
 
-                utilisateur = StructureFinancement.objects.filter(
-                    email=email
-                ).first()
+            utilisateur = StructureFinancement.objects.filter(
+                email=email
+            ).first()
 
-                if utilisateur:
+            if utilisateur:
 
-                    role = "structure"
-
-                    dashboard = "dashboard_structure"
+                role = "structure"
+                dashboard = "dashboard_structure"
 
 
         # ====================================================
-        # AUCUN COMPTE TROUVÉ
+        # AUCUN COMPTE TROUVE
         # ====================================================
 
         if utilisateur is None:
 
             messages.error(
                 request,
-                "Aucun compte ne correspond à cet email."
+                "Email ou mot de passe incorrect."
             )
 
             return render(
@@ -328,7 +397,7 @@ def login_view(request):
 
             messages.error(
                 request,
-                "Mot de passe incorrect."
+                "Email ou mot de passe incorrect."
             )
 
             return render(
@@ -380,7 +449,7 @@ def login_view(request):
 
 
             # ------------------------------------------------
-            # COMPTE REFUSÉ
+            # COMPTE REFUSE
             # ------------------------------------------------
 
             if utilisateur.statut_validation == "REJETE":

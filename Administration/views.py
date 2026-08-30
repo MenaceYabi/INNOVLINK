@@ -1,7 +1,5 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.hashers import check_password
 from django.utils import timezone
 
 from Authentification.models import (
@@ -13,65 +11,30 @@ from Authentification.models import (
 
 
 # ==========================================================
-# CONNEXION ADMINISTRATEUR
+# VERIFICATION DE LA SESSION ADMINISTRATEUR
 # ==========================================================
 
-def admin_login(request):
+def admin_required(request):
 
-    if request.method == "POST":
+    if request.session.get("role") != "admin":
+        return False
 
-        email = request.POST.get("email", "").strip().lower()
-        mot_de_passe = request.POST.get("mot_de_passe", "")
+    admin_id = request.session.get("user_id")
 
-        # Recherche de l'administrateur
-        admin = Admin.objects.filter(email=email).first()
+    if not admin_id:
+        return False
 
-        # Vérification du compte
-        if admin is None:
-            messages.error(
-                request,
-                "Email ou mot de passe incorrect."
-            )
-            return render(
-                request,
-                "Administration/admin_login.html"
-            )
+    admin = Admin.objects.filter(
+        id=admin_id
+    ).first()
 
-        # Vérification du mot de passe
-        if not check_password(
-            mot_de_passe,
-            admin.mot_de_passe
-        ):
-            messages.error(
-                request,
-                "Email ou mot de passe incorrect."
-            )
-            return render(
-                request,
-                "Administration/admin_login.html"
-            )
+    if not admin:
+        return False
 
-        # Vérification du statut
-        if admin.statut_compte != "ACTIF":
-            messages.error(
-                request,
-                "Ce compte administrateur est désactivé."
-            )
-            return render(
-                request,
-                "Administration/admin_login.html"
-            )
+    if admin.statut_compte != "ACTIF":
+        return False
 
-        # Création de la session
-        request.session["admin_id"] = str(admin.id)
-        request.session["role"] = "admin"
-
-        return redirect("admin_dashboard")
-
-    return render(
-        request,
-        "Administration/admin_login.html"
-    )
+    return True
 
 
 # ==========================================================
@@ -80,31 +43,19 @@ def admin_login(request):
 
 def admin_dashboard(request):
 
-    # Vérification de la connexion
-    if "admin_id" not in request.session:
-        return redirect("admin_login")
+    # Vérification de la connexion administrateur
+    if not admin_required(request):
+
+        request.session.flush()
+
+        return redirect("login")
+
 
     # Récupération de l'administrateur connecté
     admin = Admin.objects.filter(
-        id=request.session["admin_id"]
+        id=request.session.get("user_id")
     ).first()
 
-    # Si l'administrateur n'existe plus
-    if admin is None:
-        request.session.flush()
-        return redirect("admin_login")
-
-    # Vérification du statut
-    if admin.statut_compte != "ACTIF":
-
-        request.session.flush()
-
-        messages.error(
-            request,
-            "Votre compte administrateur est désactivé."
-        )
-
-        return redirect("admin_login")
 
     # ======================================================
     # STATISTIQUES
@@ -115,6 +66,7 @@ def admin_dashboard(request):
     total_startups = Startup.objects.count()
 
     total_structures = StructureFinancement.objects.count()
+
 
     # Comptes actuellement en attente
     startups_en_attente = Startup.objects.filter(
@@ -130,16 +82,23 @@ def admin_dashboard(request):
         structures_en_attente
     )
 
+
     # ======================================================
     # DEMANDES DE VALIDATION
     # ======================================================
 
     demandes = []
 
-    # Startups en attente
+
+    # ------------------------------------------------------
+    # STARTUPS EN ATTENTE
+    # ------------------------------------------------------
+
     startups = Startup.objects.filter(
         statut_validation="EN_ATTENTE"
-    ).order_by("-date_inscription")
+    ).order_by(
+        "-date_inscription"
+    )
 
     for startup in startups:
 
@@ -152,10 +111,16 @@ def admin_dashboard(request):
             "objet": "startup",
         })
 
-    # Structures en attente
+
+    # ------------------------------------------------------
+    # STRUCTURES EN ATTENTE
+    # ------------------------------------------------------
+
     structures = StructureFinancement.objects.filter(
         statut_validation="EN_ATTENTE"
-    ).order_by("-date_inscription")
+    ).order_by(
+        "-date_inscription"
+    )
 
     for structure in structures:
 
@@ -168,29 +133,40 @@ def admin_dashboard(request):
             "objet": "structure",
         })
 
-    # Tri des demandes par date
+
+    # ======================================================
+    # TRI DES DEMANDES
+    # ======================================================
+
     demandes.sort(
         key=lambda demande: demande["date_inscription"],
         reverse=True
     )
 
-    # On affiche uniquement les 10 dernières demandes
+
+    # Afficher uniquement les 10 dernières demandes
     demandes = demandes[:10]
 
+
     # ======================================================
-    # CONTEXTE ENVOYÉ AU TEMPLATE
+    # CONTEXTE
     # ======================================================
 
     context = {
+
         "admin": admin,
 
         "total_porteurs": total_porteurs,
+
         "total_startups": total_startups,
+
         "total_structures": total_structures,
+
         "comptes_en_attente": comptes_en_attente,
 
         "demandes": demandes,
     }
+
 
     return render(
         request,
@@ -205,31 +181,40 @@ def admin_dashboard(request):
 
 def valider_startup(request, startup_id):
 
-    # Vérification de la session admin
-    if "admin_id" not in request.session:
-        return redirect("admin_login")
+    if not admin_required(request):
+        return redirect("login")
+
 
     if request.method != "POST":
         return redirect("admin_dashboard")
+
 
     startup = get_object_or_404(
         Startup,
         id=startup_id
     )
 
+
     startup.statut_validation = "VALIDE"
+
     startup.statut_compte = "ACTIF"
+
     startup.date_validation = timezone.now()
+
     startup.motif_rejet = None
 
     startup.save()
+
 
     messages.success(
         request,
         f"La startup « {startup.nom_startup} » a été validée."
     )
 
-    return redirect("admin_dashboard")
+
+    return redirect(
+        "admin_dashboard"
+    )
 
 
 # ==========================================================
@@ -238,30 +223,43 @@ def valider_startup(request, startup_id):
 
 def rejeter_startup(request, startup_id):
 
-    # Vérification de la session admin
-    if "admin_id" not in request.session:
-        return redirect("admin_login")
+    if not admin_required(request):
+        return redirect("login")
+
 
     if request.method != "POST":
         return redirect("admin_dashboard")
+
 
     startup = get_object_or_404(
         Startup,
         id=startup_id
     )
 
+
     startup.statut_validation = "REJETE"
+
     startup.statut_compte = "DESACTIVE"
+
     startup.date_validation = timezone.now()
 
+
+    # Si tu ajoutes plus tard un champ motif_rejet
+    # tu pourras récupérer le motif ici.
+
+
     startup.save()
+
 
     messages.warning(
         request,
         f"La startup « {startup.nom_startup} » a été rejetée."
     )
 
-    return redirect("admin_dashboard")
+
+    return redirect(
+        "admin_dashboard"
+    )
 
 
 # ==========================================================
@@ -270,31 +268,40 @@ def rejeter_startup(request, startup_id):
 
 def valider_structure(request, structure_id):
 
-    # Vérification de la session admin
-    if "admin_id" not in request.session:
-        return redirect("admin_login")
+    if not admin_required(request):
+        return redirect("login")
+
 
     if request.method != "POST":
         return redirect("admin_dashboard")
+
 
     structure = get_object_or_404(
         StructureFinancement,
         id=structure_id
     )
 
+
     structure.statut_validation = "VALIDE"
+
     structure.statut_compte = "ACTIF"
+
     structure.date_validation = timezone.now()
+
     structure.motif_rejet = None
 
     structure.save()
+
 
     messages.success(
         request,
         f"La structure « {structure.nom_structure} » a été validée."
     )
 
-    return redirect("admin_dashboard")
+
+    return redirect(
+        "admin_dashboard"
+    )
 
 
 # ==========================================================
@@ -303,30 +310,39 @@ def valider_structure(request, structure_id):
 
 def rejeter_structure(request, structure_id):
 
-    # Vérification de la session admin
-    if "admin_id" not in request.session:
-        return redirect("admin_login")
+    if not admin_required(request):
+        return redirect("login")
+
 
     if request.method != "POST":
         return redirect("admin_dashboard")
+
 
     structure = get_object_or_404(
         StructureFinancement,
         id=structure_id
     )
 
+
     structure.statut_validation = "REJETE"
+
     structure.statut_compte = "DESACTIVE"
+
     structure.date_validation = timezone.now()
 
+
     structure.save()
+
 
     messages.warning(
         request,
         f"La structure « {structure.nom_structure} » a été rejetée."
     )
 
-    return redirect("admin_dashboard")
+
+    return redirect(
+        "admin_dashboard"
+    )
 
 
 # ==========================================================
@@ -337,4 +353,6 @@ def admin_logout(request):
 
     request.session.flush()
 
-    return redirect("admin_login")
+    return redirect(
+        "home"
+    )

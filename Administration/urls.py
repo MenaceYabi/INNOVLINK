@@ -5,12 +5,6 @@ from . import views
 
 urlpatterns = [
 
-    # Authentification
-    path(
-        "login/",
-        views.admin_login,
-        name="admin_login"
-    ),
 
     # Dashboard
     path(

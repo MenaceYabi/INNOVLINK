@@ -315,20 +315,793 @@ textarea {
     font-size: 0.85rem;
 }
 
-/* RESPONSIVE DESIGN */
-@media (max-width: 900px) {
-    .roles-grid {
-        grid-template-columns: 1fr;
-        max-width: 450px;
-        margin: 0 auto;
-    }
+/* ==========================================================
+RESPONSIVE DESIGN - AUTHENTIFICATION INNOVLINK
+========================================================== */
+
+/* ==========================================================
+TABLETTES — 901px à 1200px
+========================================================== */
+
+@media (max-width: 1200px) {
+
+.auth-main {
+    padding: 2rem 1.5rem;
 }
 
+.auth-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.auth-container.wide-form {
+    width: 100%;
+    max-width: 700px;
+}
+
+
+/* ==========================================================
+TABLETTES — MAX 900px
+========================================================== */
+
+@media (max-width: 900px) {
+
+/* MAIN */
+
+.auth-main {
+    width: 100%;
+    padding: 2rem 1.25rem;
+}
+
+
+/* CONTAINERS */
+
+.auth-container,
+.auth-container.wide-form,
+.role-selection-container {
+
+    width: 100%;
+    max-width: 100%;
+}
+
+
+/* FORMULAIRE LARGE */
+
+.auth-container.wide-form {
+    max-width: 680px;
+}
+
+
+/* CARTES DE RÔLES */
+
+.roles-grid {
+
+    grid-template-columns: 1fr;
+
+    width: 100%;
+    max-width: 500px;
+
+    margin: 0 auto;
+
+    gap: 1.25rem;
+}
+
+
+.role-card {
+    width: 100%;
+    padding: 2rem 1.5rem;
+}
+
+
+/* TITRES */
+
+.auth-page-title {
+    margin-bottom: 2.5rem;
+}
+
+.auth-page-title h1 {
+    font-size: 2.2rem;
+}
+
+.auth-page-title p {
+    font-size: 1rem;
+}
+
+
+/* FORM ROW */
+
+.form-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 1rem;
+}
+
+
+}
+
+/* ==========================================================
+MOBILE — MAX 650px
+========================================================== */
+
 @media (max-width: 650px) {
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-    .auth-box {
-        padding: 1.5rem;
-    }
+
+
+/* ------------------------------------------------------
+   BODY
+   ------------------------------------------------------ */
+
+body {
+    min-height: 100dvh;
+    overflow-x: hidden;
+}
+
+
+/* ------------------------------------------------------
+   HEADER
+   ------------------------------------------------------ */
+
+.auth-header {
+
+    width: 100%;
+
+    padding: 1rem 1.25rem;
+}
+
+.auth-logo {
+    font-size: 1.2rem;
+}
+
+
+/* ------------------------------------------------------
+   MAIN
+   ------------------------------------------------------ */
+
+.auth-main {
+
+    width: 100%;
+
+    padding: 1.25rem 0.75rem;
+
+    align-items: flex-start;
+
+    justify-content: center;
+}
+
+
+/* ------------------------------------------------------
+   CONTAINER
+   ------------------------------------------------------ */
+
+.auth-container,
+.auth-container.wide-form,
+.role-selection-container {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    margin: 0 auto;
+}
+
+
+/* ------------------------------------------------------
+   AUTH BOX
+   ------------------------------------------------------ */
+
+.auth-box {
+
+    width: 100%;
+
+    padding: 1.5rem 1.1rem;
+
+    border-radius: 16px;
+}
+
+
+/* ------------------------------------------------------
+   HEADER FORMULAIRE
+   ------------------------------------------------------ */
+
+.auth-header-content {
+
+    width: 100%;
+
+    text-align: center;
+
+    margin-bottom: 1.5rem;
+}
+
+.auth-header-content h2 {
+
+    font-size: 1.6rem;
+
+    line-height: 1.25;
+
+    margin-bottom: 0.5rem;
+}
+
+.auth-header-content p {
+
+    color: var(--auth-text-muted);
+
+    font-size: 0.88rem;
+
+    line-height: 1.5;
+}
+
+
+/* ------------------------------------------------------
+   ANCIEN HEADER COMPATIBILITÉ
+   ------------------------------------------------------ */
+
+.auth-box-header {
+
+    width: 100%;
+
+    margin-bottom: 1.5rem;
+
+    text-align: center;
+}
+
+.auth-box-header h2 {
+    font-size: 1.6rem;
+}
+
+.auth-box-header p {
+    font-size: 0.88rem;
+}
+
+
+/* ------------------------------------------------------
+   FORMULAIRE
+   ------------------------------------------------------ */
+
+.auth-form {
+
+    width: 100%;
+
+    max-width: 100%;
+}
+
+
+/* ------------------------------------------------------
+   FORM ROW
+   IMPORTANT :
+   Les deux colonnes passent en une colonne.
+   ------------------------------------------------------ */
+
+.form-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    width: 100%;
+
+    gap: 0;
+}
+
+
+/* ------------------------------------------------------
+   GROUPES
+   ------------------------------------------------------ */
+
+.form-group {
+
+    width: 100%;
+
+    min-width: 0;
+
+    margin-bottom: 1.1rem;
+}
+
+
+/* ------------------------------------------------------
+   LABELS
+   ------------------------------------------------------ */
+
+.form-group label {
+
+    display: block;
+
+    width: 100%;
+
+    margin-bottom: 0.5rem;
+
+    font-size: 0.82rem;
+}
+
+
+/* ------------------------------------------------------
+   INPUTS
+   ------------------------------------------------------ */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="number"],
+textarea,
+select {
+
+    display: block;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    min-width: 0;
+
+    min-height: 46px;
+
+    padding: 0.8rem 0.9rem;
+
+    font-size: 0.92rem;
+
+    border-radius: 9px;
+}
+
+
+/* ------------------------------------------------------
+   TEXTAREA
+   ------------------------------------------------------ */
+
+textarea {
+
+    width: 100%;
+
+    min-height: 100px;
+
+    resize: vertical;
+}
+
+
+/* ------------------------------------------------------
+   INPUT AVEC ICÔNE
+   ------------------------------------------------------ */
+
+.input-with-icon {
+
+    position: relative;
+
+    width: 100%;
+}
+
+.input-with-icon i {
+
+    left: 0.9rem;
+
+    font-size: 0.9rem;
+}
+
+.input-with-icon input {
+
+    width: 100%;
+
+    padding-left: 2.6rem !important;
+}
+
+
+/* ======================================================
+   BOUTON SE CONNECTER
+   ====================================================== */
+
+.auth-form .btn {
+
+    width: 100% !important;
+
+    max-width: 100%;
+
+    min-width: 0;
+
+    min-height: 48px;
+
+    padding: 0.85rem 1rem;
+
+    margin-top: 0.25rem;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    border-radius: 9px;
+
+    font-size: 0.92rem;
+
+    white-space: nowrap;
+}
+
+
+/* Empêche l'icône et le texte de créer
+   un débordement */
+
+.auth-form .btn i {
+
+    flex-shrink: 0;
+}
+
+
+/* ------------------------------------------------------
+   FOOTER
+   ------------------------------------------------------ */
+
+.auth-box-footer {
+
+    width: 100%;
+
+    margin-top: 1.5rem;
+
+    text-align: center;
+
+    font-size: 0.82rem;
+
+    line-height: 1.6;
+}
+
+.auth-box-footer p {
+
+    width: 100%;
+
+    margin: 0;
+}
+
+
+.auth-box-footer a {
+
+    overflow-wrap: break-word;
+}
+
+
+/* ------------------------------------------------------
+   CARTES DE RÔLES
+   ------------------------------------------------------ */
+
+.roles-grid {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+}
+
+
+.role-card {
+
+    width: 100%;
+
+    padding: 1.5rem;
+
+    border-radius: 16px;
+}
+
+
+.role-icon {
+
+    width: 46px;
+
+    height: 46px;
+
+    font-size: 1.3rem;
+
+    margin-bottom: 1rem;
+}
+
+
+.role-card h3 {
+    font-size: 1.15rem;
+}
+
+
+.role-card p {
+    font-size: 0.88rem;
+}
+
+
+/* ------------------------------------------------------
+   TITRE SÉLECTION DES RÔLES
+   ------------------------------------------------------ */
+
+.auth-page-title {
+
+    width: 100%;
+
+    margin-bottom: 2rem;
+}
+
+.auth-page-title h1 {
+
+    font-size: 1.9rem;
+
+    line-height: 1.2;
+}
+
+.auth-page-title p {
+
+    font-size: 0.9rem;
+
+    line-height: 1.5;
+}
+
+
+/* ------------------------------------------------------
+   ORBES
+   ------------------------------------------------------ */
+
+.glow-orb {
+
+    filter: blur(90px);
+
+    opacity: 0.22;
+}
+
+
+.orb-auth-1 {
+
+    width: 220px;
+
+    height: 220px;
+
+    top: 5%;
+
+    left: -100px;
+}
+
+
+.orb-auth-2 {
+
+    width: 250px;
+
+    height: 250px;
+
+    bottom: 5%;
+
+    right: -120px;
+}
+
+/* ==========================================================
+PETITS SMARTPHONES — MAX 480px
+========================================================== */
+
+@media (max-width: 480px) {
+/* HEADER */
+
+.auth-header {
+
+    padding: 0.9rem 1rem;
+}
+
+.auth-logo {
+
+    font-size: 1.1rem;
+}
+
+.auth-logo i {
+
+    margin-right: 4px;
+}
+
+
+/* MAIN */
+
+.auth-main {
+
+    padding: 1rem 0.6rem;
+}
+
+
+/* BOX */
+
+.auth-box {
+
+    padding: 1.25rem 0.9rem;
+
+    border-radius: 14px;
+}
+
+
+/* TITRES */
+
+.auth-header-content h2,
+.auth-box-header h2 {
+
+    font-size: 1.45rem;
+}
+
+.auth-header-content p,
+.auth-box-header p {
+
+    font-size: 0.83rem;
+}
+
+
+/* GROUPES */
+
+.form-group {
+
+    margin-bottom: 1rem;
+}
+
+
+/* LABEL */
+
+.form-group label {
+
+    font-size: 0.8rem;
+}
+
+
+/* INPUTS */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="number"],
+textarea,
+select {
+
+    min-height: 45px;
+
+    padding: 0.75rem 0.8rem;
+
+    font-size: 0.88rem;
+}
+
+
+/* ICONES */
+
+.input-with-icon i {
+
+    left: 0.8rem;
+
+    font-size: 0.85rem;
+}
+
+.input-with-icon input {
+
+    padding-left: 2.45rem !important;
+}
+
+
+/* ======================================================
+   BOUTON MOBILE
+   ====================================================== */
+
+.auth-form .btn {
+
+    width: 100% !important;
+
+    min-height: 47px;
+
+    padding: 0.75rem 0.8rem;
+
+    font-size: 0.88rem;
+
+    border-radius: 9px;
+}
+
+
+/* FOOTER */
+
+.auth-box-footer {
+
+    font-size: 0.8rem;
+
+    line-height: 1.7;
+}
+
+
+/* ROLE */
+
+.role-card {
+
+    padding: 1.25rem;
+}
+
+
+
+/* ==========================================================
+TRÈS PETITS SMARTPHONES — MAX 360px
+========================================================== */
+
+@media (max-width: 360px) {
+
+/* HEADER */
+
+.auth-header {
+
+    padding: 0.75rem 0.7rem;
+}
+
+.auth-logo {
+
+    font-size: 1rem;
+}
+
+
+/* MAIN */
+
+.auth-main {
+
+    padding: 0.75rem 0.5rem;
+}
+
+
+/* BOX */
+
+.auth-box {
+
+    padding: 1rem 0.75rem;
+
+    border-radius: 12px;
+}
+
+
+/* TITRES */
+
+.auth-header-content h2,
+.auth-box-header h2 {
+
+    font-size: 1.3rem;
+}
+
+.auth-header-content p,
+.auth-box-header p {
+
+    font-size: 0.78rem;
+}
+
+
+/* INPUTS */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="number"],
+textarea,
+select {
+
+    min-height: 44px;
+
+    padding: 0.7rem;
+
+    font-size: 0.84rem;
+}
+
+
+/* BOUTON */
+
+.auth-form .btn {
+
+    width: 100% !important;
+
+    min-height: 46px;
+
+    font-size: 0.85rem;
+}
+
+
+/* FOOTER */
+
+.auth-box-footer {
+
+    font-size: 0.76rem;
+}
+
+
+}
+
+}
+}
 }
