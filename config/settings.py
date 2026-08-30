@@ -42,8 +42,12 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "https://innovlink-production.up.railway.app",
+    "https://innovlink-one.vercel.app/",
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "https://innovlink-one.vercel.app",
+]
 
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
@@ -64,11 +68,13 @@ INSTALLED_APPS = [
     'StructureFinancement',
     'Administration',
     'Gestionprojets',
+     "corsheaders",
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+      "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
