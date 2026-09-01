@@ -11,7 +11,7 @@ from google.genai import types
 # ============================================================
 
 client = genai.Client(
-    api_key=settings.SECRET_KEYS
+    api_key = settings.SECRET_KEYS
 )
 
 

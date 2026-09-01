@@ -32,7 +32,7 @@ if not SECRET_KEY:
         "DJANGO_SECRET_KEY n'est pas configurée."
     )
 
-DEBUG = os.getenv("DEBUG", "True").lower() == "true"
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = [
     "innovlink-production.up.railway.app",
     "localhost",
@@ -45,9 +45,6 @@ CSRF_TRUSTED_ORIGINS = [
     "https://innovlink-one.vercel.app/",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://innovlink-one.vercel.app",
-]
 
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
@@ -68,13 +65,11 @@ INSTALLED_APPS = [
     'StructureFinancement',
     'Administration',
     'Gestionprojets',
-     "corsheaders",
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-      "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

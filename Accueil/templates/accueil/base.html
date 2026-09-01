@@ -45,6 +45,10 @@
                     class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
                     Contact
                 </a>
+                <a href="{% url 'login' %}" class="btn btn-secondary">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Se connecter
+                    </a>
                 <!-- =============================================
                  BOUTON CONNEXION
                  Sur mobile : à l'intérieur du menu

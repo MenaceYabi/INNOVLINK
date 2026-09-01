@@ -362,8 +362,6 @@ def dashboard(request):
     }
 
 
- 
-
     return render(
         request,
         "Startup/dashboard.html",
