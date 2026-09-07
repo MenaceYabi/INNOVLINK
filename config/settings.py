@@ -37,7 +37,6 @@ if not SECRET_KEY:
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = [
     ".onrender.com",
-    "innovlink-one.vercel.app",
     "localhost",
     "127.0.0.1",
 
@@ -45,7 +44,7 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.onrender.com",
-    "https://innovlink-one.vercel.app",
+  
 ]
 
 
@@ -74,7 +73,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-      "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -120,14 +118,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
