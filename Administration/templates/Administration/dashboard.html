@@ -1,405 +1,2025 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>INNOVLINK - Dashboard Administrateur</title>
+
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-    <!-- Police Inter pour un rendu typographique moderne -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
 
+
 <body>
+
     <div class="app-container">
-        <!-- Sidebar -->
+
+
+        <!-- ==================================================
+         SIDEBAR
+    =================================================== -->
+
         <aside class="sidebar" id="sidebar">
+
             <div class="sidebar-header">
+
                 <div class="logo">
-                    <span class="logo-icon">▲</span>
-                    <span class="logo-text">INNOVLINK</span>
+                    INNOVLINK
                 </div>
-                <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
+
+                <button class="mobile-close" id="mobileCloseBtn" type="button">
+                    ×
+                </button>
+
             </div>
+
 
             <nav class="sidebar-nav">
-                <a href="{% url 'admin_dashboard' %}" class="nav-item active">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="7" height="7"></rect>
-                        <rect x="14" y="3" width="7" height="7"></rect>
-                        <rect x="14" y="14" width="7" height="7"></rect>
-                        <rect x="3" y="14" width="7" height="7"></rect>
-                    </svg>
+
+                <a href="#" class="nav-item active" data-tab="dashboard">
+                    <span>▦</span>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
+
+
+                <a href="#" class="nav-item" data-tab="porteurs">
+                    <span>♙</span>
                     <span>Porteurs de projets</span>
                 </a>
-                <a href="#" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                        <polyline points="2 17 12 22 22 17"></polyline>
-                        <polyline points="2 12 12 17 22 12"></polyline>
-                    </svg>
+
+
+                <a href="#" class="nav-item" data-tab="startups">
+                    <span>⌂</span>
                     <span>Startups</span>
                 </a>
-                <a href="#" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="12" y1="1" x2="12" y2="23"></line>
-                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                    </svg>
+
+
+                <a href="#" class="nav-item" data-tab="structures">
+                    <span>▤</span>
                     <span>Structures de financement</span>
                 </a>
-                <a href="#" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
+
+
+                <a href="#" class="nav-item" data-tab="validations">
+                    <span>✓</span>
                     <span>Validations</span>
+
+                    {% if comptes_en_attente > 0 %}
+                    <span class="nav-badge">
+                        {{ comptes_en_attente }}
+                    </span>
+                    {% endif %}
+
                 </a>
-                <a href="#" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path
-                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
-                        </path>
-                    </svg>
+
+
+                <a href="#" class="nav-item" data-tab="parametres">
+                    <span>⚙</span>
                     <span>Paramètres</span>
                 </a>
+
             </nav>
 
+
             <div class="sidebar-footer">
-                <a href="{% url 'admin_logout' %}" class="nav-item logout-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
+
+                <a href="{% url 'admin_logout' %}" class="logout-link">
+                    <span>↪</span>
                     <span>Déconnexion</span>
                 </a>
+
             </div>
+
         </aside>
 
-        <!-- Main Wrapper -->
-        <div class="main-wrapper">
-            <!-- Navbar -->
-            <header class="navbar">
-                <div class="navbar-left">
-                    <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <line x1="3" y1="12" x2="21" y2="12"></line>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <line x1="3" y1="18" x2="21" y2="18"></line>
-                        </svg>
-                    </button>
-                    <h1 class="page-title">Dashboard</h1>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+        <!-- ==================================================
+         MAIN
+    =================================================== -->
+
+        <main class="main-content">
+
+
+            <!-- ==================================================
+             NAVBAR
+        =================================================== -->
+
+            <header class="top-navbar">
+
+                <button class="mobile-toggle" id="mobileToggle" type="button">
+                    ☰
+                </button>
+
+
+                <div class="navbar-search">
+
+                    <span>⌕</span>
+
+                    <input type="search" id="searchInput" placeholder="Rechercher...">
+
                 </div>
+
 
                 <div class="navbar-right">
-                    <div class="search-box">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                        <input type="text" placeholder="Rechercher... (Ctrl + K)" id="searchInput">
-                    </div>
 
-                    <div class="notifications-wrapper">
-                        <button class="icon-btn" id="notifBtn" aria-label="Notifications">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                            </svg>
-                            <span class="badge-dot"></span>
-                        </button>
-                    </div>
+                    <button class="notification-btn" type="button">
+                        🔔
+                    </button>
+
 
                     <div class="admin-profile">
-                        <div class="avatar">AD</div>
-                        <span class="admin-name">Admin</span>
+
+                        <div class="admin-avatar">
+                            AD
+                        </div>
+
+                        <div class="admin-info">
+
+                            <strong>
+                                Administrateur
+                            </strong>
+
+                            <small>
+                                {{ admin.email }}
+                            </small>
+
+                        </div>
+
                     </div>
+
                 </div>
+
             </header>
 
-            <!-- Main Content -->
-            <main class="main-content">
-                <!-- Welcome Section -->
-                <section class="welcome-section">
-                    <h2>Bienvenue dans votre espace administrateur</h2>
-                    <p>Voici un aperçu global de l'activité sur la plateforme INNOVLINK.</p>
-                </section>
 
-                <!-- Stat Cards Grid -->
-                <section class="stats-grid">
+            <!-- ==================================================
+             MESSAGES DJANGO
+        =================================================== -->
+
+            {% if messages %}
+
+            <div class="messages-container">
+
+                {% for message in messages %}
+
+                <div class="alert alert-{{ message.tags }}">
+
+                    {{ message }}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- ==================================================
+             TAB : DASHBOARD
+        =================================================== -->
+
+            <section class="tab-content active" id="tab-dashboard">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <p class="page-label">
+                            ADMINISTRATION
+                        </p>
+
+                        <h1>
+                            Bonjour, Administrateur 👋
+                        </h1>
+
+                        <p>
+                            Voici un aperçu de l'activité
+                            d'INNOVLINK.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATISTIQUES -->
+
+                <div class="stats-grid">
+
+
                     <div class="stat-card">
+
                         <div class="stat-header">
-                            <span class="stat-title">Porteurs de projets</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                            </svg>
+                            <span>
+                                Porteurs de projets
+                            </span>
                         </div>
-                        <div class="stat-value">{{ total_porteurs }}</div>
-                        <div class="stat-footer positive">
-                            <span>+12% ce mois</span>
-                        </div>
+
+                        <strong class="stat-value">
+                            {{ total_porteurs }}
+                        </strong>
+
+                        <span class="stat-description">
+                            Comptes enregistrés
+                        </span>
+
                     </div>
+
 
                     <div class="stat-card">
+
                         <div class="stat-header">
-                            <span class="stat-title">Startups</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                                <polyline points="2 17 12 22 22 17"></polyline>
-                                <polyline points="2 12 12 17 22 12"></polyline>
-                            </svg>
+                            <span>
+                                Startups
+                            </span>
                         </div>
-                        <div class="stat-value">{{ total_startups }}</div>
-                        <div class="stat-footer positive">
-                            <span>+5% ce mois</span>
-                        </div>
+
+                        <strong class="stat-value">
+                            {{ total_startups }}
+                        </strong>
+
+                        <span class="stat-description">
+                            Startups enregistrées
+                        </span>
+
                     </div>
+
 
                     <div class="stat-card">
+
                         <div class="stat-header">
-                            <span class="stat-title">Structures de financement</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <line x1="12" y1="1" x2="12" y2="23"></line>
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                            </svg>
+                            <span>
+                                Structures
+                            </span>
                         </div>
-                        <div class="stat-value">{{ total_structures }}</div>
-                        <div class="stat-footer neutral">
-                            <span>Stable</span>
-                        </div>
+
+                        <strong class="stat-value">
+                            {{ total_structures }}
+                        </strong>
+
+                        <span class="stat-description">
+                            Structures enregistrées
+                        </span>
+
                     </div>
 
-                    <div class="stat-card highlight">
-                        <div class="stat-header">
-                            <span class="stat-title">Comptes en attente</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                        </div>
-                        <div class="stat-value">{{ comptes_en_attente }}</div>
-                        <div class="stat-footer warning">
-                            <span>Action requise</span>
-                        </div>
-                    </div>
-                </section>
 
-                <!-- Recent Validations Section -->
-                <section class="dashboard-section">
-                    <div class="section-header">
-                        <h3>Demandes de validation récentes</h3>
-                        <a href="#" class="view-all">Voir tout</a>
+                    <div class="stat-card">
+
+                        <div class="stat-header">
+                            <span>
+                                En attente
+                            </span>
+                        </div>
+
+                        <strong class="stat-value">
+                            {{ comptes_en_attente }}
+                        </strong>
+
+                        <span class="stat-description">
+                            Demandes à traiter
+                        </span>
+
                     </div>
+
+                </div>
+
+
+                <!-- VALIDATIONS RÉCENTES -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>
+                                Demandes de validation récentes
+                            </h2>
+
+                            <p>
+                                Les dernières demandes nécessitant
+                                une intervention.
+                            </p>
+
+                        </div>
+
+
+                        <button type="button" class="btn-secondary" data-tab-target="validations">
+                            Voir tout
+                        </button>
+
+                    </div>
+
+
                     <div class="table-container">
+
                         <table class="data-table">
+
                             <thead>
+
                                 <tr>
                                     <th>Nom</th>
                                     <th>Type</th>
                                     <th>Email</th>
-                                    <th>Date d'inscription</th>
+                                    <th>Date</th>
                                     <th>Statut</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
                                 </tr>
+
                             </thead>
+
+
                             <tbody>
+
                                 {% for demande in demandes %}
+
                                 <tr>
+
                                     <td>
-                                        <div class="user-cell">
-                                            <div class="cell-avatar">{{ demande.nom|slice:":2"|upper }}</div>
-                                            <span class="user-name">{{ demande.nom }}</span>
-                                        </div>
+                                        <strong>
+                                            {{ demande.nom }}
+                                        </strong>
                                     </td>
-                                    <td><span class="tag">{{ demande.type }}</span></td>
-                                    <td class="text-muted">{{ demande.email }}</td>
-                                    <td class="text-muted">{{ demande.date_inscription|date:"d/m/Y" }}</td>
-                                    <td><span class="status-badge pending">En attente</span></td>
+
                                     <td>
+                                        {{ demande.type }}
+                                    </td>
+
+                                    <td>
+                                        {{ demande.email }}
+                                    </td>
+
+                                    <td>
+                                        {{ demande.date_inscription|date:"d/m/Y H:i" }}
+                                    </td>
+
+                                    <td>
+
+                                        <span class="status-badge pending">
+                                            En attente
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
                                         <div class="action-buttons">
+
                                             {% if demande.objet == "startup" %}
 
-                                            <form action="{% url 'valider_startup' demande.id %}" method="POST"
-                                                style="display:inline;">
+                                            <form method="POST" action="{% url 'valider_startup' demande.id %}">
+
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn-action approve">
-                                                    Valider
+
+                                                <button type="submit" class="btn-action btn-success" title="Valider">
+                                                    ✓
                                                 </button>
+
                                             </form>
 
-                                            <form action="{% url 'rejeter_startup' demande.id %}" method="POST"
-                                                style="display:inline;">
+
+                                            <form method="POST" action="{% url 'rejeter_startup' demande.id %}">
+
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn-action reject">
-                                                    Rejeter
+
+                                                <button type="submit" class="btn-action btn-danger" title="Rejeter">
+                                                    ×
                                                 </button>
+
                                             </form>
 
                                             {% elif demande.objet == "structure" %}
 
-                                            <form action="{% url 'valider_structure' demande.id %}" method="POST"
-                                                style="display:inline;">
+                                            <form method="POST" action="{% url 'valider_structure' demande.id %}">
+
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn-action approve">
-                                                    Valider
+
+                                                <button type="submit" class="btn-action btn-success" title="Valider">
+                                                    ✓
                                                 </button>
+
                                             </form>
 
-                                            <form action="{% url 'rejeter_structure' demande.id %}" method="POST"
-                                                style="display:inline;">
+
+                                            <form method="POST" action="{% url 'rejeter_structure' demande.id %}">
+
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn-action reject">
-                                                    Rejeter
+
+                                                <button type="submit" class="btn-action btn-danger" title="Rejeter">
+                                                    ×
                                                 </button>
+
                                             </form>
 
                                             {% endif %}
+
                                         </div>
+
                                     </td>
+
                                 </tr>
+
                                 {% empty %}
+
                                 <tr>
-                                    <td colspan="6" class="empty-state">Aucune demande de validation en attente.</td>
+
+                                    <td colspan="6" class="empty-state">
+                                        Aucune demande de validation.
+                                    </td>
+
                                 </tr>
+
                                 {% endfor %}
+
                             </tbody>
+
                         </table>
+
                     </div>
-                </section>
 
-                <!-- Two Column Grid for Activity & Quick Actions -->
-                <div class="dashboard-grid-2">
-                    <!-- Recent Activity -->
-                    <section class="dashboard-section">
-                        <div class="section-header">
-                            <h3>Activité récente</h3>
-                        </div>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <div class="activity-dot"></div>
-                                <div class="activity-content">
-                                    <p><strong>Nouveau porteur</strong> enregistré : Jean Dupont</p>
-                                    <span class="activity-time">Il y a 15 minutes</span>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-dot"></div>
-                                <div class="activity-content">
-                                    <p><strong>Startup validée</strong> : FinTech Africa</p>
-                                    <span class="activity-time">Il y a 2 heures</span>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-dot"></div>
-                                <div class="activity-content">
-                                    <p>Nouvelle structure de financement ajoutée</p>
-                                    <span class="activity-time">Il y a 5 heures</span>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <div class="activity-dot"></div>
-                                <div class="activity-content">
-                                    <p>Mise à jour des paramètres système</p>
-                                    <span class="activity-time">Hier à 18:42</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Quick Links / Management -->
-                    <section class="dashboard-section">
-                        <div class="section-header">
-                            <h3>Accès rapide</h3>
-                        </div>
-                        <div class="quick-links-grid">
-                            <a href="#" class="quick-card">
-                                <div class="quick-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                                        <polyline points="2 17 12 22 22 17"></polyline>
-                                        <polyline points="2 12 12 17 22 12"></polyline>
-                                    </svg>
-                                </div>
-                                <div class="quick-info">
-                                    <h4>Gestion des startups</h4>
-                                    <p>Examiner, modifier ou supprimer les startups</p>
-                                </div>
-                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                </svg>
-                            </a>
-
-                            <a href="#" class="quick-card">
-                                <div class="quick-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <line x1="12" y1="1" x2="12" y2="23"></line>
-                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                                    </svg>
-                                </div>
-                                <div class="quick-info">
-                                    <h4>Gestion des structures</h4>
-                                    <p>Gérer les fonds et partenaires financiers</p>
-                                </div>
-                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                </svg>
-                            </a>
-
-                            <a href="#" class="quick-card">
-                                <div class="quick-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="9" cy="7" r="4"></circle>
-                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                    </svg>
-                                </div>
-                                <div class="quick-info">
-                                    <h4>Gestion des utilisateurs</h4>
-                                    <p>Administrer les comptes et les rôles</p>
-                                </div>
-                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    </section>
                 </div>
-            </main>
-        </div>
+
+            </section>
+
+
+            <!-- ==================================================
+             TAB : PORTEURS
+        =================================================== -->
+
+            <section class="tab-content" id="tab-porteurs">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <p class="page-label">
+                            GESTION
+                        </p>
+
+                        <h1>
+                            Porteurs de projets
+                        </h1>
+
+                        <p>
+                            Gérez les comptes des porteurs
+                            de projets.
+                        </p>
+
+                    </div>
+
+
+                    <button type="button" class="btn-primary" data-modal="modal-ajouter-porteur">
+                        + Ajouter un porteur
+                    </button>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="table-container">
+
+                        <table class="data-table searchable-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Ville</th>
+                                    <th>Pays</th>
+                                    <th>Téléphone</th>
+                                    <th>Inscription</th>
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for porteur in porteurs %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <strong>
+                                            {{ porteur.prenom }}
+                                            {{ porteur.nom }}
+                                        </strong>
+
+                                    </td>
+
+                                    <td>
+                                        {{ porteur.email }}
+                                    </td>
+
+                                    <td>
+                                        {{ porteur.ville }}
+                                    </td>
+
+                                    <td>
+                                        {{ porteur.pays }}
+                                    </td>
+
+                                    <td>
+                                        {{ porteur.telephone }}
+                                    </td>
+
+                                    <td>
+                                        {{ porteur.date_inscription|date:"d/m/Y" }}
+                                    </td>
+
+                                    <td>
+
+                                        <div class="action-buttons">
+
+                                            <button type="button" class="btn-action btn-view" title="Voir"
+                                                data-view-porteur="{{ porteur.id }}">
+                                                👁
+                                            </button>
+
+
+                                            <button type="button" class="btn-action btn-edit" title="Modifier"
+                                                data-modal="modal-modifier-porteur-{{ porteur.id }}">
+                                                ✎
+                                            </button>
+
+
+                                            <form method="POST" action="{% url 'supprimer_porteur' porteur.id %}"
+                                                class="delete-form">
+
+                                                {% csrf_token %}
+
+                                                <button type="submit" class="btn-action btn-danger" title="Supprimer">
+                                                    🗑
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="7" class="empty-state">
+                                        Aucun porteur de projet
+                                        enregistré.
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+             TAB : STARTUPS
+        =================================================== -->
+
+            <section class="tab-content" id="tab-startups">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <p class="page-label">
+                            GESTION
+                        </p>
+
+                        <h1>
+                            Startups
+                        </h1>
+
+                        <p>
+                            Gérez les comptes des startups
+                            présentes sur la plateforme.
+                        </p>
+
+                    </div>
+
+
+                    <button type="button" class="btn-primary" data-modal="modal-ajouter-startup">
+                        + Ajouter une startup
+                    </button>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="table-container">
+
+                        <table class="data-table searchable-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Startup</th>
+                                    <th>Email</th>
+                                    <th>Secteur</th>
+                                    <th>Année</th>
+                                    <th>Type</th>
+                                    <th>Validation</th>
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for startup in startups %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <strong>
+                                            {{ startup.nom_startup }}
+                                        </strong>
+
+                                    </td>
+
+                                    <td>
+                                        {{ startup.email }}
+                                    </td>
+
+                                    <td>
+                                        {{ startup.secteur }}
+                                    </td>
+
+                                    <td>
+                                        {{ startup.annee_creation }}
+                                    </td>
+
+                                    <td>
+                                        {{ startup.type_startup }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if startup.statut_validation == "VALIDE" %}
+
+                                        <span class="status-badge success">
+                                            Validée
+                                        </span>
+
+                                        {% elif startup.statut_validation == "REJETE" %}
+
+                                        <span class="status-badge rejected">
+                                            Rejetée
+                                        </span>
+
+                                        {% else %}
+
+                                        <span class="status-badge pending">
+                                            En attente
+                                        </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        <div class="action-buttons">
+
+                                            <button type="button" class="btn-action btn-view" title="Voir">
+                                                👁
+                                            </button>
+
+
+                                            <button type="button" class="btn-action btn-edit" title="Modifier"
+                                                data-modal="modal-modifier-startup-{{ startup.id }}">
+                                                ✎
+                                            </button>
+
+
+                                            <form method="POST" action="{% url 'supprimer_startup' startup.id %}"
+                                                class="delete-form">
+
+                                                {% csrf_token %}
+
+                                                <button type="submit" class="btn-action btn-danger" title="Supprimer">
+                                                    🗑
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="7" class="empty-state">
+                                        Aucune startup enregistrée.
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+             TAB : STRUCTURES
+        =================================================== -->
+
+            <section class="tab-content" id="tab-structures">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <p class="page-label">
+                            GESTION
+                        </p>
+
+                        <h1>
+                            Structures de financement
+                        </h1>
+
+                        <p>
+                            Gérez les structures de financement
+                            de la plateforme.
+                        </p>
+
+                    </div>
+
+
+                    <button type="button" class="btn-primary" data-modal="modal-ajouter-structure">
+                        + Ajouter une structure
+                    </button>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="table-container">
+
+                        <table class="data-table searchable-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Structure</th>
+                                    <th>Email</th>
+                                    <th>Pays</th>
+                                    <th>Ville</th>
+                                    <th>Type</th>
+                                    <th>Validation</th>
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for structure in structures %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <strong>
+                                            {{ structure.nom_structure }}
+                                        </strong>
+
+                                    </td>
+
+                                    <td>
+                                        {{ structure.email }}
+                                    </td>
+
+                                    <td>
+                                        {{ structure.pays }}
+                                    </td>
+
+                                    <td>
+                                        {{ structure.ville }}
+                                    </td>
+
+                                    <td>
+                                        {{ structure.type_structure }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if structure.statut_validation == "VALIDE" %}
+
+                                        <span class="status-badge success">
+                                            Validée
+                                        </span>
+
+                                        {% elif structure.statut_validation == "REJETE" %}
+
+                                        <span class="status-badge rejected">
+                                            Rejetée
+                                        </span>
+
+                                        {% else %}
+
+                                        <span class="status-badge pending">
+                                            En attente
+                                        </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        <div class="action-buttons">
+
+                                            <button type="button" class="btn-action btn-view" title="Voir">
+                                                👁
+                                            </button>
+
+
+                                            <button type="button" class="btn-action btn-edit" title="Modifier"
+                                                data-modal="modal-modifier-structure-{{ structure.id }}">
+                                                ✎
+                                            </button>
+
+
+                                            <form method="POST" action="{% url 'supprimer_structure' structure.id %}"
+                                                class="delete-form">
+
+                                                {% csrf_token %}
+
+                                                <button type="submit" class="btn-action btn-danger" title="Supprimer">
+                                                    🗑
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="7" class="empty-state">
+                                        Aucune structure enregistrée.
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+             TAB : VALIDATIONS
+        =================================================== -->
+
+            <section class="tab-content" id="tab-validations">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <p class="page-label">
+                            ADMINISTRATION
+                        </p>
+
+                        <h1>
+                            Validations
+                        </h1>
+
+                        <p>
+                            Gérez les demandes de validation
+                            des startups et structures.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="table-container">
+
+                        <table class="data-table searchable-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Nom</th>
+                                    <th>Type</th>
+                                    <th>Email</th>
+                                    <th>Date</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for demande in demandes %}
+
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            {{ demande.nom }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ demande.type }}
+                                    </td>
+
+                                    <td>
+                                        {{ demande.email }}
+                                    </td>
+
+                                    <td>
+                                        {{ demande.date_inscription|date:"d/m/Y H:i" }}
+                                    </td>
+
+                                    <td>
+
+                                        <span class="status-badge pending">
+                                            En attente
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+
+                                        <div class="action-buttons">
+
+                                            {% if demande.objet == "startup" %}
+
+                                            <form method="POST" action="{% url 'valider_startup' demande.id %}">
+
+                                                {% csrf_token %}
+
+                                                <button type="submit" class="btn-action btn-success">
+                                                    ✓
+                                                </button>
+
+                                            </form>
+
+
+                                            <form method="POST" action="{% url 'rejeter_startup' demande.id %}">
+
+                                                {% csrf_token %}
+
+                                                <button type="submit" class="btn-action btn-danger">
+                                                    ×
+                                                </button>
+
+                                            </form>
+
+                                            {% else %}
+
+                                            <form method="POST" action="{% url 'valider_structure' demande.id %}">
+
+                                                {% csrf_token %}
+
+                                                <button type="submit" class="btn-action btn-success">
+                                                    ✓
+                                                </button>
+
+                                            </form>
+
+
+                                            <form method="POST" action="{% url 'rejeter_structure' demande.id %}">
+
+                                                {% csrf_token %}
+
+                                                <button type="submit" class="btn-action btn-danger">
+                                                    ×
+                                                </button>
+
+                                            </form>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="6" class="empty-state">
+                                        Aucune demande en attente.
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+             TAB : PARAMÈTRES
+        =================================================== -->
+
+            <section class="tab-content" id="tab-parametres">
+
+                <div class="page-header">
+
+                    <div>
+
+                        <p class="page-label">
+                            CONFIGURATION
+                        </p>
+
+                        <h1>
+                            Paramètres
+                        </h1>
+
+                        <p>
+                            Configuration de l'administration
+                            INNOVLINK.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="settings-placeholder">
+
+                        <h2>
+                            Paramètres
+                        </h2>
+
+                        <p>
+                            Cette section sera développée
+                            ultérieurement.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
     </div>
 
-    <!-- Mobile Overlay -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <script src="{% static 'css/dashboard.js' %}"></script>
+    <!-- ======================================================
+     MODALES — AJOUT PORTEUR
+======================================================= -->
+
+    <div class="modal" id="modal-ajouter-porteur">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Ajouter un porteur
+                    </h2>
+
+                    <p>
+                        Créer un compte porteur de projet.
+                    </p>
+
+                </div>
+
+                <button type="button" class="modal-close" data-close-modal>
+                    ×
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{% url 'ajouter_porteur' %}" class="admin-form">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nom</label>
+                        <input type="text" name="nom" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Prénom</label>
+                        <input type="text" name="prenom" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <input type="password" name="mot_de_passe" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Ville</label>
+                        <input type="text" name="ville" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Pays</label>
+                        <input type="text" name="pays" value="Cameroun" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Téléphone</label>
+                        <input type="text" name="telephone" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Diplôme</label>
+                        <input type="text" name="diplome" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Année d'obtention</label>
+                        <input type="number" name="annee_obtention" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Établissement</label>
+                        <input type="text" name="etablissement" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Langues</label>
+                        <input type="text" name="langues" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>GitHub</label>
+                        <input type="url" name="github">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>LinkedIn</label>
+                        <input type="url" name="linkedin">
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn-secondary" data-close-modal>
+                        Annuler
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        Ajouter
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================================
+     MODALES — AJOUT STARTUP
+======================================================= -->
+
+    <div class="modal" id="modal-ajouter-startup">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Ajouter une startup
+                    </h2>
+
+                    <p>
+                        Créer un compte startup.
+                    </p>
+
+                </div>
+
+                <button type="button" class="modal-close" data-close-modal>
+                    ×
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{% url 'ajouter_startup' %}" class="admin-form">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nom de la startup</label>
+                        <input type="text" name="nom_startup" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <input type="password" name="mot_de_passe" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Secteur</label>
+                        <input type="text" name="secteur" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Année de création</label>
+                        <input type="number" name="annee_creation" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Numéro NU</label>
+                        <input type="text" name="numero_nu" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Type de startup</label>
+                        <input type="text" name="type_startup" required>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Type de collaboration
+                        </label>
+
+                        <select name="type_collaboration" required>
+
+                            <option value="">
+                                Sélectionner
+                            </option>
+
+                            <option value="INVESTISSEMENT">
+                                Investissement
+                            </option>
+
+                            <option value="PARTENARIAT_STRATEGIQUE">
+                                Partenariat stratégique
+                            </option>
+
+                            <option value="ACQUISITION_SOLUTION">
+                                Acquisition de solution
+                            </option>
+
+                            <option value="LICENCE_UTILISATION">
+                                Licence d'utilisation
+                            </option>
+
+                            <option value="INCUBATION">
+                                Incubation
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn-secondary" data-close-modal>
+                        Annuler
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        Ajouter
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================================
+     MODALE — AJOUT STRUCTURE
+======================================================= -->
+
+    <div class="modal" id="modal-ajouter-structure">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Ajouter une structure
+                    </h2>
+
+                    <p>
+                        Créer un compte structure de financement.
+                    </p>
+
+                </div>
+
+                <button type="button" class="modal-close" data-close-modal>
+                    ×
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{% url 'ajouter_structure' %}" class="admin-form">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nom de la structure</label>
+                        <input type="text" name="nom_structure" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <input type="password" name="mot_de_passe" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Pays</label>
+                        <input type="text" name="pays" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Ville</label>
+                        <input type="text" name="ville" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Numéro NU</label>
+                        <input type="text" name="numero_nu" required>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Type de structure
+                        </label>
+
+                        <select name="type_structure" required>
+
+                            <option value="">
+                                Sélectionner
+                            </option>
+
+                            <option value="INCUBATEUR">
+                                Incubateur
+                            </option>
+
+                            <option value="BANQUE">
+                                Banque
+                            </option>
+
+                            <option value="FONDS_INVESTISSEMENT">
+                                Fonds d'investissement
+                            </option>
+
+                            <option value="ACCELERATEUR">
+                                Accélérateur
+                            </option>
+
+                            <option value="ONG">
+                                ONG
+                            </option>
+
+                            <option value="INSTITUTION_PUBLIQUE">
+                                Institution publique
+                            </option>
+
+                            <option value="AUTRE">
+                                Autre
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Type de collaboration
+                        </label>
+
+                        <select name="type_collaboration" required>
+
+                            <option value="">
+                                Sélectionner
+                            </option>
+
+                            <option value="INVESTISSEMENT">
+                                Investissement
+                            </option>
+
+                            <option value="PARTENARIAT_STRATEGIQUE">
+                                Partenariat stratégique
+                            </option>
+
+                            <option value="ACQUISITION_SOLUTION">
+                                Acquisition de solution
+                            </option>
+
+                            <option value="LICENCE_UTILISATION">
+                                Licence d'utilisation
+                            </option>
+
+                            <option value="INCUBATION">
+                                Incubation
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group form-group-full">
+
+                        <label>
+                            Description
+                        </label>
+
+                        <textarea name="description" rows="4" required></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn-secondary" data-close-modal>
+                        Annuler
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        Ajouter
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================================
+     MODALES DE MODIFICATION
+======================================================= -->
+
+    {% for porteur in porteurs %}
+
+    <div class="modal" id="modal-modifier-porteur-{{ porteur.id }}">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Modifier le porteur
+                    </h2>
+
+                    <p>
+                        {{ porteur.prenom }} {{ porteur.nom }}
+                    </p>
+
+                </div>
+
+                <button type="button" class="modal-close" data-close-modal>
+                    ×
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{% url 'modifier_porteur' porteur.id %}" class="admin-form">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nom</label>
+                        <input type="text" name="nom" value="{{ porteur.nom }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Prénom</label>
+                        <input type="text" name="prenom" value="{{ porteur.prenom }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" value="{{ porteur.email }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+
+                        <input type="password" name="mot_de_passe" placeholder="Laisser vide pour conserver">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Ville</label>
+                        <input type="text" name="ville" value="{{ porteur.ville }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Pays</label>
+                        <input type="text" name="pays" value="{{ porteur.pays }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Téléphone</label>
+                        <input type="text" name="telephone" value="{{ porteur.telephone }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Diplôme</label>
+                        <input type="text" name="diplome" value="{{ porteur.diplome }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Année d'obtention</label>
+                        <input type="number" name="annee_obtention" value="{{ porteur.annee_obtention }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Établissement</label>
+                        <input type="text" name="etablissement" value="{{ porteur.etablissement }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Langues</label>
+                        <input type="text" name="langues" value="{{ porteur.langues }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>GitHub</label>
+                        <input type="url" name="github" value="{{ porteur.github|default:'' }}">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>LinkedIn</label>
+                        <input type="url" name="linkedin" value="{{ porteur.linkedin|default:'' }}">
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn-secondary" data-close-modal>
+                        Annuler
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        Enregistrer
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+
+    {% for startup in startups %}
+
+    <div class="modal" id="modal-modifier-startup-{{ startup.id }}">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Modifier la startup
+                    </h2>
+
+                    <p>
+                        {{ startup.nom_startup }}
+                    </p>
+
+                </div>
+
+                <button type="button" class="modal-close" data-close-modal>
+                    ×
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{% url 'modifier_startup' startup.id %}" class="admin-form">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nom</label>
+                        <input type="text" name="nom_startup" value="{{ startup.nom_startup }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" value="{{ startup.email }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <input type="password" name="mot_de_passe" placeholder="Laisser vide pour conserver">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Secteur</label>
+                        <input type="text" name="secteur" value="{{ startup.secteur }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Année de création</label>
+                        <input type="number" name="annee_creation" value="{{ startup.annee_creation }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Numéro NU</label>
+                        <input type="text" name="numero_nu" value="{{ startup.numero_nu }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Type startup</label>
+                        <input type="text" name="type_startup" value="{{ startup.type_startup }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Collaboration
+                        </label>
+
+                        <select name="type_collaboration" required>
+
+                               {% for value, label in types_collaboration %}
+                            <option value="{{ value }}" {% if startup.type_collaboration == value %} selected {% endif %}>
+                                {{ label }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn-secondary" data-close-modal>
+                        Annuler
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        Enregistrer
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+
+    {% for structure in structures %}
+
+    <div class="modal" id="modal-modifier-structure-{{ structure.id }}">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Modifier la structure
+                    </h2>
+
+                    <p>
+                        {{ structure.nom_structure }}
+                    </p>
+
+                </div>
+
+                <button type="button" class="modal-close" data-close-modal>
+                    x
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{% url 'modifier_structure' structure.id %}" class="admin-form">
+
+                {% csrf_token %}
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nom</label>
+                        <input type="text" name="nom_structure" value="{{ structure.nom_structure }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" value="{{ structure.email }}" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+
+                        <input type="password" name="mot_de_passe" placeholder="Laisser vide pour conserver">
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Pays</label>
+
+                        <input type="text" name="pays" value="{{ structure.pays }}" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Ville</label>
+
+                        <input type="text" name="ville" value="{{ structure.ville }}" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Numéro NU</label>
+
+                        <input type="text" name="numero_nu" value="{{ structure.numero_nu }}" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Type de structure
+                        </label>
+
+                        <select name="type_structure" required>
+
+                           {% for value, label in types_structure  %}
+
+                            <option value="{{ value }}" {% if structure.type_structure == value %} selected {% endif %}>
+                                {{ label }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Collaboration
+                        </label>
+
+                        <select name="type_collaboration" required>
+
+                            {% for value, label in types_collaboration %}
+                            <option value="{{ value }}" {% if structure.type_collaboration == value %} selected {% endif %}>
+                                {{ label }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group form-group-full">
+
+                        <label>
+                            Description
+                        </label>
+
+                        <textarea name="description" rows="4" required>{{ structure.description }}</textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn-secondary" data-close-modal>
+                        Annuler
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        Enregistrer
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+
+    <!-- ======================================================
+     JAVASCRIPT
+======================================================= -->
+
+    <script src="{% static 'js/dashboard.js' %}"></script>
+
 </body>
 
 </html>

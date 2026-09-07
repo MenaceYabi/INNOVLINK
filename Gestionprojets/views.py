@@ -348,3 +348,221 @@ def test_gemini(request):
             """,
             status=500
         )
+        
+        
+        
+        # ============================================================
+# MODIFIER UN PROJET
+# ============================================================
+
+def modifier_projet(request, projet_id):
+
+    # ========================================================
+    # 1. VÉRIFICATION DE LA SESSION
+    # ========================================================
+
+    user_id = request.session.get("user_id")
+    role = request.session.get("role")
+
+    if not user_id:
+        return redirect("login")
+
+    if role != "porteur":
+        return redirect("login")
+
+
+    # ========================================================
+    # 2. RÉCUPÉRER LE PORTEUR CONNECTÉ
+    # ========================================================
+
+    try:
+
+        porteur = PorteurProjet.objects.get(
+            id=user_id
+        )
+
+    except PorteurProjet.DoesNotExist:
+
+        request.session.flush()
+
+        return redirect("login")
+
+
+    # ========================================================
+    # 3. RÉCUPÉRER LE PROJET
+    # ========================================================
+
+    try:
+
+        projet = Projet.objects.get(
+            id=projet_id,
+            porteur=porteur
+        )
+
+    except Projet.DoesNotExist:
+
+        return redirect("dashboard_porteur")
+
+
+    # ========================================================
+    # 4. AFFICHAGE DU FORMULAIRE PRÉ-REMPLI
+    # ========================================================
+
+    if request.method == "GET":
+
+        form = ProjetForm(
+            instance=projet
+        )
+
+        return render(
+            request,
+            "gestionprojets/projets.html",
+            {
+                "form": form,
+                "porteur": porteur,
+                "projet": projet,
+                "mode": "modifier",
+            }
+        )
+
+
+    # ========================================================
+    # 5. TRAITEMENT DE LA MODIFICATION
+    # ========================================================
+
+    if request.method == "POST":
+
+        form = ProjetForm(
+            request.POST,
+            request.FILES,
+            instance=projet
+        )
+
+
+        # ====================================================
+        # 6. VALIDATION
+        # ====================================================
+
+        if not form.is_valid():
+
+            return render(
+                request,
+                "gestionprojets/projets.html",
+                {
+                    "form": form,
+                    "porteur": porteur,
+                    "projet": projet,
+                    "mode": "modifier",
+                }
+            )
+
+
+        # ====================================================
+        # 7. SAUVEGARDE
+        # ====================================================
+
+        projet = form.save(
+            commit=False
+        )
+
+
+        # Sécurité :
+        # le projet reste obligatoirement
+        # associé au porteur connecté.
+
+        projet.porteur = porteur
+
+
+        # IMPORTANT :
+        # resultat n'est pas dans ProjetForm,
+        # donc l'ancien résultat IA est conservé.
+
+
+        projet.save()
+
+
+        # ====================================================
+        # 8. RETOUR AU DASHBOARD
+        # ====================================================
+
+        return redirect(
+            "dashboard_porteur"
+        )
+        
+        
+        # ============================================================
+# SUPPRIMER UN PROJET
+# ============================================================
+
+def supprimer_projet(request, projet_id):
+
+    # ========================================================
+    # 1. VÉRIFICATION DE LA SESSION
+    # ========================================================
+
+    user_id = request.session.get("user_id")
+    role = request.session.get("role")
+
+    if not user_id:
+        return redirect("login")
+
+    if role != "porteur":
+        return redirect("login")
+
+
+    # ========================================================
+    # 2. RÉCUPÉRER LE PORTEUR CONNECTÉ
+    # ========================================================
+
+    try:
+
+        porteur = PorteurProjet.objects.get(
+            id=user_id
+        )
+
+    except PorteurProjet.DoesNotExist:
+
+        request.session.flush()
+
+        return redirect("login")
+
+
+    # ========================================================
+    # 3. VÉRIFIER QUE LE PROJET APPARTIENT AU PORTEUR
+    # ========================================================
+
+    try:
+
+        projet = Projet.objects.get(
+            id=projet_id,
+            porteur=porteur
+        )
+
+    except Projet.DoesNotExist:
+
+        return redirect("dashboard_porteur")
+
+
+    # ========================================================
+    # 4. SÉCURITÉ : SUPPRESSION UNIQUEMENT EN POST
+    # ========================================================
+
+    if request.method != "POST":
+
+        return redirect("dashboard_porteur")
+
+
+    # ========================================================
+    # 5. SUPPRESSION
+    # ========================================================
+
+    projet.delete()
+
+
+    # ========================================================
+    # 6. RETOUR AU DASHBOARD
+    # ========================================================
+
+    return redirect(
+        "dashboard_porteur"
+    )

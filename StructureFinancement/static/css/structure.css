@@ -1,0 +1,646 @@
+/* =========================================================
+   VARIABLES (Style Facebook Épuré)
+========================================================= */
+
+:root {
+    --bg-main: #F0F2F5;        /* Fond gris très clair global */
+    --bg-surface: #FFFFFF;     /* Fond blanc pur pour les conteneurs */
+    
+    --color-accent: #1877F2;   /* Bleu classique FB (seule couleur d'accent) */
+    
+    --text-main: #050505;      /* Texte principal foncé */
+    --text-muted: #65676B;     /* Texte secondaire gris */
+    
+    --border: #CED0D4;         /* Bordures discrètes */
+    
+    --hover-bg: #E4E6EB;       /* Gris clair au survol */
+    --accent-light: rgba(24, 119, 242, 0.1); /* Bleu très transparent */
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1); /* Ombre plate */
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    width: 250px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.sidebar-logo {
+    padding: 22px 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-accent);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo i {
+    color: var(--color-accent);
+    margin-right: 7px;
+}
+
+.nav-menu {
+    flex: 1;
+    padding: 20px 0;
+    list-style: none;
+}
+
+.nav-item {
+    padding: 10px 20px;
+    margin: 4px 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--text-main);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-item i {
+    width: 20px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.nav-item:hover {
+    background: var(--hover-bg);
+}
+
+.nav-item.active {
+    color: var(--color-accent);
+    background: var(--accent-light);
+}
+
+.nav-item.active i {
+    color: var(--color-accent);
+}
+
+.sidebar-footer {
+    padding: 15px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main-content {
+    margin-left: 250px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+    height: 60px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--bg-main);
+    padding: 8px 15px;
+    border-radius: 50px;
+    width: 320px;
+}
+
+.search-bar i {
+    color: var(--text-muted);
+    margin-right: 10px;
+}
+
+.search-bar input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-main);
+    font-size: 15px;
+}
+
+.search-bar input::placeholder {
+    color: var(--text-muted);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.notification {
+    background: var(--hover-bg);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.notification:hover {
+    background: #D8DADF;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px;
+    border-radius: 18px;
+    cursor: pointer;
+}
+
+.profile-info:hover {
+    background: var(--hover-bg);
+}
+
+.profile-info i {
+    color: var(--text-muted);
+    background: var(--bg-main);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.profile-name {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.profile-email {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* =========================================================
+   TABS
+========================================================= */
+
+.tab-pane {
+    display: none;
+    padding: 30px;
+    animation: fadeIn 0.25s ease;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 25px;
+    color: var(--text-main);
+    font-weight: bold;
+}
+
+.section-title i {
+    margin-right: 8px;
+    color: var(--text-muted);
+}
+
+/* =========================================================
+   STATISTIQUES
+========================================================= */
+
+.grid-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stat-card>i {
+    font-size: 24px;
+    color: var(--text-muted);
+    background: var(--bg-main);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-card .value {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+.stat-card .label {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* =========================================================
+   PROJETS
+========================================================= */
+
+.grid-projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 20px;
+}
+
+.project-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.project-title {
+    color: var(--text-main);
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.project-phase {
+    background: var(--bg-main);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 4px 9px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.project-meta {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.8;
+}
+
+.project-meta i {
+    width: 18px;
+    color: var(--text-muted);
+}
+
+.project-description {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.collaboration-type {
+    padding: 9px;
+    background: var(--accent-light);
+    border-radius: 6px;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* =========================================================
+   SCORE IA
+========================================================= */
+
+.ai-score {
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 5px;
+}
+
+.ai-score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.ai-score-title {
+    color: var(--text-main);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.score-number {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+.score-bar {
+    width: 100%;
+    height: 7px;
+    background: var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.score-fill {
+    height: 100%;
+    background: var(--color-accent);
+    border-radius: 10px;
+}
+
+.score-result {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    max-height: 100px;
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+/* =========================================================
+   BOUTONS (Neutralisés)
+========================================================= */
+
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-blue {
+    background: var(--color-accent);
+    color: #FFFFFF;
+}
+
+.btn-blue:hover {
+    background: #166FE5;
+}
+
+/* Remplacement des couleurs vives par des styles neutres */
+.btn-orange, .btn-red {
+    background: var(--hover-bg);
+    color: var(--text-main);
+}
+
+.btn-orange:hover, .btn-red:hover {
+    background: var(--border);
+}
+
+.btn-outline {
+    background: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+    background: var(--hover-bg);
+}
+
+/* =========================================================
+   FILTRES
+========================================================= */
+
+.filters-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+}
+
+.filters-bar input,
+.filters-bar select {
+    background: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 6px;
+    outline: none;
+    font-weight: 500;
+}
+
+.filters-bar input {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* =========================================================
+   RECOMMANDATIONS
+========================================================= */
+
+.recommendation-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.recommendation-header i {
+    color: var(--text-muted);
+    font-size: 1.3rem;
+}
+
+.recommendation-header span {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.recommendation-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* =========================================================
+   COLLABORATIONS
+========================================================= */
+
+.info-panel {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.info-panel h3 {
+    color: var(--text-main);
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.info-panel p {
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.collab-highlight {
+    margin-top: 15px;
+    padding: 15px;
+    background: var(--bg-main);
+    border-radius: 6px;
+    border-left: 4px solid var(--border);
+}
+
+.collab-highlight strong {
+    color: var(--text-main);
+}
+
+/* =========================================================
+   SUIVI
+========================================================= */
+
+.follow-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    padding: 25px;
+    border-radius: 8px;
+}
+
+.follow-card h3 {
+    color: var(--text-main);
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+
+.empty-state {
+    padding: 40px;
+    text-align: center;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+}
+
+.empty-state i {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: var(--border);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+    .sidebar { width: 70px; }
+    .sidebar-logo { font-size: 0; padding: 15px 5px; border-bottom: none; }
+    .sidebar-logo i { font-size: 1.5rem; margin: 0; }
+    .nav-item { justify-content: center; padding: 12px 0; margin: 5px; font-size: 0; }
+    .nav-item i { font-size: 1.1rem; }
+    .sidebar-footer { font-size: 0; }
+    .main-content { margin-left: 70px; }
+    .topbar { padding: 0 15px; }
+    .search-bar { width: 40px; padding: 8px; border-radius: 50%; background: var(--hover-bg); justify-content: center; }
+    .search-bar input { display: none; }
+    .search-bar i { margin: 0; }
+    .profile-email { display: none; }
+    .tab-pane { padding: 20px 15px; }
+}
+
+@media (max-width: 500px) {
+    .profile-name { display: none; }
+    .grid-projects { grid-template-columns: 1fr; }
+}

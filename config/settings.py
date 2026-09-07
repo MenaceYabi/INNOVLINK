@@ -31,6 +31,8 @@ if not SECRET_KEY:
     raise RuntimeError(
         "DJANGO_SECRET_KEY n'est pas configurée."
     )
+    
+    
 
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = [
@@ -65,6 +67,7 @@ INSTALLED_APPS = [
     'StructureFinancement',
     'Administration',
     'Gestionprojets',
+    'Messagerie',
 ]
 
 MIDDLEWARE = [
@@ -101,6 +104,20 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = 'config.asgi.application'
+
+
+
+# ==========================================================
+# DJANGO CHANNELS
+# ==========================================================
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
+
 
 
 # Database

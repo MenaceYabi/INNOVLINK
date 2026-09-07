@@ -1,424 +1,18 @@
+{%  load static %}
 <!DOCTYPE html>
 <html lang="fr">
-
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INNOVLINK - Dashboard Porteur</title>
-    <!-- Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        /* ================= VARIABLES ================= */
-        :root {
-            --primary: #0F766E;
-            --primary-hover: #0D635C;
-            --sidebar-bg: #0B1F33;
-            --sidebar-hover: #16324F;
-            --bg-light: #F3F4F6;
-            --white: #FFFFFF;
-            --text-dark: #1F2937;
-            --text-gray: #6B7280;
-            --border-color: #E5E7EB;
-            --focus-ring: rgba(15, 118, 110, 0.20);
-            --success: #0F766E;
-            --error: #DC2626;
-            --info: #0284C7;
-        }
-
-        /* ================= RESET & BASE ================= */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* ================= OVERLAY MOBILE ================= */
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .sidebar-overlay.active {
-            display: block;
-            opacity: 1;
-        }
-
-        /* ================= SIDEBAR ================= */
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            color: var(--white);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.3s ease;
-            z-index: 1000;
-            flex-shrink: 0;
-        }
-
-        .sidebar-header {
-            padding: 24px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-align: center;
-            letter-spacing: 2px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--primary);
-        }
-
-        .sidebar-menu {
-            flex-grow: 1;
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .menu-item {
-            padding: 15px 24px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: var(--white);
-            text-decoration: none;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-left: 4px solid transparent;
-            background: none;
-            border-right: none;
-            border-top: none;
-            border-bottom: none;
-            width: 100%;
-            text-align: left;
-        }
-
-        .menu-item:hover {
-            background-color: var(--sidebar-hover);
-        }
-
-        .menu-item.active {
-            background-color: var(--sidebar-hover);
-            border-left: 4px solid var(--primary);
-            font-weight: 600;
-        }
-
-        .menu-item i {
-            width: 20px;
-            text-align: center;
-        }
-
-        .sidebar-footer {
-            padding: 20px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .logout-btn {
-            color: #ef4444;
-        }
-
-        .logout-btn:hover {
-            background-color: rgba(239, 68, 68, 0.1);
-        }
-
-        /* ================= MAIN CONTENT ================= */
-        .main-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            width: 100%;
-        }
-
-        /* Topbar */
-        .topbar {
-            background-color: var(--white);
-            padding: 16px 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--sidebar-bg);
-            cursor: pointer;
-            padding: 4px;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 500;
-            margin-left: auto;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary);
-            color: var(--white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        /* Sections */
-        .content-section {
-            padding: 32px;
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            color: var(--sidebar-bg);
-            margin-bottom: 8px;
-        }
-
-        .section-subtitle {
-            color: var(--text-gray);
-            margin-bottom: 32px;
-            font-size: 1rem;
-        }
-
-        /* ================= COMPOSANTS SPÉCIFIQUES ================= */
-        .btn-primary {
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .header-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 24px;
-        }
-
-        /* Grille des projets */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .project-card {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 24px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--border-color);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .project-title {
-            font-size: 1.25rem;
-            color: var(--sidebar-bg);
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .project-phase {
-            display: inline-block;
-            background-color: rgba(15, 118, 110, 0.1);
-            color: var(--primary);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        .project-desc {
-            color: var(--text-gray);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .project-meta {
-            font-size: 0.85rem;
-            color: var(--text-dark);
-            border-top: 1px solid var(--border-color);
-            padding-top: 16px;
-        }
-
-        .project-score {
-            margin-top: 8px;
-            font-weight: 500;
-        }
-
-        /* Empty State */
-        .empty-state {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 48px 24px;
-            text-align: center;
-            border: 1px dashed #D1D5DB;
-            grid-column: 1 / -1;
-        }
-
-        .empty-state p {
-            color: var(--text-gray);
-            margin-bottom: 24px;
-            font-size: 1.1rem;
-        }
-
-        /* Boîte Info (Messagerie) */
-        .info-box {
-            background-color: #E0F2FE;
-            color: #0369A1;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #0284C7;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.05rem;
-        }
-
-        /* ================= RESPONSIVE DESIGN ================= */
-        @media screen and (max-width: 1024px) {
-            .projects-grid {
-                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            }
-
-            .content-section {
-                padding: 24px;
-            }
-        }
-
-        @media screen and (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                transform: translateX(-100%);
-                box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .topbar {
-                padding: 12px 16px;
-            }
-
-            .content-section {
-                padding: 20px 16px;
-            }
-
-            .header-actions {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 16px;
-            }
-
-            .btn-primary {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .section-subtitle {
-                margin-bottom: 20px;
-            }
-
-            .empty-state {
-                padding: 32px 16px;
-            }
-
-            .info-box {
-                font-size: 0.95rem;
-                padding: 16px;
-                align-items: flex-start;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/porteur.css' %}">
 </head>
 
 <body>
 
-    <!-- Overlay pour flouter/assombrir le fond sur mobile -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- ================= SIDEBAR ================= -->
     <aside class="sidebar" id="sidebar">
         <div>
             <div class="sidebar-header">
@@ -444,10 +38,7 @@
         </div>
     </aside>
 
-    <!-- ================= CONTENU PRINCIPAL ================= -->
     <main class="main-content">
-
-        <!-- TOPBAR -->
         <header class="topbar">
             <button class="menu-toggle" id="menuBtn" aria-label="Ouvrir le menu">
                 <i class="fas fa-bars"></i>
@@ -459,8 +50,7 @@
                 <span>{{ porteur.prenom }} {{ porteur.nom }}</span>
             </div>
         </header>
-
-        <!-- ONGLET 1 : TABLEAU DE BORD -->
+   
         <section id="dashboard-tab" class="content-section active">
             <h1 class="section-title">Tableau de bord</h1>
             <p class="section-subtitle">Bonjour {{ porteur.prenom }}, bienvenue sur votre espace INNOVLINK.</p>
@@ -471,114 +61,441 @@
             </div>
         </section>
 
-        <!-- ONGLET 2 : MES PROJETS -->
-        <section id="projets-tab" class="content-section">
-            <div class="header-actions">
-                <div>
-                    <h1 class="section-title">Mes projets</h1>
-                    <p class="section-subtitle" style="margin-bottom: 0;">Consultez vos projets</p>
+                        <section id="projets-tab" class="content-section">
+
+    <div class="header-actions">
+
+        <div>
+            <h1 class="section-title">
+                Mes projets
+            </h1>
+
+            <p class="section-subtitle" style="margin-bottom: 0;">
+                Consultez vos projets
+            </p>
+        </div>
+
+        <a
+            href="{% url 'Gestion' %}"
+            class="btn-primary"
+        >
+            <i class="fas fa-plus"></i>
+            Créer projet
+        </a>
+
+    </div>
+
+
+    <div class="projects-grid">
+
+        {% for projet in projets %}
+
+        <div class="project-card">
+
+            <!-- ==============================
+                 INFORMATIONS DU PROJET
+            =============================== -->
+
+            <h3 class="project-title">
+                {{ projet.nom }}
+            </h3>
+
+            <span class="project-phase">
+                {{ projet.get_phase_display }}
+            </span>
+
+            <p class="project-desc">
+                {{ projet.description }}
+            </p>
+
+
+            <div class="project-meta">
+
+                <p>
+                    <strong>Collaboration :</strong>
+                    {{ projet.get_type_collaboration_display }}
+                </p>
+
+                <p style="margin-top: 5px;">
+                    <strong>Technologies :</strong>
+                    {{ projet.technologies }}
+                </p>
+
+
+                {% if projet.score_ia is not None %}
+
+                <div class="project-score">
+
+                    <i class="fas fa-robot"></i>
+
+                    Score IA :
+                    <strong>
+                        {{ projet.score_ia|floatformat:0 }}/100
+                    </strong>
+
                 </div>
-                <a href="{% url 'Gestion' %}" class="btn-primary">
-                    <i class="fas fa-plus"></i> Créer projet
+
+                {% else %}
+
+                <div class="project-score">
+
+                    <i class="fas fa-robot"></i>
+
+                    Score IA : Non disponible
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ==============================
+                 BOUTONS D'ACTION
+            =============================== -->
+
+            <div class="project-actions">
+
+                <a
+                    href="{% url 'modifier_projet' projet.id %}"
+                    class="btn-action btn-edit"
+                >
+                    <i class="fas fa-edit"></i>
+                    Modifier
                 </a>
+
+
+                <button
+                    type="button"
+                    class="btn-action btn-delete"
+                    data-delete-url="{% url 'supprimer_projet' projet.id %}"
+                    data-project-name="{{ projet.nom|escapejs }}"
+                    onclick="ouvrirSuppression(this)"
+                >
+                    <i class="fas fa-trash"></i>
+                    Supprimer
+                </button>
+
             </div>
 
-            <div class="projects-grid">
-                {% for projet in projets %}
-                <div class="project-card">
-                    <h3 class="project-title">{{ projet.nom }}</h3>
-                    <span class="project-phase">{{ projet.get_phase_display }}</span>
-                    <p class="project-desc">{{ projet.description }}</p>
-                    <div class="project-meta">
-                        <p><strong>Collaboration :</strong> {{ projet.get_type_collaboration_display }}</p>
-                        <p style="margin-top: 5px;"><strong>Technologies :</strong> {{ projet.technologies }}</p>
-                        {% if projet.score_ia is not None %}
-                        <div class="project-score">
-                            <i class="fas fa-robot"></i>
-                            Score IA : <strong>{{ projet.score_ia|floatformat:0 }}/100</strong>
-                        </div>
-                        {% else %}
-                        <div class="project-score">
-                            <i class="fas fa-robot"></i>
-                            Score IA : Non disponible
-                        </div>
-                        {% endif %}
+        </div>
+
+
+        {% empty %}
+
+        <!-- ==============================
+             AUCUN PROJET
+        =============================== -->
+
+        <div class="empty-state">
+
+            <p>
+                Aucun projet créé pour le moment.
+            </p>
+
+            <a
+                href="{% url 'Gestion' %}"
+                class="btn-primary"
+            >
+                <i class="fas fa-plus"></i>
+                Créer projet
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+                <section
+    id="messagerie-tab"
+    class="content-section"
+>
+
+    <h1 class="section-title">
+        Messageries
+    </h1>
+
+    <p class="section-subtitle">
+        Les startups intéressées par vos projets
+    </p>
+
+
+    <div class="chat-container">
+
+
+        <!-- ==========================================
+             CONVERSATIONS
+        =========================================== -->
+
+        <div class="chat-conversations">
+
+            <div class="chat-conversations-header">
+                Conversations
+            </div>
+
+
+            {% for conversation in conversations %}
+
+            <button
+                type="button"
+                class="conversation-item
+                    {% if forloop.first %}
+                        active
+                    {% endif %}"
+                data-startup-id="{{ conversation.uuid }}"
+                data-startup-name="{{ conversation.nom_startup }}"
+            >
+
+                <span class="conversation-name">
+
+                    {{ conversation.nom_startup }}
+
+                </span>
+
+
+                <span class="conversation-id">
+
+                    Startup intéressée
+
+                </span>
+
+            </button>
+
+
+            {% empty %}
+
+            <div class="conversation-empty">
+
+                <i class="fas fa-comments"></i>
+
+                <p>
+                    Aucune conversation pour le moment.
+                </p>
+
+                <small>
+                    Lorsqu'une startup vous contactera,
+                    la conversation apparaîtra ici.
+                </small>
+
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+
+
+        <!-- ==========================================
+             CHAT
+        =========================================== -->
+
+        <div class="chat-panel">
+
+
+            <div class="chat-header">
+
+                <div class="chat-header-user">
+
+                    <div
+                        class="chat-avatar"
+                        id="chatAvatar"
+                    >
+                        ST
                     </div>
-                </div>
-                {% empty %}
-                <div class="empty-state">
-                    <p>Aucun projet créé pour le moment.</p>
-                    <a href="{% url 'Gestion' %}" class="btn-primary">
-                        <i class="fas fa-plus"></i> Créer projet
-                    </a>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
 
-        <!-- ONGLET 3 : MESSAGERIES -->
-        <section id="messagerie-tab" class="content-section">
-            <h1 class="section-title">Messageries</h1>
-            <p class="section-subtitle">Vos échanges avec les acteurs de la plateforme</p>
 
-            <div class="info-box">
-                <i class="fas fa-info-circle" style="font-size: 1.5rem;"></i>
-                <div>
-                    <strong>En cours de développement</strong><br>
-                    La messagerie sera bientôt disponible.
+                    <div>
+
+                        <div
+                            id="chatUserName"
+                            class="chat-user-name"
+                        >
+
+                            {% if conversations %}
+
+                                {{ conversations.0.nom_startup }}
+
+                            {% else %}
+
+                                Aucune conversation
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div
+                            id="chatStatus"
+                            class="chat-status disconnected"
+                        >
+
+                            Déconnecté
+
+                        </div>
+
+                    </div>
+
                 </div>
+
             </div>
-        </section>
+
+
+
+            <!-- ======================================
+                 MESSAGES
+            ======================================= -->
+
+            <div
+                id="chatMessages"
+                class="chat-messages"
+            >
+
+                <div class="chat-empty">
+
+                    <i class="fas fa-comments"></i>
+
+                    <p>
+                        Aucun message pour le moment.
+                    </p>
+
+                    <small>
+                        Une startup doit vous contacter
+                        avant que vous puissiez répondre.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ======================================
+                 FORMULAIRE
+            ======================================= -->
+
+            <form
+                id="chatForm"
+                class="chat-form"
+            >
+
+                <input
+                    type="text"
+                    id="chatInput"
+                    class="chat-input"
+                    placeholder="Répondez à la startup..."
+                    autocomplete="off"
+                    disabled
+                >
+
+
+                <button
+                    type="submit"
+                    id="chatSend"
+                    class="chat-send"
+                    disabled
+                >
+
+                    <i class="fas fa-paper-plane"></i>
+
+                    Envoyer
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
 
     </main>
 
-    <!-- ================= JAVASCRIPT ================= -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const menuItems = document.querySelectorAll('.sidebar-menu .menu-item[data-target]');
-            const sections = document.querySelectorAll('.content-section');
-            const menuBtn = document.getElementById('menuBtn');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
+    <!-- ==========================================
+     MODALE SUPPRESSION PROJET
+=========================================== -->
 
-            // Navigation Onglets
-            menuItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    menuItems.forEach(btn => btn.classList.remove('active'));
-                    sections.forEach(section => section.classList.remove('active'));
+<div
+    class="delete-modal"
+    id="deleteModal"
+    aria-hidden="true"
+>
 
-                    item.classList.add('active');
-                    const targetId = item.getAttribute('data-target');
-                    document.getElementById(targetId).classList.add('active');
+    <div class="delete-modal-content">
 
-                    // Fermer le menu sur mobile après la sélection d'un onglet
-                    closeSidebar();
-                });
-            });
+        <button
+            type="button"
+            class="delete-modal-close"
+            onclick="fermerSuppression()"
+        >
+            &times;
+        </button>
 
-            // Fonctions Menu Mobile
-            function openSidebar() {
-                sidebar.classList.add('open');
-                overlay.classList.add('active');
-            }
 
-            function closeSidebar() {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('active');
-            }
+        <div class="delete-modal-icon">
 
-            menuBtn.addEventListener('click', () => {
-                if (sidebar.classList.contains('open')) {
-                    closeSidebar();
-                } else {
-                    openSidebar();
-                }
-            });
+            <i class="fas fa-trash"></i>
 
-            // Fermer si clic sur l'overlay
-            overlay.addEventListener('click', closeSidebar);
-        });
-    </script>
+        </div>
+
+
+        <h2>
+            Supprimer le projet ?
+        </h2>
+
+
+        <p id="deleteMessage">
+
+            Voulez-vous vraiment supprimer ce projet ?
+
+        </p>
+
+
+        <p class="delete-warning">
+
+            Cette action est irréversible.
+
+        </p>
+
+
+        <div class="delete-modal-actions">
+
+            <button
+                type="button"
+                class="btn-cancel-delete"
+                onclick="fermerSuppression()"
+            >
+                Annuler
+            </button>
+
+
+            <form
+                id="deleteForm"
+                method="POST"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="btn-confirm-delete"
+                >
+                    <i class="fas fa-trash"></i>
+                    Oui, supprimer
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <script src="{% static 'js/porteur.js' %}"></script>
 </body>
 
 </html>
