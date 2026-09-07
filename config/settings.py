@@ -36,14 +36,14 @@ if not SECRET_KEY:
 
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = [
-    "innovlink.onrender.com",
+    ".onrender.com",
     "localhost",
     "127.0.0.1",
 
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://innovlink.onrender.com",
+    "https://*.onrender.com",
 ]
 
 
