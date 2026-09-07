@@ -24,12 +24,12 @@ SECRET_KEYS = os.getenv("SECRET_KEYS")
 # SÉCURITÉ
 # ==========================================================
  
-SECRET_KEY = os.getenv("KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 if not SECRET_KEY:
     raise RuntimeError(
-        "DJANGO_SECRET_KEY n'est pas configurée."
+        "SECRET_KEY n'est pas configurée."
     )
     
     
@@ -173,11 +173,3 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
